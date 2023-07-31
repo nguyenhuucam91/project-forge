@@ -1,0 +1,32 @@
+<svg
+          id='Layer_2'
+          height={512}
+          viewBox='0 0 512 512'
+          width={512}
+          xmlns='http://www.w3.org/2000/svg'
+          xmlnsXlink='http://www.w3.org/1999/xlink'
+          data-name='Layer 2'
+          className='w-9 h-9'
+        >
+          <linearGradient
+            id='linear-gradient'
+            gradientUnits='userSpaceOnUse'
+            x1='172.89'
+            x2='489.01'
+            y1={131}
+            y2='447.12'
+          >
+            <stop offset={0} stopOpacity='.5' />
+            <stop offset={1} stopOpacity={0} />
+          </linearGradient>
+          <g id='Icon'>
+            <g id='_20' data-name={20}>
+              <rect id='Background' fill='#2492ff' height={512} rx={150} width={512} />
+              <path
+                d='m512 250.96v111.04c0 82.84-67.16 150-150 150h-27.24l-113.82-113.81 31.19-116.47-114.98-114.98 237.7-52.93z'
+                fill='url(#linear-gradient)'
+              />
+              <path d='m374.85 113.81v52.93h-85.35v231.45h-68.55v-231.45h-83.79v-52.93h237.7z' fill='#fff' />
+            </g>
+          </g>
+        </svg>

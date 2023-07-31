@@ -1,0 +1,134 @@
+<svg
+          xmlns='http://www.w3.org/2000/svg'
+          xmlnsXlink='http://www.w3.org/1999/xlink'
+          id='svg1'
+          viewBox='0 0 60 60'
+          version={1.0}
+          y={0}
+          x={0}
+          className='stroke-blue-600'
+        >
+          <path
+            id='path1730'
+            sodipodi:nodetypes='ccccc'
+            style={{
+              strokeLinejoin: 'round',
+              stroke: 'url(#linear-gradient)',
+              strokeLinecap: 'round',
+              strokeWidth: 5,
+              fill: 'none'
+            }}
+            transform='translate(0.0000035 -0.00000465)'
+            d='m7.8006 47.723l20.773-35.98 0.596 38.171 25.206-9.862-10.771-22.466'
+          />
+          <path
+            id='path1731'
+            style={{
+              strokeLinejoin: 'round',
+              stroke: 'url(#linear-gradient)',
+              strokeLinecap: 'round',
+              strokeWidth: '7.5',
+              fill: 'none'
+            }}
+            transform='translate(0.0000035 -0.00000465)'
+            d='m4.6505 44.875c-0.1529 0-0.276 0.123-0.276 0.276v5.979c0 0.153 0.1231 0.276 0.276 0.276h5.9785c0.153 0 0.276-0.123 0.276-0.276v-5.979c0-0.153-0.123-0.276-0.276-0.276h-5.9785z'
+          />
+          <path
+            id='path1732'
+            style={{
+              strokeLinejoin: 'round',
+              stroke: 'url(#linear-gradient)',
+              strokeLinecap: 'round',
+              strokeWidth: '7.5',
+              fill: 'none'
+            }}
+            transform='translate(0.0000035 -0.00000465)'
+            d='m25.089 8.2316c-0.153 0-0.276 0.1231-0.276 0.276v5.9784c0 0.153 0.123 0.276 0.276 0.276h5.978c0.153 0 0.276-0.123 0.276-0.276v-5.9784c0-0.1529-0.123-0.276-0.276-0.276h-5.978z'
+          />
+          <path
+            id='path1733'
+            style={{
+              strokeLinejoin: 'round',
+              stroke: 'url(#linear-gradient)',
+              strokeLinecap: 'round',
+              strokeWidth: '7.5',
+              fill: 'none'
+            }}
+            d='m40.448 14.278c-0.152 0-0.276 0.123-0.276 0.276v5.979c0 0.153 0.124 0.276 0.276 0.276h5.979c0.153 0 0.276-0.123 0.276-0.276v-5.979c0-0.153-0.123-0.276-0.276-0.276h-5.979z'
+          />
+          <path
+            id='path1734'
+            style={{
+              strokeLinejoin: 'round',
+              stroke: 'url(#linear-gradient)',
+              strokeLinecap: 'round',
+              strokeWidth: '7.5',
+              fill: 'none'
+            }}
+            transform='translate(0.0000035 -0.00000465)'
+            d='m26.782 45.238c-0.153 0-0.276 0.123-0.276 0.276v5.978c0 0.153 0.123 0.276 0.276 0.276h5.978c0.153 0 0.276-0.123 0.276-0.276v-5.978c0-0.153-0.123-0.276-0.276-0.276h-5.978z'
+          />
+          <path
+            id='path830'
+            sodipodi:nodetypes='ccccc'
+            style={{
+              strokeLinejoin: 'round',
+              strokeLinecap: 'round',
+              stroke: 'url(#linear-gradient)',
+              strokeWidth: 5,
+              fill: 'none'
+            }}
+            d='m7.8006 47.723l20.773-35.98 0.596 38.171 25.206-9.862-10.771-22.466'
+          />
+          <path
+            id='rect831'
+            style={{
+              strokeLinejoin: 'round',
+              fillRule: 'evenodd',
+              stroke: 'url(#linear-gradient)',
+              strokeLinecap: 'round',
+              strokeWidth: '2.6303',
+              fill: '#ffffff'
+            }}
+            d='m2.0717 44.477c-0.1608 0-0.2903 0.129-0.2903 0.29v6.29c0 0.161 0.1295 0.291 0.2903 0.291h6.2903c0.1609 0 0.2904-0.13 0.2904-0.291v-6.29c0-0.161-0.1295-0.29-0.2904-0.29h-6.2903z'
+            transform='matrix(.95045 0 0 .95045 2.6814 2.6025)'
+          />
+          <path
+            id='rect832'
+            style={{
+              strokeLinejoin: 'round',
+              fillRule: 'evenodd',
+              stroke: 'url(#linear-gradient)',
+              strokeLinecap: 'round',
+              strokeWidth: '2.6303',
+              fill: '#ffffff'
+            }}
+            d='m1.4355 44.095c-0.1608 0-0.2903 0.129-0.2903 0.29v6.291c0 0.16 0.1295 0.29 0.2903 0.29h6.2903c0.1609 0 0.2904-0.13 0.2904-0.29v-6.291c0-0.161-0.1295-0.29-0.2904-0.29h-6.2903z'
+            transform='matrix(.95045 0 0 .95045 23.724 -33.678)'
+          />
+          <path
+            id='rect833'
+            style={{
+              strokeLinejoin: 'round',
+              fillRule: 'evenodd',
+              stroke: 'url(#linear-gradient)',
+              strokeLinecap: 'round',
+              strokeWidth: '2.5',
+              fill: '#ffffff'
+            }}
+            d='m40.448 14.278c-0.152 0-0.276 0.123-0.276 0.276v5.979c0 0.153 0.124 0.276 0.276 0.276h5.979c0.153 0 0.276-0.123 0.276-0.276v-5.979c0-0.153-0.123-0.276-0.276-0.276h-5.979z'
+          />
+          <path
+            id='rect834'
+            style={{
+              strokeLinejoin: 'round',
+              fillRule: 'evenodd',
+              stroke: 'url(#linear-gradient)',
+              strokeLinecap: 'round',
+              strokeWidth: '2.6303',
+              fill: '#ffffff'
+            }}
+            d='m44.952 13.812c-0.161 0-0.29 0.129-0.29 0.29v6.29c0 0.161 0.129 0.291 0.29 0.291h6.29c0.161 0 0.291-0.13 0.291-0.291v-6.29c0-0.161-0.13-0.29-0.291-0.29h-6.29z'
+            transform='matrix(.95045 0 0 .95045 -15.943 32.111)'
+          />
+        </svg>

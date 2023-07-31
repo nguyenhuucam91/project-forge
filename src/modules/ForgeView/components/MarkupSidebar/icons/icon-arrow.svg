@@ -1,0 +1,27 @@
+<svg
+          height={512}
+          viewBox='0 0 64 64'
+          width={512}
+          xmlns='http://www.w3.org/2000/svg'
+          xmlnsXlink='http://www.w3.org/1999/xlink'
+          className='w-10 h-10'
+        >
+          <linearGradient
+            id='linear-gradient'
+            gradientUnits='userSpaceOnUse'
+            x1='-37.86'
+            x2='73.46'
+            y1='-37.86'
+            y2='73.46'
+          >
+            <stop offset={0} stopColor='#9cecfb' />
+            <stop offset='.51' stopColor='#65c7f7' />
+            <stop offset={1} stopColor='#0052d4' />
+          </linearGradient>
+          <g id='Flat_Gradient' data-name='Flat Gradient'>
+            <path
+              d='m54.71 49.05-32-32h12.8a1 1 0 0 0 1-1v-6.05a1 1 0 0 0 -1-1h-25.51a1 1 0 0 0 -1 1v25.46a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-12.8l32.05 32.05a1 1 0 0 0 .71.29 1 1 0 0 0 .7-.29l4.25-4.25a1 1 0 0 0 0-1.41z'
+              fill='url(#linear-gradient)'
+            />
+          </g>
+        </svg>
