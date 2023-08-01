@@ -1,7 +1,11 @@
 import React from 'react'
 import MarkupButton from '../MarkupButton'
-import { ReactComponent as IconPolyline } from '../MarkupSidebar/icons/icon-arrow.svg'
 import { MarkupStyleType } from 'src/type/style.type'
+import { ReactComponent as IconBold } from './icons/icon-bold.svg'
+import { ReactComponent as IconDelete } from './icons/icon-delete.svg'
+import { ReactComponent as IconItalic } from './icons/icon-italic.svg'
+import { ReactComponent as IconUp } from './icons/icon-up.svg'
+import { ReactComponent as IconDown } from './icons/icon-down.svg'
 
 type MarkupStyleSidebarProps = {
   style: MarkupStyleType
@@ -61,23 +65,24 @@ export default function MarkupStyleSidebar({ markup, style, setStyle, handleDele
   return (
     <div
       id='markupStyleSidebar'
-      className='absolute shadow-lg top-[12px] left-1/2 -translate-x-1/2 z-10 flex gap-3 items-center justify-center rounded-md invisible bg-white px-2 py-3'
+      className='absolute shadow-lg top-[12px] left-1/2 -translate-x-1/2 z-10 flex gap-3 items-center justify-center rounded-md invisible bg-white px-3 py-2'
     >
       <MarkupButton handleOnClick={handleFontDown}>
-        <IconPolyline></IconPolyline>
+        <IconDown></IconDown>
       </MarkupButton>
       <MarkupButton handleOnClick={handleFontUp}>
-        <IconPolyline></IconPolyline>
+        <IconUp></IconUp>
       </MarkupButton>
 
       <MarkupButton handleOnClick={handleBold}>
-        <IconPolyline></IconPolyline>
+        <IconBold></IconBold>
       </MarkupButton>
       <MarkupButton handleOnClick={handleItalic}>
-        <IconPolyline></IconPolyline>
+        <IconItalic></IconItalic>
       </MarkupButton>
+
       <MarkupButton handleOnClick={handleDeleteMarkup}>
-        <IconPolyline></IconPolyline>
+        <IconDelete></IconDelete>
       </MarkupButton>
     </div>
   )
