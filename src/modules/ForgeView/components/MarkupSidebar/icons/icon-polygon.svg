@@ -1,15 +1,11 @@
-<svg width='24px' height='24px'>
-          <defs />
-          <symbol id='28b4c8d6-ad5e-45a9-8900-ed9160c41655' width={24} height={24} xmlns='http://www.w3.org/2000/svg'>
-            <g fill='none' fillRule='evenodd' style={{ stroke: 'url(#linear-gradient)' }}>
-              <path
-                d='M15 18a3 3 0 0 0 3 3M9 6a3 3 0 0 0-3-3M5.75 15a3 3 0 0 0 0 6M18 9a3 3 0 0 0 0-6M8.75 18a3 3 0 0 0 6 0M15 6a3 3 0 0 0-6 0M2.75 18a3 3 0 0 0 6 0M21 6a3 3 0 0 0-6 0M5.75 9a3 3 0 0 0 0 6M18 15a3 3 0 0 0 0-6M2.75 6a3 3 0 0 0 3 3M21 18a3 3 0 0 0-3-3'
-                stroke='url(#linear-gradient)'
-                fill='none'
-              />
-              <circle fill='#039BE5' fillRule='nonzero' transform='rotate(-90 3.5 3.5)' cx='3.5' cy='3.5' r='1.5' />
-              <circle fill='#039BE5' fillRule='nonzero' transform='rotate(-90 20.5 20.5)' cx='20.5' cy='20.5' r='1.5' />
-            </g>
-          </symbol>
-          <use href='#28b4c8d6-ad5e-45a9-8900-ed9160c41655' />
-        </svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-polygon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 5m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+   <path d="M19 8m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+   <path d="M5 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+   <path d="M15 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+   <path d="M6.5 9.5l3.5 -3"></path>
+   <path d="M14 5.5l3 1.5"></path>
+   <path d="M18.5 10l-2.5 7"></path>
+   <path d="M13.5 17.5l-7 -5"></path>
+</svg>

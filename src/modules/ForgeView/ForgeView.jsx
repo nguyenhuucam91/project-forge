@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { forgeAPI } from './services/forge.api'
 import getScreenshotDataUrl from './services/captureMaskup'
 import MarkupSidebar from './components/MarkupSidebar'
+import MarkupStyleSidebar from './components/MarkupStyleSidebar'
+import { useMutationObserver } from '@react-hooks-library/core'
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
 export default function ForgeView() {
@@ -9,13 +11,27 @@ export default function ForgeView() {
   const viewRef = React.useRef(null)
   const markupRef = useRef(null)
   const [clicked, setClicked] = useState()
+  const divref = useRef(null)
+  const [observed, setObserved] = useState(false)
 
+  useMutationObserver(
+    divref,
+    (mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes') {
+          setObserved(true)
+          console.log(121212)
+        }
+      }
+    },
+    { attributes: true }
+  )
   const [urnState, setUrnState] = useState([
     'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bG5lMWRpd3p1enpudGNocWtmaGt5NmE0ZHpsZnRydHYtYmFzaWMtYXBwLyVFNCVCQiU5NSVFNSU4RiVBMyVFNSU4NiU4NSVFNyVCNCU4RCVFMyU4MSVCRSVFMyU4MiU4QSVFNSU5QiVCMyUyMDExMSgxKS5ydnQ'
   ])
 
   const [style, setStyle] = useState({
-    'font-size': 108,
+    'font-size': 200,
     'font-weight': 'normal',
     'font-style': 'normal',
     'stroke-color': '#ff0000',
@@ -25,28 +41,6 @@ export default function ForgeView() {
   useEffect(() => {
     changeMarkupStyleUseEffect()
   }, [style, clicked])
-  const changeMarkupStyleUseEffect = () => {
-    const markup = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
-
-    if (!markup) {
-      return
-    } else {
-      const viewState = viewRef.current.getState({ viewport: true })
-      const scaleView = viewState.viewport.distanceToOrbit / 6999 || 1
-
-      const styleAttributes = ['font-size', 'font-weight', 'font-style', 'stroke-color', 'stroke-width']
-      const nsu = Autodesk.Viewing.Extensions.Markups.Core.Utils
-      const styleObject = nsu.createStyle(styleAttributes, markup)
-
-      styleObject['font-size'] = style['font-size']
-      styleObject['font-weight'] = style['font-weight']
-      styleObject['font-style'] = style['font-style']
-      styleObject['stroke-color'] = style['stroke-color']
-      styleObject['stroke-width'] = style['stroke-width'] * scaleView
-
-      markup.setStyle(styleObject)
-    }
-  }
 
   useEffect(() => {
     const createInitViewer = async () => {
@@ -126,6 +120,28 @@ export default function ForgeView() {
     createInitViewer()
   }, [urnState])
 
+  const changeMarkupStyleUseEffect = () => {
+    const markup = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
+
+    if (!markup) {
+      return
+    } else {
+      const viewState = viewRef.current.getState({ viewport: true })
+      const scaleView = viewState.viewport.distanceToOrbit / 6999 || 1
+
+      const styleAttributes = ['font-size', 'font-weight', 'font-style', 'stroke-color', 'stroke-width']
+      const nsu = Autodesk.Viewing.Extensions.Markups.Core.Utils
+      const styleObject = nsu.createStyle(styleAttributes, markup)
+
+      styleObject['font-size'] = style['font-size']
+      styleObject['font-weight'] = style['font-weight']
+      styleObject['font-style'] = style['font-style']
+      styleObject['stroke-color'] = style['stroke-color']
+      styleObject['stroke-width'] = style['stroke-width'] * scaleView
+
+      markup.setStyle(styleObject)
+    }
+  }
   const addMaskUp = (type) => {
     if (!clicked) {
       setClicked(true)
@@ -133,6 +149,7 @@ export default function ForgeView() {
     markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
     const markup = markupRef.current
     markup.enterEditMode()
+    addEvent()
     let maskUpElement
     switch (type) {
       case 'Polyline':
@@ -156,11 +173,48 @@ export default function ForgeView() {
       case 'Cloud':
         maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeCloud(markup)
         break
+      case 'Polygon':
+        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModePolycloud(markup)
+        break
       default:
         break
     }
     markup.changeEditMode(maskUpElement)
     changeMarkupStyle()
+  }
+  const handleDrawText = () => {
+    if (!clicked) {
+      setClicked(true)
+    }
+    addEvent()
+
+    markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
+    const markup = markupRef.current
+    markup.enterEditMode()
+    changeMarkupStyle()
+    const circle = new Autodesk.Viewing.Extensions.Markups.Core.EditModeText(markup)
+    markup.changeEditMode(circle)
+    changeMarkupStyle()
+  }
+
+  const addEvent = () => {
+    const selectMarkupEvent = (event) => {
+      setMarkupEle(event.markup)
+    }
+    markupRef.current = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
+    if (markupRef.current) {
+      markupRef.current.addEventListener(
+        Autodesk.Viewing.Extensions.Markups.Core.EVENT_MARKUP_SELECTED,
+        selectMarkupEvent
+      )
+    }
+  }
+  const [markupEle, setMarkupEle] = useState(null)
+
+  const handleDeleteMarkup = () => {
+    markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
+    const markup = markupRef.current
+    markup.deleteMarkup(markupEle, false)
   }
 
   const changeMarkupStyle = () => {
@@ -181,7 +235,6 @@ export default function ForgeView() {
     styleObject['font-style'] = style['font-style']
     styleObject['stroke-color'] = style['stroke-color']
     styleObject['stroke-width'] = style['stroke-width'] * scaleView
-
     markup.setStyle(styleObject)
   }
 
@@ -221,14 +274,23 @@ export default function ForgeView() {
     // eslint-disable-next-line no-undef
     document.getElementById('markupSidebar').style.visibility = 'hidden'
   }
+
   return (
     <>
       <div id='viewer' ref={viewDomRef} className='rounded-md'></div>
+      <div ref={divref} id='extensionMarkup'></div>
       <MarkupSidebar
         addMaskUp={addMaskUp}
+        handleDrawText={handleDrawText}
         handleChangeCapture={handleChangeCapture}
         handleCloseMarkup={handleCloseMarkup}
       ></MarkupSidebar>
+      <MarkupStyleSidebar
+        markup={markupEle}
+        style={style}
+        setStyle={setStyle}
+        handleDeleteMarkup={handleDeleteMarkup}
+      ></MarkupStyleSidebar>
     </>
   )
 }

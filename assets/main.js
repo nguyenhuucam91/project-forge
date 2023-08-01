@@ -34,14 +34,20 @@ class MarkupExtension extends Autodesk.Viewing.Extension {
     this._button = new Autodesk.Viewing.UI.Button('MarkupExtensionButton')
     this._button.onClick = (ev) => {
       const markupSidebar = document.getElementById('markupSidebar')
+      const extensionMarkup = document.getElementById('extensionMarkup')
+      const markupStyleSidebar = document.getElementById('markupStyleSidebar')
       const visibleStyle = markupSidebar.style.visibility
 
       if (visibleStyle === 'hidden' || visibleStyle === '') {
         this.viewer.loadExtension('Autodesk.Viewing.MarkupsCore')
         markupSidebar.style.visibility = 'visible'
+        extensionMarkup.style.visibility = 'visible'
+        markupStyleSidebar.style.visibility = 'visible'
       } else {
         this.viewer.unloadExtension('Autodesk.Viewing.MarkupsCore')
         markupSidebar.style.visibility = 'hidden'
+        extensionMarkup.style.visibility = 'hidden'
+        markupStyleSidebar.style.visibility = 'hidden'
       }
     }
     this._button.setToolTip('Markup Extension')
