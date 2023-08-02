@@ -6,9 +6,11 @@ module.exports = {
       colors: {
         primaryColor: '#6DAEC8',
         secondaryColor: '#E6F7FF',
+        blueColor: '#206bc4',
         grayColor: '#EBECF0'
       }
     }
   },
-  plugins: []
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  plugins: [require('tailwind-scrollbar')({ nocompatible: true })]
 }

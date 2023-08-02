@@ -7,15 +7,32 @@ import { ReactComponent as IconPencil } from './icons//icon-pencil.svg'
 import { ReactComponent as IconPolygon } from './icons//icon-polygon.svg'
 import { ReactComponent as IconPolyline } from './icons//icon-polyline.svg'
 import { ReactComponent as IconRect } from './icons//icon-rect.svg'
-import { ReactComponent as IconStyle } from './icons//icon-style.svg'
 import { ReactComponent as IconText } from './icons//icon-text.svg'
+import { ReactComponent as IconUndo } from './icons//icon-undo.svg'
+import { ReactComponent as IconRedo } from './icons//icon-redo.svg'
+import { ReactComponent as IconCopy } from './icons//icon-copy.svg'
+import { ReactComponent as IconDelete } from './icons//icon-delete.svg'
 
 type MarkupSidebarType = {
   addMaskUp: (type: string) => void
   handleChangeCapture: () => void
   handleCloseMarkup: () => void
+  handleDeleteMarkup: () => void
+  handleUndo: () => void
+  handleRedo: () => void
+  handleCopy: () => void
+  divRef: React.MutableRefObject<null>
 }
-export default function MarkupSidebar({ addMaskUp, handleChangeCapture, handleCloseMarkup }: MarkupSidebarType) {
+export default function MarkupSidebar({
+  divRef,
+  addMaskUp,
+  handleUndo,
+  handleRedo,
+  handleCopy,
+  handleChangeCapture,
+  handleCloseMarkup,
+  handleDeleteMarkup
+}: MarkupSidebarType) {
   const handleDrawPolyline = () => {
     addMaskUp('Polyline')
   }
@@ -45,8 +62,17 @@ export default function MarkupSidebar({ addMaskUp, handleChangeCapture, handleCl
   return (
     <div
       id='markupSidebar'
-      className='absolute right-[15px] shadow-lg top-1/2 -translate-y-1/2 z-10 flex flex-wrap-reverse flex-col gap-3 items-center justify-center rounded-md invisible bg-white px-2 py-3'
+      className='absolute shadow-lg bottom-[12px] left-1/2 -translate-x-1/2 z-10 flex  gap-3 items-center justify-center rounded-md invisible bg-white px-3 py-2'
+      ref={divRef}
     >
+      <MarkupButton handleOnClick={handleDrawRect}>
+        <IconRect></IconRect>
+      </MarkupButton>
+
+      <MarkupButton handleOnClick={handleDrawCircle}>
+        <IconCircle></IconCircle>
+      </MarkupButton>
+
       <MarkupButton handleOnClick={handleDrawPolyline}>
         <IconPolyline></IconPolyline>
       </MarkupButton>
@@ -63,14 +89,6 @@ export default function MarkupSidebar({ addMaskUp, handleChangeCapture, handleCl
         <IconText></IconText>
       </MarkupButton>
 
-      <MarkupButton handleOnClick={handleDrawCircle}>
-        <IconCircle></IconCircle>
-      </MarkupButton>
-
-      <MarkupButton handleOnClick={handleDrawRect}>
-        <IconRect></IconRect>
-      </MarkupButton>
-
       <MarkupButton handleOnClick={handleDrawPolygon}>
         <IconPolygon></IconPolygon>
       </MarkupButton>
@@ -82,7 +100,19 @@ export default function MarkupSidebar({ addMaskUp, handleChangeCapture, handleCl
       <MarkupButton handleOnClick={handleChangeCapture}>
         <IconCapture></IconCapture>
       </MarkupButton>
-
+      <hr className=' w-8 rotate-90 bg-primaryColor'></hr>
+      <MarkupButton handleOnClick={handleUndo}>
+        <IconUndo></IconUndo>
+      </MarkupButton>
+      <MarkupButton handleOnClick={handleRedo}>
+        <IconRedo></IconRedo>
+      </MarkupButton>
+      <MarkupButton handleOnClick={handleCopy}>
+        <IconCopy></IconCopy>
+      </MarkupButton>
+      <MarkupButton handleOnClick={handleDeleteMarkup}>
+        <IconDelete></IconDelete>
+      </MarkupButton>
       <MarkupButton handleOnClick={handleCloseMarkup}>
         <IconClose></IconClose>
       </MarkupButton>

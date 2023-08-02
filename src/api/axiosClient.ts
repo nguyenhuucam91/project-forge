@@ -1,7 +1,7 @@
 import queryString from 'query-string'
 import axios from 'axios'
 import UtilsToken from 'src/utils/UtilsToken'
-import { routers } from 'src/config/routers'
+import { routers } from 'src/routers/routers'
 
 const axiosClient = axios.create({
   baseURL: `${routers.api.local_host}`,

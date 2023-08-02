@@ -2,23 +2,21 @@ import React from 'react'
 import MarkupButton from '../MarkupButton'
 import { MarkupStyleType } from 'src/type/style.type'
 import { ReactComponent as IconBold } from './icons/icon-bold.svg'
-import { ReactComponent as IconDelete } from './icons/icon-delete.svg'
 import { ReactComponent as IconItalic } from './icons/icon-italic.svg'
 import { ReactComponent as IconUp } from './icons/icon-up.svg'
 import { ReactComponent as IconDown } from './icons/icon-down.svg'
 
 type MarkupStyleSidebarProps = {
   style: MarkupStyleType
-  markup: any
+  markupObject: any
   setStyle: (value: React.SetStateAction<MarkupStyleType>) => void
-  handleDeleteMarkup: () => void
 }
 
-export default function MarkupStyleSidebar({ markup, style, setStyle, handleDeleteMarkup }: MarkupStyleSidebarProps) {
+export default function MarkupStyleSidebar({ markupObject, style, setStyle }: MarkupStyleSidebarProps) {
   const handleFontUp = () => {
     setStyle((prev) => {
       const copyStyle = { ...prev }
-      if (markup.type === 'label') {
+      if (markupObject.type === 'label') {
         copyStyle['font-size'] = copyStyle['font-size'] + 30
       } else {
         copyStyle['stroke-width'] = copyStyle['stroke-width'] + 5
@@ -29,7 +27,7 @@ export default function MarkupStyleSidebar({ markup, style, setStyle, handleDele
   const handleFontDown = () => {
     setStyle((prev) => {
       const copyStyle = { ...prev }
-      if (markup.type === 'label') {
+      if (markupObject.type === 'label') {
         copyStyle['font-size'] = copyStyle['font-size'] - 30
       } else {
         copyStyle['stroke-width'] = copyStyle['stroke-width'] - 5
@@ -62,10 +60,19 @@ export default function MarkupStyleSidebar({ markup, style, setStyle, handleDele
       return copyStyle
     })
   }
+  const handleChangeColor = (color: string) => {
+    console.log(12121)
+
+    setStyle((prev) => {
+      const copyStyle = { ...prev }
+      copyStyle['stroke-color'] = color
+      return copyStyle
+    })
+  }
   return (
     <div
       id='markupStyleSidebar'
-      className='absolute shadow-lg top-[12px] left-1/2 -translate-x-1/2 z-10 flex gap-3 items-center justify-center rounded-md invisible bg-white px-3 py-2'
+      className='absolute shadow-lg right-[12px] flex-col top-1/2 -translate-y-1/2 z-10 flex gap-3 items-center justify-center rounded-md invisible bg-white px-2 py-3'
     >
       <MarkupButton handleOnClick={handleFontDown}>
         <IconDown></IconDown>
@@ -77,12 +84,31 @@ export default function MarkupStyleSidebar({ markup, style, setStyle, handleDele
       <MarkupButton handleOnClick={handleBold}>
         <IconBold></IconBold>
       </MarkupButton>
+
       <MarkupButton handleOnClick={handleItalic}>
         <IconItalic></IconItalic>
       </MarkupButton>
+      <hr className='w-full h-[2px] bg-primaryColor' />
 
-      <MarkupButton handleOnClick={handleDeleteMarkup}>
-        <IconDelete></IconDelete>
+      <MarkupButton handleOnClick={() => handleChangeColor('#FF0000')}>
+        <div className='h-4 w-4 rounded-full ring-4 ring-[#FF0000]'></div>
+      </MarkupButton>
+
+      <MarkupButton handleOnClick={() => handleChangeColor('#ecec01')}>
+        <div className='h-4 w-4 rounded-full ring-4 ring-[#ecec01]'></div>
+      </MarkupButton>
+
+      <MarkupButton handleOnClick={() => handleChangeColor('#00FF00')}>
+        <div className='h-4 w-4 rounded-full ring-4 ring-[#00FF00]'></div>
+      </MarkupButton>
+      <MarkupButton handleOnClick={() => handleChangeColor('#00FFFF')}>
+        <div className='h-4 w-4 rounded-full ring-4 ring-[#00FFFF]'></div>
+      </MarkupButton>
+      <MarkupButton handleOnClick={() => handleChangeColor('#0000FF')}>
+        <div className='h-4 w-4 rounded-full ring-4 ring-[#0000FF]'></div>
+      </MarkupButton>
+      <MarkupButton handleOnClick={() => handleChangeColor('#FF00FF')}>
+        <div className='h-4 w-4 rounded-full ring-4 ring-[#FF00FF]'></div>
       </MarkupButton>
     </div>
   )

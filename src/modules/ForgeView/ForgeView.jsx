@@ -1,35 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { forgeAPI } from './services/forge.api'
-import getScreenshotDataUrl from './services/captureMaskup'
 import MarkupSidebar from './components/MarkupSidebar'
 import MarkupStyleSidebar from './components/MarkupStyleSidebar'
 import { useMutationObserver } from '@react-hooks-library/core'
+import { useMaskUpServices } from './services/markup.services'
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
 export default function ForgeView() {
   const viewDomRef = React.useRef(null)
   const viewRef = React.useRef(null)
   const markupRef = useRef(null)
-  const [clicked, setClicked] = useState()
-  const divref = useRef(null)
+  const divRef = useRef(null)
   const [observed, setObserved] = useState(false)
-  const [markupEle, setMarkupEle] = useState(null)
-
-  useMutationObserver(
-    divref,
-    (mutations) => {
-      for (const mutation of mutations) {
-        if (mutation.type === 'attributes') {
-          setObserved(true)
-          console.log(121212)
-        }
-      }
-    },
-    { attributes: true }
-  )
-  const [urnState, setUrnState] = useState([
-    'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bG5lMWRpd3p1enpudGNocWtmaGt5NmE0ZHpsZnRydHYtYmFzaWMtYXBwLyVFNCVCQiU5NSVFNSU4RiVBMyVFNSU4NiU4NSVFNyVCNCU4RCVFMyU4MSVCRSVFMyU4MiU4QSVFNSU5QiVCMyUyMDExMSgxKS5ydnQ'
-  ])
 
   const [style, setStyle] = useState({
     'font-size': 200,
@@ -38,10 +20,41 @@ export default function ForgeView() {
     'stroke-color': '#ff0000',
     'stroke-width': 50
   })
+  const {
+    markupObject,
+    handleCopy,
+    handleRedo,
+    handleUndo,
+    handleAddMaskUp,
+    handleChangeCapture,
+    handleCloseMarkup,
+    handleDeleteMarkup,
+    changeMarkupStyleUseEffect
+  } = useMaskUpServices({ markupRef, viewRef, style })
+
+  const [urnState, setUrnState] = useState([
+    'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bG5lMWRpd3p1enpudGNocWtmaGt5NmE0ZHpsZnRydHYtYmFzaWMtYXBwLyVFNCVCQiU5NSVFNSU4RiVBMyVFNSU4NiU4NSVFNyVCNCU4RCVFMyU4MSVCRSVFMyU4MiU4QSVFNSU5QiVCMyUyMDExMSgxKS5ydnQ'
+  ])
+
+  useMutationObserver(
+    divRef,
+    (mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes') {
+          setObserved(true)
+          if (divRef.current.style.visibility === 'visible') {
+            handleAddMaskUp('Pencil')
+            changeMarkupStyleUseEffect()
+          }
+        }
+      }
+    },
+    { attributes: true }
+  )
 
   useEffect(() => {
     changeMarkupStyleUseEffect()
-  }, [style, clicked])
+  }, [style])
 
   useEffect(() => {
     const createInitViewer = async () => {
@@ -61,7 +74,7 @@ export default function ForgeView() {
         })
 
         viewRef.current.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
-          viewRef.current.fitToView()
+          viewRef.current?.fitToView()
         })
 
         viewRef.current.loadExtension('Autodesk.DocumentBrowser')
@@ -121,163 +134,21 @@ export default function ForgeView() {
     createInitViewer()
   }, [urnState])
 
-  const changeMarkupStyleUseEffect = () => {
-    const markup = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
-
-    if (!markup) {
-      return
-    } else {
-      const viewState = viewRef.current.getState({ viewport: true })
-      const scaleView = viewState.viewport.distanceToOrbit / 6999 || 1
-
-      const styleAttributes = ['font-size', 'font-weight', 'font-style', 'stroke-color', 'stroke-width']
-      const nsu = Autodesk.Viewing.Extensions.Markups.Core.Utils
-      const styleObject = nsu.createStyle(styleAttributes, markup)
-
-      styleObject['font-size'] = style['font-size']
-      styleObject['font-weight'] = style['font-weight']
-      styleObject['font-style'] = style['font-style']
-      styleObject['stroke-color'] = style['stroke-color']
-      styleObject['stroke-width'] = style['stroke-width'] * scaleView
-
-      markup.setStyle(styleObject)
-    }
-  }
-
-  const addMaskUp = (type) => {
-    if (!clicked) {
-      setClicked(true)
-    }
-    markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
-    const markup = markupRef.current
-    markup.enterEditMode()
-    addEvent()
-    let maskUpElement
-    switch (type) {
-      case 'Polyline':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModePolyline(markup)
-        break
-      case 'Arrow':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeArrow(markup)
-        break
-      case 'Pencil':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeFreehand(markup)
-        break
-      case 'Text':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeText(markup)
-        break
-      case 'Circle':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeCircle(markup)
-        break
-      case 'Rect':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeRectangle(markup)
-        break
-      case 'Cloud':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeCloud(markup)
-        break
-      case 'Polygon':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModePolycloud(markup)
-        break
-      default:
-        break
-    }
-    markup.changeEditMode(maskUpElement)
-    changeMarkupStyle()
-  }
-
-  const addEvent = () => {
-    const selectMarkupEvent = (event) => {
-      setMarkupEle(event.markup)
-    }
-    markupRef.current = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
-    if (markupRef.current) {
-      markupRef.current.addEventListener(
-        Autodesk.Viewing.Extensions.Markups.Core.EVENT_MARKUP_SELECTED,
-        selectMarkupEvent
-      )
-    }
-  }
-
-  const handleDeleteMarkup = () => {
-    markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
-    const markup = markupRef.current
-    markup.deleteMarkup(markupEle, false)
-  }
-
-  const changeMarkupStyle = () => {
-    markupRef.current = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
-    const markup = markupRef.current
-    if (!markup || !clicked) {
-      return
-    }
-    const viewState = viewRef.current.getState({ viewport: true })
-    const scaleView = viewState.viewport.distanceToOrbit / 6999 || 1
-
-    const styleAttributes = ['font-size', 'font-weight', 'font-style', 'stroke-color', 'stroke-width']
-    const nsu = Autodesk.Viewing.Extensions.Markups.Core.Utils
-    const styleObject = nsu.createStyle(styleAttributes, markup)
-
-    styleObject['font-size'] = style['font-size']
-    styleObject['font-weight'] = style['font-weight']
-    styleObject['font-style'] = style['font-style']
-    styleObject['stroke-color'] = style['stroke-color']
-    styleObject['stroke-width'] = style['stroke-width'] * scaleView
-    markup.setStyle(styleObject)
-  }
-
-  const handleChangeCapture = async () => {
-    function simulateDownloadImageClick(uri, filename) {
-      // eslint-disable-next-line no-undef
-      var link = document.createElement('a')
-      if (typeof link.download !== 'string') {
-        // eslint-disable-next-line no-undef
-        window.open(uri)
-      } else {
-        link.href = uri
-        link.download = filename
-        accountForFirefox(clickLink, link)
-      }
-    }
-
-    function clickLink(link) {
-      link.click()
-    }
-
-    function accountForFirefox(click) {
-      let link = arguments[1]
-      // eslint-disable-next-line no-undef
-      document.body.appendChild(link)
-      click(link)
-      // eslint-disable-next-line no-undef
-      document.body.removeChild(link)
-    }
-
-    const dataUrl = await getScreenshotDataUrl(viewRef.current)
-    simulateDownloadImageClick(dataUrl, 'View-Capture.png')
-  }
-
-  const handleCloseMarkup = async () => {
-    viewRef.current.unloadExtension('Autodesk.Viewing.MarkupsCore')
-    // eslint-disable-next-line no-undef
-    document.getElementById('markupSidebar').style.visibility = 'hidden'
-  }
-
   return (
     <>
-      <div id='viewer' ref={viewDomRef} className='rounded-md'></div>
-      <div ref={divref} id='extensionMarkup'></div>
+      <div id='viewer' ref={viewDomRef}></div>
       <MarkupSidebar
-        addMaskUp={addMaskUp}
+        divRef={divRef}
+        addMaskUp={handleAddMaskUp}
         handleChangeCapture={handleChangeCapture}
         handleCloseMarkup={handleCloseMarkup}
+        handleCopy={handleCopy}
+        handleRedo={handleRedo}
+        handleUndo={handleUndo}
+        handleDeleteMarkup={handleDeleteMarkup}
       ></MarkupSidebar>
 
-      <MarkupStyleSidebar
-        markup={markupEle}
-        style={style}
-        setStyle={setStyle}
-        handleDeleteMarkup={handleDeleteMarkup}
-      ></MarkupStyleSidebar>
+      <MarkupStyleSidebar markupObject={markupObject} style={style} setStyle={setStyle}></MarkupStyleSidebar>
     </>
   )
 }

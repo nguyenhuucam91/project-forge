@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#viewer {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 68px);
+}
