@@ -13,6 +13,7 @@ export default function ForgeView() {
   const [clicked, setClicked] = useState()
   const divref = useRef(null)
   const [observed, setObserved] = useState(false)
+  const [markupEle, setMarkupEle] = useState(null)
 
   useMutationObserver(
     divref,
@@ -142,6 +143,7 @@ export default function ForgeView() {
       markup.setStyle(styleObject)
     }
   }
+
   const addMaskUp = (type) => {
     if (!clicked) {
       setClicked(true)
@@ -182,20 +184,6 @@ export default function ForgeView() {
     markup.changeEditMode(maskUpElement)
     changeMarkupStyle()
   }
-  const handleDrawText = () => {
-    if (!clicked) {
-      setClicked(true)
-    }
-    addEvent()
-
-    markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
-    const markup = markupRef.current
-    markup.enterEditMode()
-    changeMarkupStyle()
-    const circle = new Autodesk.Viewing.Extensions.Markups.Core.EditModeText(markup)
-    markup.changeEditMode(circle)
-    changeMarkupStyle()
-  }
 
   const addEvent = () => {
     const selectMarkupEvent = (event) => {
@@ -209,7 +197,6 @@ export default function ForgeView() {
       )
     }
   }
-  const [markupEle, setMarkupEle] = useState(null)
 
   const handleDeleteMarkup = () => {
     markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
@@ -281,10 +268,10 @@ export default function ForgeView() {
       <div ref={divref} id='extensionMarkup'></div>
       <MarkupSidebar
         addMaskUp={addMaskUp}
-        handleDrawText={handleDrawText}
         handleChangeCapture={handleChangeCapture}
         handleCloseMarkup={handleCloseMarkup}
       ></MarkupSidebar>
+
       <MarkupStyleSidebar
         markup={markupEle}
         style={style}

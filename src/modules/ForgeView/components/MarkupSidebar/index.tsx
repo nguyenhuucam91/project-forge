@@ -12,16 +12,10 @@ import { ReactComponent as IconText } from './icons//icon-text.svg'
 
 type MarkupSidebarType = {
   addMaskUp: (type: string) => void
-  handleDrawText: () => void
   handleChangeCapture: () => void
   handleCloseMarkup: () => void
 }
-export default function MarkupSidebar({
-  addMaskUp,
-  handleDrawText,
-  handleChangeCapture,
-  handleCloseMarkup
-}: MarkupSidebarType) {
+export default function MarkupSidebar({ addMaskUp, handleChangeCapture, handleCloseMarkup }: MarkupSidebarType) {
   const handleDrawPolyline = () => {
     addMaskUp('Polyline')
   }
@@ -29,7 +23,9 @@ export default function MarkupSidebar({
   const handleDrawArrow = () => {
     addMaskUp('Arrow')
   }
-
+  const handleDrawText = () => {
+    addMaskUp('Text')
+  }
   const handleDrawPencil = () => {
     addMaskUp('Pencil')
   }
