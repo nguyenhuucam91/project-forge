@@ -1,4 +1,4 @@
-import StorageKeys from 'src/constants/StorageKeys.enum'
+import StorageKeys from 'src/config/constants/StorageKeys.enum'
 
 class UtilsToken {
   addToken(data: any) {
