@@ -4,6 +4,8 @@ import MarkupSidebar from './components/MarkupSidebar'
 import MarkupStyleSidebar from './components/MarkupStyleSidebar'
 import { useMutationObserver } from '@react-hooks-library/core'
 import { useMaskUpServices } from './services/markup.services'
+import DrawWalkingPathLinesTool from '../../utils/drawtool'
+import WalkingPathToolExtension from '../../utils/drawtool'
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
 export default function ForgeView() {
@@ -59,12 +61,10 @@ export default function ForgeView() {
         })
 
         viewRef.current.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
-          viewRef.current?.fitToView()
+          viewRef.current.fitToView()
         })
 
         viewRef.current.loadExtension('Autodesk.DocumentBrowser')
-        viewRef.current.loadExtension('Autodesk.Measure')
-        viewRef.current.loadExtension('Autodesk.Snapping')
         viewRef.current.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
           let explodeExtension = viewRef.current.getExtension('Autodesk.Explode')
           explodeExtension.unload()
@@ -92,11 +92,6 @@ export default function ForgeView() {
           group.addControl(button)
           viewRef.current.toolbar.addControl(group)
         })
-
-        viewRef.current.addEventListener(Autodesk.Viewing.CAMERA_CHANGE_EVENT, () => {
-          const viewState = viewRef.current.getState({ viewport: true })
-          console.log(viewState.viewport.distanceToOrbit)
-        })
       }
 
       function onDocumentLoadFailureInit() {
@@ -121,14 +116,19 @@ export default function ForgeView() {
         let htmlElement = viewDomRef.current
 
         if (htmlElement) {
+          // const config = {
+          //   extensions: [
+          //     'WalkingPathToolExtension',
+          //     'Autodesk.Viewing.MarkupsCore',
+          //     'Autodesk.Measure',
+          //     'DrawBoundsToolExtension',
+          //     'DrawCurvesToolExtension',
+          //     'LoadModelToViewExtension'
+          //   ]
+          //   //'Autodesk.ADN.Viewing.Extension.Markup',
+          // }
           const config = {
-            extensions: [
-              'Autodesk.Viewing.MarkupsCore',
-              'Autodesk.Measure',
-              'DrawBoundsToolExtension',
-              'DrawCurvesToolExtension',
-              'LoadModelToViewExtension'
-            ]
+            extensions: ['Autodesk.Viewing.MarkupsCore', 'MarkupExtension', 'WalkingPathToolExtension']
             //'Autodesk.ADN.Viewing.Extension.Markup',
           }
           viewRef.current = new Autodesk.Viewing.GuiViewer3D(htmlElement, config)
@@ -148,10 +148,18 @@ export default function ForgeView() {
     }
     createInitViewer()
   }, [urnState])
-
+  const handleSnapping = () => {
+    const viewer = viewRef.current
+    Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
+    const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
+    console.log('🚀 ~ file: ForgeView.jsx:155 ~ handleSnapping ~ names:', names)
+  }
   return (
     <>
       <div id='viewer' ref={viewDomRef}></div>
+      <div className=' absolute top-[300px] left-0 z-20'>
+        <button onClick={handleSnapping}>OK</button>
+      </div>
       {showMarkup && (
         <>
           <MarkupSidebar

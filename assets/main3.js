@@ -92,6 +92,7 @@ class DrawBoundsTool extends Autodesk.Viewing.ToolInterface {
   }
 
   handleSingleClick(event, button) {
+    console.log(event)
     if (!this.active) {
       return false
     }
@@ -118,6 +119,8 @@ class DrawBoundsTool extends Autodesk.Viewing.ToolInterface {
   }
 
   handleKeyUp(event, keyCode) {
+    console.log('handleKeyUp', event)
+
     if (this.active) {
       if (keyCode === 27) {
         // Finalize the extrude mesh and initialie a new one
