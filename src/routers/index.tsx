@@ -1,9 +1,10 @@
 import Home from '../modules/home/index'
 import LayoutProject from '../views/pages/LayoutProject'
 import { createBrowserRouter } from 'react-router-dom'
-import { routers } from './routers'
+import { routers } from '../config/routers'
 import Project from 'src/modules/project'
 import ForgeView from 'src/modules/ForgeView'
+import Documents from 'src/modules/documents'
 
 export const router = createBrowserRouter([
   {
@@ -11,7 +12,6 @@ export const router = createBrowserRouter([
     element: <Home></Home>
   },
   {
-    path: '/',
     element: <LayoutProject />,
     children: [
       {
@@ -19,7 +19,11 @@ export const router = createBrowserRouter([
         element: <Project />
       },
       {
-        path: routers.web.project.view,
+        path: routers.web.documents.document,
+        element: <Documents />
+      },
+      {
+        path: routers.web.documents.view,
         element: <ForgeView />
       }
     ]

@@ -1,35 +1,25 @@
 import React from 'react'
 import { Outlet } from 'react-router'
 import { ReactComponent as IconChevron } from './icons/icon-chevron.svg'
-import { Avatar, Badge, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
 import SearchComponent from '../../../components/SearchComponent'
 import PopoverComponent from '../../../components/PopoverComponent'
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
+
 import CompanyItem from './components/CompanyItem'
 import ProjectItem from './components/ProjectItem'
+import AvatarComponent from './components/AvatarComponent'
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 export default function LayoutProject() {
-  const [anchorElUser, setAnchorElUser] = React.useState(null)
   const [anchorElProject, setAnchorElProject] = React.useState(null)
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget)
-  }
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
 
   const handleOpenProject = (event) => {
     setAnchorElProject(event.currentTarget)
   }
-
   const handleCloseProject = () => {
     setAnchorElProject(null)
   }
+
   return (
-    <div className=''>
+    <div className='h-full'>
       <div className='fixed w-screen px-[36px] h-[68px] z-10 flex items-center justify-between shadow-sm shadow-primaryColor bg-white'>
         <div className='flex items-center'>
           <a href='/'>
@@ -81,41 +71,9 @@ export default function LayoutProject() {
             </div>
           </PopoverComponent>
         </div>
-        {/* Avatar or login button*/}
-        <div className='flex items-center justify-center gap-5'>
-          <Badge badgeContent={4} color='primary' className='cursor-pointer mt-3'>
-            <NotificationsNoneIcon className='text-blueColor' />
-          </Badge>
-          <Tooltip title='Profile'>
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar
-                alt='Remy Sharp'
-                src='https://images.unsplash.com/photo-1690671514802-266fa79d2151?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=718&q=80'
-              />
-            </IconButton>
-          </Tooltip>
-
-          <PopoverComponent anchorElement={anchorElUser} handleClose={handleCloseUserMenu}>
-            {settings.map((setting) => (
-              <MenuItem
-                key={setting}
-                onClick={handleCloseUserMenu}
-                sx={{
-                  ':hover': {
-                    color: '#206bc4',
-                    backgroundColor: '#E6F7FF',
-                    fontWeight: '500'
-                  }
-                }}
-                className='hover:bg-secondaryColor'
-              >
-                <span className='hover:bg-secondaryColor'>{setting}</span>
-              </MenuItem>
-            ))}
-          </PopoverComponent>
-        </div>
+        <AvatarComponent></AvatarComponent>
       </div>
-      <div className='flex-1 overflow-hidden pt-[68px]'>
+      <div className='flex-1 h-full overflow-hidden pt-[68px]'>
         <Outlet></Outlet>
       </div>
     </div>

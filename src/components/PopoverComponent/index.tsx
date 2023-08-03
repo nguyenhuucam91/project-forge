@@ -2,11 +2,11 @@ import { Menu, PopoverProps, SxProps, Theme } from '@mui/material'
 import React from 'react'
 
 type PopoverComponentType = {
-  sx: SxProps<Theme> | undefined
+  sx?: SxProps<Theme> | undefined
   handleClose: () => void
   anchorElement: PopoverProps['anchorEl'] | undefined | null
   children: React.ReactNode
-  horizontal: 'left' | 'center' | 'right' | number
+  horizontal?: 'left' | 'center' | 'right' | number
 }
 
 export default function PopoverComponent({

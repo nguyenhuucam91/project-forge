@@ -1,5 +1,5 @@
 import axiosClient from 'src/api/axiosClient'
-import { routers } from 'src/routers/routers'
+import { routers } from 'src/config/routers'
 
 export const forgeAPI = {
   async getAccessToken() {

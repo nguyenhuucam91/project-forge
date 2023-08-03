@@ -64,6 +64,7 @@ export default function ForgeView() {
 
         viewRef.current.loadExtension('Autodesk.DocumentBrowser')
         viewRef.current.loadExtension('Autodesk.Measure')
+        viewRef.current.loadExtension('Autodesk.Snapping')
         viewRef.current.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
           let explodeExtension = viewRef.current.getExtension('Autodesk.Explode')
           explodeExtension.unload()
@@ -121,7 +122,13 @@ export default function ForgeView() {
 
         if (htmlElement) {
           const config = {
-            extensions: ['Autodesk.Viewing.MarkupsCore', 'Autodesk.Measure']
+            extensions: [
+              'Autodesk.Viewing.MarkupsCore',
+              'Autodesk.Measure',
+              'DrawBoundsToolExtension',
+              'DrawCurvesToolExtension',
+              'LoadModelToViewExtension'
+            ]
             //'Autodesk.ADN.Viewing.Extension.Markup',
           }
           viewRef.current = new Autodesk.Viewing.GuiViewer3D(htmlElement, config)

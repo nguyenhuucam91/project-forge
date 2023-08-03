@@ -1,7 +1,7 @@
 import React from 'react'
 import CheckIcon from '@mui/icons-material/Check'
-import { useNavigate } from 'react-router-dom'
-import { routers } from 'src/routers/routers'
+import { useNavigate, useParams } from 'react-router-dom'
+import { routers } from 'src/config/routers'
 import { format } from 'react-string-format'
 
 type ProjectItemType = {
@@ -13,9 +13,10 @@ type ProjectItemType = {
 export default function ProjectItem({ imgSrc, projectName, isActive, handleClose }: ProjectItemType) {
   const navigate = useNavigate()
   const handleGotoProject = () => {
-    navigate(format(routers.web.project.viewStringFormat, '1', '1'))
+    navigate(format(routers.web.project.projectStringFormat, '1'))
     handleClose()
   }
+
   return (
     <div
       onClick={handleGotoProject}
