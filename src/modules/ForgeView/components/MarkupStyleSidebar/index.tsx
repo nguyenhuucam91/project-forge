@@ -72,7 +72,7 @@ export default function MarkupStyleSidebar({ markupObject, style, setStyle }: Ma
   return (
     <div
       id='markupStyleSidebar'
-      className='absolute shadow-lg right-[12px] flex-col top-1/2 -translate-y-1/2 z-10 flex gap-3 items-center justify-center rounded-md invisible bg-white px-2 py-3'
+      className='absolute shadow-lg right-[12px] flex-col top-1/2 -translate-y-1/2 z-10 flex gap-3 items-center justify-center rounded-md bg-white px-2 py-3'
     >
       <MarkupButton handleOnClick={handleFontDown}>
         <IconDown></IconDown>

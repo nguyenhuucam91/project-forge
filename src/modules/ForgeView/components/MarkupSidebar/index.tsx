@@ -62,7 +62,7 @@ export default function MarkupSidebar({
   return (
     <div
       id='markupSidebar'
-      className='absolute shadow-lg bottom-[12px] left-1/2 -translate-x-1/2 z-10 flex  gap-3 items-center justify-center rounded-md invisible bg-white px-3 py-2'
+      className='absolute shadow-lg bottom-[12px] left-1/2 -translate-x-1/2 z-10 flex  gap-3 items-center justify-center rounded-md bg-white px-3 py-2'
       ref={divRef}
     >
       <MarkupButton handleOnClick={handleDrawRect}>

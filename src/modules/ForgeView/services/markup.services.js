@@ -4,7 +4,7 @@ import getScreenshotDataUrl from './captureMaskup'
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
 
-export const useMaskUpServices = ({ markupRef, viewRef, style }) => {
+export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) => {
   const [clicked, setClicked] = useState(false)
   const [markupObject, setMarkupObject] = useState(null)
 
@@ -71,6 +71,15 @@ export const useMaskUpServices = ({ markupRef, viewRef, style }) => {
     markup.deleteMarkup(markupObject, false)
   }
 
+  const handleMeasure = () => {
+    const measureExt = viewRef.current.getExtension('Autodesk.Measure')
+    measureExt.activate('distance')
+    const toolbar = document.getElementById('guiviewer3d-toolbar')
+    if (toolbar) {
+      // toolbar.style.visibility = 'hidden'
+    }
+  }
+
   const changeMarkupStyle = () => {
     markupRef.current = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
     const markup = markupRef.current
@@ -125,9 +134,12 @@ export const useMaskUpServices = ({ markupRef, viewRef, style }) => {
 
   const handleCloseMarkup = async () => {
     viewRef.current.unloadExtension('Autodesk.Viewing.MarkupsCore')
+    setShowMaskup(false)
     // eslint-disable-next-line no-undef
-    document.getElementById('markupSidebar').style.visibility = 'hidden'
-    document.getElementById('markupStyleSidebar').style.visibility = 'hidden'
+    const toolbar = document.getElementById('guiviewer3d-toolbar')
+    if (toolbar) {
+      toolbar.style.visibility = 'visible'
+    }
   }
   const handleUndo = () => {
     markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
@@ -173,6 +185,7 @@ export const useMaskUpServices = ({ markupRef, viewRef, style }) => {
   }
   return {
     markupObject,
+    handleMeasure,
     handleUndo,
     handleRedo,
     handleCopy,

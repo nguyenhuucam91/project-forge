@@ -7,11 +7,11 @@ import { useMaskUpServices } from './services/markup.services'
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
 export default function ForgeView() {
+  const [showMarkup, setShowMaskup] = useState(false)
   const viewDomRef = React.useRef(null)
   const viewRef = React.useRef(null)
   const markupRef = useRef(null)
   const divRef = useRef(null)
-  const [observed, setObserved] = useState(false)
 
   const [style, setStyle] = useState({
     'font-size': 200,
@@ -22,6 +22,7 @@ export default function ForgeView() {
   })
   const {
     markupObject,
+    handleMeasure,
     handleCopy,
     handleRedo,
     handleUndo,
@@ -30,27 +31,11 @@ export default function ForgeView() {
     handleCloseMarkup,
     handleDeleteMarkup,
     changeMarkupStyleUseEffect
-  } = useMaskUpServices({ markupRef, viewRef, style })
+  } = useMaskUpServices({ markupRef, viewRef, style, setShowMaskup })
 
   const [urnState, setUrnState] = useState([
     'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bG5lMWRpd3p1enpudGNocWtmaGt5NmE0ZHpsZnRydHYtYmFzaWMtYXBwLyVFNCVCQiU5NSVFNSU4RiVBMyVFNSU4NiU4NSVFNyVCNCU4RCVFMyU4MSVCRSVFMyU4MiU4QSVFNSU5QiVCMyUyMDExMSgxKS5ydnQ'
   ])
-
-  useMutationObserver(
-    divRef,
-    (mutations) => {
-      for (const mutation of mutations) {
-        if (mutation.type === 'attributes') {
-          setObserved(true)
-          if (divRef.current.style.visibility === 'visible') {
-            handleAddMaskUp('Pencil')
-            changeMarkupStyleUseEffect()
-          }
-        }
-      }
-    },
-    { attributes: true }
-  )
 
   useEffect(() => {
     changeMarkupStyleUseEffect()
@@ -78,10 +63,33 @@ export default function ForgeView() {
         })
 
         viewRef.current.loadExtension('Autodesk.DocumentBrowser')
-        viewRef.current.loadExtension('MarkupExtension')
+        viewRef.current.loadExtension('Autodesk.Measure')
         viewRef.current.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
           let explodeExtension = viewRef.current.getExtension('Autodesk.Explode')
           explodeExtension.unload()
+        })
+
+        viewRef.current.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, function () {
+          const button = new Autodesk.Viewing.UI.Button('Markup')
+          button.onClick = function (e) {
+            console.log(1212)
+            const toolbar = document.getElementById('guiviewer3d-toolbar')
+            if (!showMarkup) {
+              viewRef.current.loadExtension('Autodesk.Viewing.MarkupsCore')
+              toolbar.style.visibility = 'hidden'
+              handleAddMaskUp('Pencil')
+              changeMarkupStyleUseEffect()
+            } else {
+              viewRef.current.unloadExtension('Autodesk.Viewing.MarkupsCore')
+              toolbar.style.visibility = 'visible'
+            }
+            setShowMaskup(!showMarkup)
+          }
+          button.addClass('markupExtensionIcon')
+          button.setToolTip('Markup')
+          const group = new Autodesk.Viewing.UI.ControlGroup('Markup')
+          group.addControl(button)
+          viewRef.current.toolbar.addControl(group)
         })
 
         viewRef.current.addEventListener(Autodesk.Viewing.CAMERA_CHANGE_EVENT, () => {
@@ -113,7 +121,7 @@ export default function ForgeView() {
 
         if (htmlElement) {
           const config = {
-            extensions: ['Autodesk.Viewing.MarkupsCore', 'MarkupExtension']
+            extensions: ['Autodesk.Viewing.MarkupsCore', 'Autodesk.Measure']
             //'Autodesk.ADN.Viewing.Extension.Markup',
           }
           viewRef.current = new Autodesk.Viewing.GuiViewer3D(htmlElement, config)
@@ -137,18 +145,22 @@ export default function ForgeView() {
   return (
     <>
       <div id='viewer' ref={viewDomRef}></div>
-      <MarkupSidebar
-        divRef={divRef}
-        addMaskUp={handleAddMaskUp}
-        handleChangeCapture={handleChangeCapture}
-        handleCloseMarkup={handleCloseMarkup}
-        handleCopy={handleCopy}
-        handleRedo={handleRedo}
-        handleUndo={handleUndo}
-        handleDeleteMarkup={handleDeleteMarkup}
-      ></MarkupSidebar>
+      {showMarkup && (
+        <>
+          <MarkupSidebar
+            divRef={divRef}
+            addMaskUp={handleAddMaskUp}
+            handleChangeCapture={handleChangeCapture}
+            handleCloseMarkup={handleCloseMarkup}
+            handleCopy={handleCopy}
+            handleRedo={handleRedo}
+            handleUndo={handleUndo}
+            handleDeleteMarkup={handleDeleteMarkup}
+          ></MarkupSidebar>
 
-      <MarkupStyleSidebar markupObject={markupObject} style={style} setStyle={setStyle}></MarkupStyleSidebar>
+          <MarkupStyleSidebar markupObject={markupObject} style={style} setStyle={setStyle}></MarkupStyleSidebar>
+        </>
+      )}
     </>
   )
 }
