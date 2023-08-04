@@ -139,26 +139,64 @@ export default function ForgeView() {
           if (startedCode > 0) {
             return
           }
-
-          urnState.map((urnState) => {
-            Autodesk.Viewing.Document.load(urnState, onDocumentLoadSuccessInit, onDocumentLoadFailureInit)
-          })
+          Autodesk.Viewing.Document.load(urnState[0], onDocumentLoadSuccessInit, onDocumentLoadFailureInit)
+          // urnState.map((urnState) => {
+          //   Autodesk.Viewing.Document.load(urnState, onDocumentLoadSuccessInit, onDocumentLoadFailureInit)
+          // })
         }
       })
     }
     createInitViewer()
   }, [urnState])
+
   const handleSnapping = () => {
     const viewer = viewRef.current
-    Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
-    const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
-    console.log('🚀 ~ file: ForgeView.jsx:155 ~ handleSnapping ~ names:', names)
+    const stateFilter1 = {
+      seedURN: false,
+      objectSet: true,
+      viewport: true,
+      renderOptions: true
+    }
+    localStorage.setItem('homeView', JSON.stringify(viewer.getState(stateFilter1)))
+    // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
+    // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
+    console.log('handleSnapping')
   }
+
+  const handleRestore = () => {
+    const viewer = viewRef.current
+    const viewPortValue = localStorage.getItem('homeView')
+    const viewPortObject = JSON.parse(viewPortValue)
+    console.log('🚀 ~ file: ForgeView.jsx:163 ~ handleRestore ~ viewPortObject:', viewPortObject)
+    const stateFilter2 = {
+      seedURN: false,
+      objectSet: true,
+      viewport: true,
+      renderOptions: {
+        environment: false,
+        ambientOcclusion: false,
+        toneMap: {
+          exposure: false
+        },
+        appearance: false
+      }
+    }
+    viewer.restoreState(viewPortObject, stateFilter2, false)
+    console.log('handleRestore')
+
+    // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
+    // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
+    // console.log('🚀 ~ file: ForgeView.jsx:155 ~ handleSnapping ~ names:', names)
+  }
+
   return (
     <>
       <div id='viewer' ref={viewDomRef}></div>
-      <div className=' absolute top-[300px] left-0 z-20'>
-        <button onClick={handleSnapping}>OK</button>
+      <div className=' absolute top-[300px] left-0 z-20 flex gap-3'>
+        <button onClick={handleSnapping} className='p-5 bg-blueColor text-white'>
+          Save View
+        </button>
+        <button onClick={handleRestore}>Restore</button>
       </div>
       {showMarkup && (
         <>
