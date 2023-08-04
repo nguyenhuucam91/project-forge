@@ -5,9 +5,4 @@ import App from './App'
 import { RouterProvider } from 'react-router-dom'
 import { router } from './routers'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    {/* <App /> */}
-    <RouterProvider router={router}></RouterProvider>
-  </React.StrictMode>
-)
+ReactDOM.createRoot(document.getElementById('root')!).render(<RouterProvider router={router}></RouterProvider>)

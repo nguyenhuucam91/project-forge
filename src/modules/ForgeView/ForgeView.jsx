@@ -112,24 +112,11 @@ export default function ForgeView() {
       }
 
       Autodesk.Viewing.Initializer(options, function onInitialized() {
-        // let htmlElement = document.getElementById('viewer')
         let htmlElement = viewDomRef.current
 
         if (htmlElement) {
-          // const config = {
-          //   extensions: [
-          //     'WalkingPathToolExtension',
-          //     'Autodesk.Viewing.MarkupsCore',
-          //     'Autodesk.Measure',
-          //     'DrawBoundsToolExtension',
-          //     'DrawCurvesToolExtension',
-          //     'LoadModelToViewExtension'
-          //   ]
-          //   //'Autodesk.ADN.Viewing.Extension.Markup',
-          // }
           const config = {
             extensions: ['Autodesk.Viewing.MarkupsCore', 'MarkupExtension', 'WalkingPathToolExtension']
-            //'Autodesk.ADN.Viewing.Extension.Markup',
           }
           viewRef.current = new Autodesk.Viewing.GuiViewer3D(htmlElement, config)
 
@@ -139,10 +126,9 @@ export default function ForgeView() {
           if (startedCode > 0) {
             return
           }
-          Autodesk.Viewing.Document.load(urnState[0], onDocumentLoadSuccessInit, onDocumentLoadFailureInit)
-          // urnState.map((urnState) => {
-          //   Autodesk.Viewing.Document.load(urnState, onDocumentLoadSuccessInit, onDocumentLoadFailureInit)
-          // })
+          urnState.map((urnState) => {
+            Autodesk.Viewing.Document.load(urnState, onDocumentLoadSuccessInit, onDocumentLoadFailureInit)
+          })
         }
       })
     }
@@ -162,11 +148,30 @@ export default function ForgeView() {
     // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
     console.log('handleSnapping')
   }
+  const filterState = (srcState, setNames, elementNames) => {
+    const state = JSON.parse(JSON.stringify(srcState))
 
+    const sets = Array.isArray(setNames) ? setNames : [setNames]
+
+    const elements = Array.isArray(elementNames) ? elementNames : [elementNames]
+
+    sets.forEach((setName) => {
+      if (state[setName]) {
+        elements.forEach((elementName) => {
+          state[setName].forEach((element) => {
+            delete element[elementName]
+          })
+        })
+      }
+    })
+
+    return state
+  }
   const handleRestore = () => {
     const viewer = viewRef.current
     const viewPortValue = localStorage.getItem('homeView')
     const viewPortObject = JSON.parse(viewPortValue)
+    const filteredState = filterState(viewPortObject, 'objectSet', 'explodeScale')
     console.log('🚀 ~ file: ForgeView.jsx:163 ~ handleRestore ~ viewPortObject:', viewPortObject)
     const stateFilter2 = {
       seedURN: false,
