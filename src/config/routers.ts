@@ -3,6 +3,7 @@ export const routers = {
     local_host: '',
     authentication: {
       login: 'login',
+      signup: 'signup',
       logout: 'logout'
     },
     project: {
