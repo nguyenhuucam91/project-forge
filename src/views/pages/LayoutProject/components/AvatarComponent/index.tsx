@@ -17,7 +17,7 @@ export default function AvatarComponent() {
   return (
     <div className='flex items-center justify-center gap-5'>
       <Badge badgeContent={4} color='primary' className='cursor-pointer mt-3'>
-        <NotificationsNoneIcon className='text-blueColor' />
+        <NotificationsNoneIcon className='text-primary-800' />
       </Badge>
       <Tooltip title='Profile'>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -40,9 +40,9 @@ export default function AvatarComponent() {
                 fontWeight: '500'
               }
             }}
-            className='hover:bg-secondaryColor'
+            className='hover:bg-primary-50'
           >
-            <span className='hover:bg-secondaryColor'>{setting}</span>
+            <span className='hover:bg-primary-50'>{setting}</span>
           </MenuItem>
         ))}
       </PopoverComponent>

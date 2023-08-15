@@ -7,7 +7,7 @@ type SearchType = {
 }
 export default function SearchComponent({ handleChange, placeholder }: SearchType) {
   return (
-    <div className='w-full flex items-center border-b-2 border-b-blueColor'>
+    <div className='w-full flex items-center border-b-2 border-b-primary-800'>
       <SearchIcon sx={{ color: '#206bc4' }}></SearchIcon>
       <input
         className='text-base p-[5px] pl-2 rounded-lg outline-none flex-1 '

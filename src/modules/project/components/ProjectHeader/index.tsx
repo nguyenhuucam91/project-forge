@@ -31,7 +31,7 @@ export default function ProjectHeader() {
   return (
     <div>
       {/* Header */}
-      <div className='flex bg-blueColor h-12 items-center pl-6 gap-4'>
+      <div className='flex bg-primary-800 h-12 items-center pl-6 gap-4'>
         <MenuIcon onClick={(e) => setAnchorMenu(e.currentTarget)} className='text-white cursor-pointer'></MenuIcon>
         <PopoverComponent
           anchorElement={anchorMenu}
@@ -41,25 +41,25 @@ export default function ProjectHeader() {
         >
           <div className='flex flex-wrap gap-2 p-[10px]'>
             <div
-              className={`flex flex-col gap-3 hover:border hover:border-blueColor rounded-lg border border-transparent p-5 items-center justify-around w-[150px] cursor-pointer relative select-none ${
-                isProjectPath ? `border-blueColor` : ''
+              className={`flex flex-col gap-3 hover:border hover:border-primary-800 rounded-lg border border-transparent p-5 items-center justify-around w-[150px] cursor-pointer relative select-none ${
+                isProjectPath ? `border-primary-800` : ''
               }`}
               onClick={handleNavigateHome}
             >
               {isProjectPath ? (
-                <CheckCircleIcon className='text-blueColor absolute -top-2 -right-2 bg-white'></CheckCircleIcon>
+                <CheckCircleIcon className='text-primary-800 absolute -top-2 -right-2 bg-white'></CheckCircleIcon>
               ) : null}
               <IconHome className='w-8 h-8 '></IconHome>
               <span className='font-medium'>Project Home</span>
             </div>
             <div
-              className={`flex flex-col gap-3 hover:border hover:border-blueColor rounded-lg border border-transparent p-5 items-center justify-around w-[150px] cursor-pointer relative select-none ${
-                !isProjectPath ? `border-blueColor` : ''
+              className={`flex flex-col gap-3 hover:border hover:border-primary-800 rounded-lg border border-transparent p-5 items-center justify-around w-[150px] cursor-pointer relative select-none ${
+                !isProjectPath ? `border-primary-800` : ''
               }`}
               onClick={handleNavigateDocument}
             >
               {!isProjectPath ? (
-                <CheckCircleIcon className='text-blueColor absolute -top-2 -right-2 bg-white'></CheckCircleIcon>
+                <CheckCircleIcon className='text-primary-800 absolute -top-2 -right-2 bg-white'></CheckCircleIcon>
               ) : null}
               <IconDocument className='w-8 h-8' />
               <span className='font-medium'>Documents</span>

@@ -4,23 +4,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primaryColor: '#6DAEC8',
-        secondaryColor: '#E6F7FF',
-        blueColor: '#206bc4',
         grayColor: '#EBECF0',
-        textColor: '#1858a8',
         primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#172554'
+          50: '#e2f6ff',
+          100: '#b4e6ff',
+          200: '#83d6ff',
+          300: '#50c6ff',
+          400: '#2bb9ff',
+          500: '#16acff',
+          600: '#189ef4',
+          700: '#1a8bdf',
+          800: '#187acb',
+          900: '#1859a8'
         }
       }
     }

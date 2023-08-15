@@ -88,7 +88,7 @@ export default function MarkupStyleSidebar({ markupObject, style, setStyle }: Ma
       <MarkupButton handleOnClick={handleItalic}>
         <IconItalic></IconItalic>
       </MarkupButton>
-      <hr className='w-full h-[2px] bg-primaryColor' />
+      <hr className='w-full h-[2px] bg-primary-300' />
 
       <MarkupButton handleOnClick={() => handleChangeColor('#FF0000')}>
         <div className='h-4 w-4 rounded-full ring-4 ring-[#FF0000]'></div>

@@ -20,7 +20,7 @@ export default function LayoutProject() {
 
   return (
     <div className='h-full'>
-      <div className='fixed w-screen px-[36px] h-[68px] z-10 flex items-center justify-between shadow-sm shadow-primaryColor bg-white'>
+      <div className='fixed w-screen px-[36px] h-[68px] z-10 flex items-center justify-between shadow-sm shadow-primary-300 bg-white'>
         <div className='flex items-center'>
           <a href='/'>
             <img
@@ -30,7 +30,7 @@ export default function LayoutProject() {
           </a>
           {/* Company Name */}
           <button
-            className='flex items-center gap-1 ml-2 border-b-primaryColor border-b-2 cursor-pointer hover:border-b-blurColor '
+            className='flex items-center gap-1 ml-2 border-b-primary-300 border-b-2 cursor-pointer hover:border-b-blurColor '
             onClick={handleOpenProject}
           >
             <span className='text-base font-medium select-none '>Solid BIM</span>
@@ -48,7 +48,7 @@ export default function LayoutProject() {
               <SearchComponent placeholder='Search all projects'></SearchComponent>
               <CompanyItem></CompanyItem>
               <h3 className='capitalize font-medium mb-2'>Project Name</h3>
-              <div className='border rounded-md p-2 flex flex-col gap-2 max-h-[280px] overflow-y-auto scrollbar-thumb-primaryColor scrollbar-track-secondaryColor scrollbar-thin scrollbar-track-rounded-full scrollbar-thumb-rounded-full'>
+              <div className='border rounded-md p-2 flex flex-col gap-2 max-h-[280px] overflow-y-auto scrollbar-thumb-primary-300 scrollbar-track-primary-50 scrollbar-thin scrollbar-track-rounded-full scrollbar-thumb-rounded-full'>
                 <ProjectItem
                   imgSrc='https://images.unsplash.com/photo-1622612063021-116cc3407145?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
                   projectName='001-VinHome'

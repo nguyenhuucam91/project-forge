@@ -21,7 +21,7 @@ export default function ProjectItem({ imgSrc, projectName, isActive, handleClose
     <div
       onClick={handleGotoProject}
       className={`w-full py-[10px] px-[20px] flex gap-5 items-center cursor-pointer rounded-lg ${
-        isActive ? `bg-blueColor text-white` : `hover:bg-secondaryColor`
+        isActive ? `bg-primary-800 text-white` : `hover:bg-primary-50`
       }`}
     >
       <img src={imgSrc} alt='project logo' className='w-[80px] h-[80px] object-cover rounded-lg'></img>

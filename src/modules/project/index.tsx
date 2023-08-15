@@ -12,7 +12,7 @@ export default function Project() {
         <div className='grid grid-cols-2 gap-4'>
           <ProjectContainer title='Project Address'>
             <div className='h-full w-full flex flex-col gap-3 items-center justify-center '>
-              <IconEmpty className='w-20 h-20 fill-blueColor'></IconEmpty>
+              <IconEmpty className='w-20 h-20 fill-primary-800'></IconEmpty>
               <h3 className='font-medium'>No Information</h3>
             </div>
           </ProjectContainer>
@@ -22,19 +22,19 @@ export default function Project() {
         </div>
         <ProjectContainer title='Project Design Issues'>
           <div className='h-full w-full flex flex-col gap-3 items-center justify-center '>
-            <IconEmpty className='w-20 h-20 fill-blueColor'></IconEmpty>
+            <IconEmpty className='w-20 h-20 fill-primary-800'></IconEmpty>
             <h3 className='font-medium'>No Issues</h3>
           </div>
         </ProjectContainer>
         <ProjectContainer title='Project Issues'>
           <div className='h-full w-full flex flex-col gap-3 items-center justify-center '>
-            <IconEmpty className='w-20 h-20 fill-blueColor'></IconEmpty>
+            <IconEmpty className='w-20 h-20 fill-primary-800'></IconEmpty>
             <h3 className='font-medium'>No Issues</h3>
           </div>
         </ProjectContainer>
         <ProjectContainer title='Design Packages'>
           <div className='h-full w-full flex flex-col gap-3 items-center justify-center '>
-            <IconEmpty className='w-20 h-20 fill-blueColor'></IconEmpty>
+            <IconEmpty className='w-20 h-20 fill-primary-800'></IconEmpty>
             <h3 className='font-medium'>No Packages</h3>
           </div>
         </ProjectContainer>

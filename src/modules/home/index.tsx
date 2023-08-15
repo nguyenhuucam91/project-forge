@@ -17,7 +17,7 @@ export default function Home() {
       <div className='w-full fixed h-screen top-0 left-0'>
         <div className='shadow-sm shadow-[#b2cded] h-[58px] '>
           <div className='max-w-[1344px] mx-auto my-0 h-full '>
-            <ul className='flex items-center justify-around gap-4 h-full text-textColor text-base font-medium leading-5'>
+            <ul className='flex items-center justify-around gap-4 h-full text-primary-900 text-base font-medium leading-5'>
               <li>
                 <a href='/#'>
                   <img
@@ -26,28 +26,28 @@ export default function Home() {
                   />
                 </a>
               </li>
-              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-textColor h-full flex items-center pt-[2px]'>
+              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-primary-900 h-full flex items-center pt-[2px]'>
                 <a href='/#'>
                   Solution<ExpandMoreIcon className='mb-1'></ExpandMoreIcon>
                 </a>
               </li>
-              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-textColor h-full flex items-center pt-[2px]'>
+              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-primary-900 h-full flex items-center pt-[2px]'>
                 <a href='/#'>
                   Product<ExpandMoreIcon className='mb-1'></ExpandMoreIcon>
                 </a>
               </li>
-              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-textColor h-full flex items-center pt-[2px]'>
+              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-primary-900 h-full flex items-center pt-[2px]'>
                 <a href='/#'>
                   Resources<ExpandMoreIcon className='mb-1'></ExpandMoreIcon>
                 </a>
               </li>
-              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-textColor h-full flex items-center pt-[2px]'>
+              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-primary-900 h-full flex items-center pt-[2px]'>
                 <a href='/#'>Pricing</a>
               </li>
-              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-textColor h-full flex items-center pt-[2px]'>
+              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-primary-900 h-full flex items-center pt-[2px]'>
                 <a href='/#'>Contact & Support</a>
               </li>
-              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-textColor h-full flex items-center pt-[2px]'>
+              <li className='border-b-2 border-transparent hover:border-b-2 hover:border-b-primary-900 h-full flex items-center pt-[2px]'>
                 <a href='/#'>
                   <PhoneIcon className='mb-1'></PhoneIcon> (800)646-0796
                 </a>
@@ -55,7 +55,7 @@ export default function Home() {
               <li className=''>
                 <a
                   href='/#'
-                  className='px-4 py-3 border border-textColor rounded-md hover:scale-125 transform-gpu transition-all duration-300 hover:shadow-lg hover:shadow-[#7db4c9]'
+                  className='px-4 py-3 border border-primary-900 rounded-md hover:scale-125 transform-gpu transition-all duration-300 hover:shadow-lg hover:shadow-[#7db4c9]'
                 >
                   Get a demo
                 </a>
@@ -78,7 +78,7 @@ export default function Home() {
         </div>
       </div>
       {/* content */}
-      <div className='flex-1 w-full z-0 mt-[58px] px-[130px] pt-[90px] text-textColor text-sm'>
+      <div className='flex-1 w-full z-0 mt-[58px] px-[130px] pt-[90px] text-primary-900 text-sm'>
         {/* desc */}
         <div className='flex flex-col gap-4 justify-start'>
           <h2 className='text-base leading-5'>AUTODESK CONSTRUCTION CLOUD</h2>

@@ -100,7 +100,7 @@ export default function MarkupSidebar({
       <MarkupButton handleOnClick={handleChangeCapture}>
         <IconCapture></IconCapture>
       </MarkupButton>
-      <hr className=' w-8 rotate-90 bg-primaryColor'></hr>
+      <hr className=' w-8 rotate-90 bg-primary-300'></hr>
       <MarkupButton handleOnClick={handleUndo}>
         <IconUndo></IconUndo>
       </MarkupButton>
