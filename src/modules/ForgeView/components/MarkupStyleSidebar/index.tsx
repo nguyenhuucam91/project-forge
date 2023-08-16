@@ -1,6 +1,6 @@
 import React from 'react'
 import MarkupButton from '../MarkupButton'
-import { MarkupStyleType } from 'src/type/style.type'
+import { MarkupStyleType } from 'src/types/markupStyle.type'
 import { ReactComponent as IconBold } from './icons/icon-bold.svg'
 import { ReactComponent as IconItalic } from './icons/icon-italic.svg'
 import { ReactComponent as IconUp } from './icons/icon-up.svg'

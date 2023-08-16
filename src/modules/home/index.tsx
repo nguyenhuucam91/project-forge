@@ -94,7 +94,12 @@ export default function Home() {
             >
               Get a demo
             </a>
-            <div className='group text-base cursor-pointer'>
+            <div
+              className='group text-base cursor-pointer'
+              onClick={() => {
+                navigate(format(routers.web.project.projectStringFormat, '1'))
+              }}
+            >
               <span>Explore Autodesk Construction Cloud</span>
               <span className='hover:translate-x-3 ml-2 transition-all'>
                 <ArrowForwardIcon className=' cursor-pointer'></ArrowForwardIcon>
