@@ -9,7 +9,7 @@ export const UserService = {
   },
   isAdmin: (): boolean => {
     const user = UserService.getUser()
-    if (user?.roles.includes('Admin')) {
+    if (user?.role === 'Admin') {
       return true
     }
     return false
