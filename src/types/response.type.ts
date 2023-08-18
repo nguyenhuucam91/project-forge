@@ -1,11 +1,11 @@
 export interface SuccessResponse<Data> {
   message: string
-  status: number
+  success: boolean
   data: Data
 }
 export interface ErrorResponse<Data> {
   message: string
-  status: number
+  success: boolean
   data?: Data
 }
 

@@ -9,11 +9,11 @@ import {
 } from 'src/utils/utilsLocalStorage'
 import { routers } from 'src/config/routers'
 import queryString from 'query-string'
-import toast from 'react-hot-toast/headless'
 import { AuthResponse, RefreshTokenResponse } from 'src/types/auth.type'
 import { isAxiosExpiredTokenError, isAxiosUnauthorizedError } from 'src/utils/utilsError'
 import { ErrorResponse } from 'src/types/response.type'
 import { UserService } from 'src/services/user.service'
+import { toast } from 'react-toastify'
 
 export class AxiosService {
   instance: AxiosInstance
@@ -41,7 +41,7 @@ export class AxiosService {
     this.instance.interceptors.request.use(
       (config) => {
         if (this.accessToken && config.headers) {
-          config.headers.authorization = this.accessToken
+          config.headers.authorization = 'Bearer ' + this.accessToken
           return config
         }
         return config
@@ -54,14 +54,14 @@ export class AxiosService {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config
-        if (url === routers.web.authentication.login || url === routers.web.authentication.register) {
+        if (url === routers.api.authentication.login || url === routers.api.authentication.register) {
           const data = response.data as AuthResponse
           this.accessToken = data.data.access_token
           this.refreshToken = data.data.refresh_token
           setAccessTokenToLS(this.accessToken)
           setRefreshTokenToLS(this.refreshToken)
           UserService.setUser(data.data.user)
-        } else if (url === routers.web.authentication.logout) {
+        } else if (url === routers.api.authentication.logout) {
           this.accessToken = ''
           this.refreshToken = ''
           clearLS()
@@ -89,7 +89,7 @@ export class AxiosService {
           const { url } = config
           // Trường hợp Token hết hạn và request đó không phải là của request refresh token
           // thì chúng ta mới tiến hành gọi refresh token
-          if (isAxiosExpiredTokenError(error) && url !== routers.web.authentication.refresh_token) {
+          if (isAxiosExpiredTokenError(error) && url !== routers.api.authentication.refresh_token) {
             // Hạn chế gọi 2 lần handleRefreshToken
             this.refreshTokenRequest = this.refreshTokenRequest
               ? this.refreshTokenRequest
@@ -121,7 +121,7 @@ export class AxiosService {
   }
   private handleRefreshToken() {
     return this.instance
-      .post<RefreshTokenResponse>(routers.web.authentication.refresh_token, {
+      .post<RefreshTokenResponse>(routers.api.authentication.refresh_token, {
         refresh_token: this.refreshToken
       })
       .then((res) => {

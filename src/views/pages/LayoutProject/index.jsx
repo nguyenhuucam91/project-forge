@@ -1,26 +1,30 @@
 import React from 'react'
-import { Outlet } from 'react-router'
+import { Outlet, matchPath, useLocation } from 'react-router'
 import { ReactComponent as IconChevron } from './icons/icon-chevron.svg'
 import SearchComponent from '../../../components/SearchComponent'
 import PopoverComponent from '../../../components/PopoverComponent'
-
+import { routers } from '../../../config/routers'
 import CompanyItem from './components/CompanyItem'
 import ProjectItem from './components/ProjectItem'
 import AvatarComponent from './components/AvatarComponent'
+import ProjectHeader from 'src/modules/project/components/ProjectHeader'
 
 export default function LayoutProject() {
   const [anchorElProject, setAnchorElProject] = React.useState(null)
+  const { pathname } = useLocation()
+  const isProjects = matchPath(routers.web.project.projects, pathname)
 
   const handleOpenProject = (event) => {
     setAnchorElProject(event.currentTarget)
   }
+
   const handleCloseProject = () => {
     setAnchorElProject(null)
   }
 
   return (
     <div className='h-full'>
-      <div className='fixed w-screen px-[36px] h-[68px] z-10 flex items-center justify-between shadow-sm shadow-primary-300 bg-white'>
+      <div className='fixed w-screen px-[36px] h-[58px] z-10 flex items-center justify-between shadow-sm shadow-primary-300 bg-white'>
         <div className='flex items-center'>
           <a href='/'>
             <img
@@ -73,7 +77,9 @@ export default function LayoutProject() {
         </div>
         <AvatarComponent></AvatarComponent>
       </div>
-      <div className='flex-1 h-full overflow-hidden pt-[68px]'>
+      <div className='w-full h-[58px]'></div>
+      <div className='flex flex-col overflow-hidden h-[calc(100vh-58px)]'>
+        <ProjectHeader></ProjectHeader>
         <Outlet></Outlet>
       </div>
     </div>

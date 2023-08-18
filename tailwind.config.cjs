@@ -5,6 +5,8 @@ module.exports = {
     extend: {
       colors: {
         grayColor: '#EBECF0',
+        text_primary: '#101828',
+        text_secondary: '#667085',
         primary: {
           50: '#e2f6ff',
           100: '#b4e6ff',

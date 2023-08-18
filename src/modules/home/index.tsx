@@ -1,5 +1,4 @@
-import { Button } from '@mui/material'
-import React from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { format } from 'react-string-format'
 import { routers } from 'src/config/routers'
@@ -8,9 +7,31 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import SearchIcon from '@mui/icons-material/Search'
 import LanguageIcon from '@mui/icons-material/Language'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { UserService } from 'src/services/user.service'
+import authenticationService from '../authentication/services/authentication.service'
+import { getRefreshTokenFromLS } from 'src/utils/utilsLocalStorage'
+import toast from 'react-hot-toast'
+import User from 'src/types/user.type'
 
 export default function Home() {
   const navigate = useNavigate()
+  const [user, setUser] = useState<User | undefined>(UserService.getUser())
+  console.log('🚀 ~ file: index.tsx:19 ~ Home ~ user:', user)
+
+  const handleLogout = async () => {
+    try {
+      const refresh_token = getRefreshTokenFromLS()
+      const result = await authenticationService.logout({ refresh_token })
+      if (result.data.success) {
+        toast.success(result.data.message)
+        setUser(undefined)
+      } else {
+        toast.error(result.data.message)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className='flex items-center justify-center gap-3 flex-col h-full'>
       {/* header */}
@@ -60,9 +81,7 @@ export default function Home() {
                   Get a demo
                 </a>
               </li>
-              <li>
-                <a href='/login'>Login</a>
-              </li>
+              <li>{!user ? <a href='/login'>Login</a> : <button onClick={() => handleLogout()}>Logout</button>}</li>
               <li>
                 <a href='/#'>
                   <SearchIcon></SearchIcon>

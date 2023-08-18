@@ -1,11 +1,8 @@
 import React from 'react'
-import ProjectHeader from './components/ProjectHeader'
-import ProjectDetailContainer from './components/ProjectDetailContainer'
-import { ReactComponent as IconEmpty } from './components/icons/icon-empty.svg'
-import WeatherCard from './components/WeatherCard'
-import ProjectsComponent from './components/ProjectsComponent'
+import ProjectHeader from '../../components/ProjectHeader'
+import ProjectsComponent from '../../components/ProjectsComponent'
 
-export default function Projects() {
+export default function ProjectAdmin() {
   return (
     <div className=' w-full h-full flex flex-col bg-gray-100'>
       {/* <ProjectHeader></ProjectHeader> */}

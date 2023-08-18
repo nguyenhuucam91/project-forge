@@ -8,8 +8,10 @@ export const routers = {
       refresh_token: 'refresh-token'
     },
     project: {
-      project: '/project/:id',
-      projectStringFormat: '/project/{0}'
+      projectDetail: '/projects/:id',
+      projectsAdmin: '/admin/projects/',
+      projects: '/projects',
+      projectStringFormat: '/projects/{0}'
     },
     documents: {
       document: '/project/:id/documents',
@@ -24,7 +26,13 @@ export const routers = {
     }
   },
   api: {
-    baseUrl: 'https://localhost:44367/api',
+    baseUrl: 'http://localhost:3031/v1/api/',
+    authentication: {
+      login: 'users/login',
+      register: 'users/register',
+      logout: 'users/logout',
+      refresh_token: 'refresh-token'
+    },
     forge: {
       accessToken: '/forge/oauth/token'
     }
