@@ -1,6 +1,6 @@
 import React from 'react'
 import { ReactComponent as IconDotMenu } from '../icons/icon-dot-menu.svg'
-import { matchPath, useLocation, useNavigate } from 'react-router'
+import {  useLocation, useNavigate } from 'react-router'
 import { format } from 'react-string-format'
 import { routers } from 'src/config/routers'
 import PopoverComponent from 'src/components/PopoverComponent'

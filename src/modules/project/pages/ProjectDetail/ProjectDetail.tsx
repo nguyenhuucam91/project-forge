@@ -1,6 +1,4 @@
-import React from 'react'
 import { ReactComponent as IconEmpty } from '../../components/icons/icon-empty.svg'
-import ProjectHeader from '../../components/ProjectHeader'
 import ProjectDetailContainer from '../../components/ProjectDetailContainer'
 import WeatherCard from '../../components/WeatherCard'
 

@@ -74,6 +74,7 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
   const handleMeasure = () => {
     const measureExt = viewRef.current.getExtension('Autodesk.Measure')
     measureExt.activate('distance')
+    // eslint-disable-next-line no-undef
     const toolbar = document.getElementById('guiviewer3d-toolbar')
     if (toolbar) {
       // toolbar.style.visibility = 'hidden'

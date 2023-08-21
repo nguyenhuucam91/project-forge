@@ -1,6 +1,6 @@
-import React from 'react'
+
 import CheckIcon from '@mui/icons-material/Check'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { routers } from 'src/config/routers'
 import { format } from 'react-string-format'
 

@@ -3,16 +3,13 @@ import loginSchema from './loginSchema'
 import authenticationService from '../../services/authentication.service'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router'
-
 import { routers } from 'src/config/routers'
-import { format } from 'react-string-format'
+
 interface LoginFormValues {
   email: string
   password: string
 }
 export default function Login() {
-  var a = 1
-  a++
   const initialValues: LoginFormValues = { email: '', password: '' }
   const navigate = useNavigate()
   const handleLogin = async (values: LoginFormValues) => {

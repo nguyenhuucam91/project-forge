@@ -1,5 +1,4 @@
-import React from 'react'
-import ProjectHeader from '../../components/ProjectHeader'
+
 import ProjectsComponent from '../../components/ProjectsComponent'
 
 export default function ProjectAdmin() {

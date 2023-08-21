@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { format } from 'react-string-format'
 import { routers } from 'src/config/routers'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import PhoneIcon from '@mui/icons-material/Phone'
@@ -16,7 +15,6 @@ import User from 'src/types/user.type'
 export default function Home() {
   const navigate = useNavigate()
   const [user, setUser] = useState<User | undefined>(UserService.getUser())
-  console.log('🚀 ~ file: index.tsx:19 ~ Home ~ user:', user)
 
   const handleLogout = async () => {
     try {
@@ -127,14 +125,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-      {/* <h2>Home</h2>
-      <Button
-        onClick={() => {
-          navigate(format(routers.web.project.projectStringFormat, '1'))
-        }}
-      >
-        Goto Page Projects
-      </Button> */}
     </div>
   )
 }

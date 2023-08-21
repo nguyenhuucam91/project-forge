@@ -2,10 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { forgeAPI } from './services/forge.api'
 import MarkupSidebar from './components/MarkupSidebar'
 import MarkupStyleSidebar from './components/MarkupStyleSidebar'
-import { useMutationObserver } from '@react-hooks-library/core'
 import { useMaskUpServices } from './services/markup.services'
-import DrawWalkingPathLinesTool from '../../utils/drawtool'
-import WalkingPathToolExtension from '../../utils/drawtool'
+
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
 export default function ForgeView() {
@@ -24,7 +22,6 @@ export default function ForgeView() {
   })
   const {
     markupObject,
-    handleMeasure,
     handleCopy,
     handleRedo,
     handleUndo,
@@ -72,8 +69,9 @@ export default function ForgeView() {
 
         viewRef.current.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, function () {
           const button = new Autodesk.Viewing.UI.Button('Markup')
-          button.onClick = function (e) {
+          button.onClick = function () {
             console.log(1212)
+            // eslint-disable-next-line no-undef
             const toolbar = document.getElementById('guiviewer3d-toolbar')
             if (!showMarkup) {
               viewRef.current.loadExtension('Autodesk.Viewing.MarkupsCore')
@@ -135,64 +133,64 @@ export default function ForgeView() {
     createInitViewer()
   }, [urnState])
 
-  const handleSnapping = () => {
-    const viewer = viewRef.current
-    const stateFilter1 = {
-      seedURN: false,
-      objectSet: true,
-      viewport: true,
-      renderOptions: true
-    }
-    localStorage.setItem('homeView', JSON.stringify(viewer.getState(stateFilter1)))
-    // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
-    // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
-    console.log('handleSnapping')
-  }
-  const filterState = (srcState, setNames, elementNames) => {
-    const state = JSON.parse(JSON.stringify(srcState))
+  // const handleSnapping = () => {
+  //   const viewer = viewRef.current
+  //   const stateFilter1 = {
+  //     seedURN: false,
+  //     objectSet: true,
+  //     viewport: true,
+  //     renderOptions: true
+  //   }
+  //   localStorage.setItem('homeView', JSON.stringify(viewer.getState(stateFilter1)))
+  //   // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
+  //   // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
+  //   console.log('handleSnapping')
+  // }
+  // const filterState = (srcState, setNames, elementNames) => {
+  //   const state = JSON.parse(JSON.stringify(srcState))
 
-    const sets = Array.isArray(setNames) ? setNames : [setNames]
+  //   const sets = Array.isArray(setNames) ? setNames : [setNames]
 
-    const elements = Array.isArray(elementNames) ? elementNames : [elementNames]
+  //   const elements = Array.isArray(elementNames) ? elementNames : [elementNames]
 
-    sets.forEach((setName) => {
-      if (state[setName]) {
-        elements.forEach((elementName) => {
-          state[setName].forEach((element) => {
-            delete element[elementName]
-          })
-        })
-      }
-    })
+  //   sets.forEach((setName) => {
+  //     if (state[setName]) {
+  //       elements.forEach((elementName) => {
+  //         state[setName].forEach((element) => {
+  //           delete element[elementName]
+  //         })
+  //       })
+  //     }
+  //   })
 
-    return state
-  }
-  const handleRestore = () => {
-    const viewer = viewRef.current
-    const viewPortValue = localStorage.getItem('homeView')
-    const viewPortObject = JSON.parse(viewPortValue)
-    const filteredState = filterState(viewPortObject, 'objectSet', 'explodeScale')
-    console.log('🚀 ~ file: ForgeView.jsx:163 ~ handleRestore ~ viewPortObject:', viewPortObject)
-    const stateFilter2 = {
-      seedURN: false,
-      objectSet: true,
-      viewport: true,
-      renderOptions: {
-        environment: false,
-        ambientOcclusion: false,
-        toneMap: {
-          exposure: false
-        },
-        appearance: false
-      }
-    }
-    viewer.restoreState(viewPortObject, stateFilter2, false)
-    console.log('handleRestore')
+  //   return state
+  // }
+  // const handleRestore = () => {
+  //   const viewer = viewRef.current
+  //   const viewPortValue = localStorage.getItem('homeView')
+  //   const viewPortObject = JSON.parse(viewPortValue)
+  //   const filteredState = filterState(viewPortObject, 'objectSet', 'explodeScale')
+  //   console.log('🚀 ~ file: ForgeView.jsx:163 ~ handleRestore ~ viewPortObject:', viewPortObject)
+  //   const stateFilter2 = {
+  //     seedURN: false,
+  //     objectSet: true,
+  //     viewport: true,
+  //     renderOptions: {
+  //       environment: false,
+  //       ambientOcclusion: false,
+  //       toneMap: {
+  //         exposure: false
+  //       },
+  //       appearance: false
+  //     }
+  //   }
+  //   viewer.restoreState(viewPortObject, stateFilter2, false)
+  //   console.log('handleRestore')
 
-    // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
-    // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
-    // console.log('🚀 ~ file: ForgeView.jsx:155 ~ handleSnapping ~ names:', names)
-  }
+  //   // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
+  //   // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
+  //   // console.log('🚀 ~ file: ForgeView.jsx:155 ~ handleSnapping ~ names:', names)
+  // }
 
   return (
     <>

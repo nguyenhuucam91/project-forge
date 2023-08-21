@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Formik, FormikProps } from 'formik'
 import registerSchema from './registerSchema'
 import authenticationService from '../../services/authentication.service'

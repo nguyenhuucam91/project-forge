@@ -1,7 +1,7 @@
 import React from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 import PopoverComponent from 'src/components/PopoverComponent'
-import { Icon, PopoverProps } from '@mui/material'
+import {  PopoverProps } from '@mui/material'
 import { ReactComponent as IconHome } from './icons/icon-home.svg'
 import { ReactComponent as IconDocument } from './icons/icon-document.svg'
 import { ReactComponent as IconAdmin } from './icons/icon-admin.svg'
@@ -11,7 +11,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { useNavigate } from 'react-router-dom'
 import { format } from 'react-string-format'
 import Button from '@mui/material/Button'
-import ProjectDetail from '../../pages/ProjectDetail/ProjectDetail'
 
 export default function ProjectHeader() {
   const [anchorMenu, setAnchorMenu] = React.useState<PopoverProps['anchorEl'] | undefined | null>()

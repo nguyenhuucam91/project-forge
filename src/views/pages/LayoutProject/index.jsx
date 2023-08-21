@@ -1,9 +1,8 @@
 import React from 'react'
-import { Outlet, matchPath, useLocation } from 'react-router'
+import { Outlet } from 'react-router'
 import { ReactComponent as IconChevron } from './icons/icon-chevron.svg'
 import SearchComponent from '../../../components/SearchComponent'
 import PopoverComponent from '../../../components/PopoverComponent'
-import { routers } from '../../../config/routers'
 import CompanyItem from './components/CompanyItem'
 import ProjectItem from './components/ProjectItem'
 import AvatarComponent from './components/AvatarComponent'
@@ -11,8 +10,6 @@ import ProjectHeader from 'src/modules/project/components/ProjectHeader'
 
 export default function LayoutProject() {
   const [anchorElProject, setAnchorElProject] = React.useState(null)
-  const { pathname } = useLocation()
-  const isProjects = matchPath(routers.web.project.projects, pathname)
 
   const handleOpenProject = (event) => {
     setAnchorElProject(event.currentTarget)
