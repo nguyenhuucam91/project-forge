@@ -11,7 +11,8 @@ export const routers = {
       projectDetail: '/projects/:id',
       projectsAdmin: '/admin/projects/',
       projects: '/projects',
-      projectStringFormat: '/projects/{0}'
+      projectStringFormat: '/projects/{0}',
+      projectsArchived: '/projects/archived'
     },
     documents: {
       document: '/project/:id/documents',

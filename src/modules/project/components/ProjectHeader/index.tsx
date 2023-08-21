@@ -18,11 +18,13 @@ export default function ProjectHeader() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  console.log('🚀 ~ file: index.tsx:21 ~ ProjectHeader ~ pathname:', pathname)
 
   const isProjectsPath = matchPath(routers.web.project.projects, pathname)
   const isDocumentPath = matchPath(routers.web.documents.document, pathname)
   const isAdminPath = matchPath(routers.web.project.projectsAdmin, pathname)
   const isProjectsDetailPath = matchPath(routers.web.project.projectDetail, pathname)
+  const isProjectsArchivedPath = routers.web.project.projectsArchived === pathname
 
   const headerTitle = () => {
     if (isProjectsPath) {
@@ -33,6 +35,9 @@ export default function ProjectHeader() {
     }
     if (isAdminPath) {
       return 'Project Admin'
+    }
+    if (isProjectsArchivedPath) {
+      return 'Project Archived'
     }
     return 'Project Detail'
   }
@@ -47,6 +52,10 @@ export default function ProjectHeader() {
 
   const handleNavigateAdmin = () => {
     navigate(routers.web.project.projectsAdmin)
+  }
+
+  const handleMoveToArchived = () => {
+    navigate(routers.web.project.projectsArchived)
   }
   return (
     <div>
@@ -118,11 +127,17 @@ export default function ProjectHeader() {
           <div>
             <Button variant='contained'>Add Project</Button>
           </div>
+          <div className=' mt-1'>
+            <span className='text-sm border-r-2 border-r-primary-900 pr-2 '>20 Current Project</span>
+            <button onClick={handleMoveToArchived} className='text-primary-800 text-sm pl-2 font-medium'>
+              View Archived
+            </button>
+          </div>
         </div>
       )}
 
       {/* project detail */}
-      {!isProjectsPath && !isAdminPath && (
+      {!isProjectsPath && !isAdminPath && isAdminPath && (
         <div className='flex p-[20px] bg-white items-center justify-between'>
           <div className='flex items-center gap-3'>
             <img

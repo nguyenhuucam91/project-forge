@@ -116,7 +116,7 @@ export default function Home() {
             <div
               className='group text-base cursor-pointer'
               onClick={() => {
-                navigate(format(routers.web.project.projectStringFormat, '1'))
+                navigate(routers.web.project.projects)
               }}
             >
               <span>Explore Autodesk Construction Cloud</span>

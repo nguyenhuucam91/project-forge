@@ -48,6 +48,9 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+html {
+  font-size: 16px;
+}
 .markupExtensionIcon {
   background-image: url('./assets/img/markup.png');
   background-size: 24px;
