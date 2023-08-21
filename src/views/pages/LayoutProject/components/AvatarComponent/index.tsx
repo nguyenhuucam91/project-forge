@@ -2,9 +2,15 @@ import { Avatar, Badge, IconButton, MenuItem, Tooltip } from '@mui/material'
 import React from 'react'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import PopoverComponent from 'src/components/PopoverComponent'
+import toast from 'react-hot-toast'
+import authenticationService from 'src/modules/authentication/services/authentication.service'
+import { getRefreshTokenFromLS } from 'src/utils/utilsLocalStorage'
+import { useNavigate } from 'react-router'
+import { routers } from 'src/config/routers'
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+// const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 export default function AvatarComponent() {
+  const navigate = useNavigate()
   const [anchorElUser, setAnchorElUser] = React.useState(null)
 
   const handleOpenUserMenu = (event: any) => {
@@ -12,6 +18,26 @@ export default function AvatarComponent() {
   }
 
   const handleCloseUserMenu = () => {
+    setAnchorElUser(null)
+  }
+
+  const handleGoToProfile = () => {
+    setAnchorElUser(null)
+  }
+
+  const handleLogout = async () => {
+    try {
+      const refresh_token = getRefreshTokenFromLS()
+      const result = await authenticationService.logout({ refresh_token })
+      if (result.data.success) {
+        toast.success(result.data.message)
+        navigate(routers.web.authentication.login)
+      } else {
+        toast.error(result.data.message)
+      }
+    } catch (error) {
+      console.log(error)
+    }
     setAnchorElUser(null)
   }
   return (
@@ -29,7 +55,7 @@ export default function AvatarComponent() {
       </Tooltip>
 
       <PopoverComponent anchorElement={anchorElUser} handleClose={handleCloseUserMenu}>
-        {settings.map((setting) => (
+        {/* {settings.map((setting) => (
           <MenuItem
             key={setting}
             onClick={handleCloseUserMenu}
@@ -44,7 +70,35 @@ export default function AvatarComponent() {
           >
             <span className='hover:bg-primary-50'>{setting}</span>
           </MenuItem>
-        ))}
+        ))} */}
+        <MenuItem
+          key={'Profile'}
+          onClick={handleGoToProfile}
+          sx={{
+            ':hover': {
+              color: '#206bc4',
+              backgroundColor: '#E6F7FF',
+              fontWeight: '500'
+            }
+          }}
+          className='hover:bg-primary-50'
+        >
+          <span className='hover:bg-primary-50'>Profile</span>
+        </MenuItem>
+        <MenuItem
+          key={'Logout'}
+          onClick={handleLogout}
+          sx={{
+            ':hover': {
+              color: '#206bc4',
+              backgroundColor: '#E6F7FF',
+              fontWeight: '500'
+            }
+          }}
+          className='hover:bg-primary-50'
+        >
+          <span className='hover:bg-primary-50'>Logout</span>
+        </MenuItem>
       </PopoverComponent>
     </div>
   )

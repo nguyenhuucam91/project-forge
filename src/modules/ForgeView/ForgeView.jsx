@@ -197,12 +197,12 @@ export default function ForgeView() {
   return (
     <>
       <div id='viewer' ref={viewDomRef}></div>
-      <div className=' absolute top-[300px] left-0 z-20 flex gap-3'>
+      {/* <div className=' absolute top-[300px] left-0 z-20 flex gap-3'>
         <button onClick={handleSnapping} className='p-5 bg-primary-800 text-white'>
           Save View
         </button>
         <button onClick={handleRestore}>Restore</button>
-      </div>
+      </div> */}
       {showMarkup && (
         <>
           <MarkupSidebar

@@ -35,7 +35,7 @@ export const routers = {
       refresh_token: 'refresh-token'
     },
     forge: {
-      accessToken: '/forge/oauth/token'
+      accessToken: '/forge/token'
     }
   }
 }

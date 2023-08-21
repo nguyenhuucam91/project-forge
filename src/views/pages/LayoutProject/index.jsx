@@ -37,7 +37,7 @@ export default function LayoutProject() {
             className='flex items-center gap-1 ml-2 border-b-primary-300 border-b-2 cursor-pointer hover:border-b-blurColor '
             onClick={handleOpenProject}
           >
-            <span className='text-base font-medium select-none '>Solid BIM</span>
+            <span className='text-base font-medium select-none '>Company Name</span>
             <span className=' w-5 h-5'>
               <IconChevron className=' w-5 h-5'></IconChevron>
             </span>

@@ -6,10 +6,10 @@ export const forgeAPI = {
     try {
       const url = routers.api.forge.accessToken
       const res = await axiosService.request({
-        method: 'GET',
+        method: 'POST',
         url: url
       })
-      return res.data.access_token
+      return res.data.data.access_token
     } catch (error) {
       return null
     }

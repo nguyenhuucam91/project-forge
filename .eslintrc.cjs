@@ -34,6 +34,11 @@ module.exports = {
     node: true
   },
   rules: {
+    'no-unused-vars': 'error',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 'error',
+    //old
     '@typescript-eslint/no-explicit-any': 'off',
     // Tắt rule yêu cầu import React trong file jsx
     'react/react-in-jsx-scope': 'off',

@@ -11,17 +11,18 @@ interface LoginFormValues {
   password: string
 }
 export default function Login() {
+  var a = 1
+  a++
   const initialValues: LoginFormValues = { email: '', password: '' }
   const navigate = useNavigate()
   const handleLogin = async (values: LoginFormValues) => {
     try {
       const result = await authenticationService.login(values)
-      console.log('🚀 ~ file: index.tsx:19 ~ handleLogin ~ result:', result)
       if (!result.data.success) {
         toast.error(result.data.message)
       } else {
         toast.success(result.data.message)
-        navigate(format(routers.web.project.projectStringFormat, '1'))
+        navigate(routers.web.project.projects)
       }
     } catch (error) {
       console.log(error)
