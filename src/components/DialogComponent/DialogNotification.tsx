@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import Dialog from '@mui/material/Dialog'
-import { Button } from '@mui/material'
+import ButtonPrimary from '../ButtonComponent/ButtonPrimary'
 
 interface DialogNotificationType {
   open: boolean
@@ -24,7 +24,7 @@ export default function DialogNotification({ open, handleClose, title, children 
         </div>
         {/* action */}
         <div className=' p-4 flex justify-center items-center gap-4'>
-          <Button onClick={handleClose}>OK</Button>
+          <ButtonPrimary onClick={handleClose}>OK</ButtonPrimary>
         </div>
       </div>
     </Dialog>

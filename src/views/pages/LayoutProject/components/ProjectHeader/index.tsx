@@ -1,7 +1,7 @@
 import React from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 import PopoverComponent from 'src/components/PopoverComponent'
-import {  PopoverProps } from '@mui/material'
+import { PopoverProps } from '@mui/material'
 import { ReactComponent as IconHome } from './icons/icon-home.svg'
 import { ReactComponent as IconDocument } from './icons/icon-document.svg'
 import { ReactComponent as IconAdmin } from './icons/icon-admin.svg'
@@ -10,7 +10,6 @@ import { routers } from 'src/config/routers'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { useNavigate } from 'react-router-dom'
 import { format } from 'react-string-format'
-import Button from '@mui/material/Button'
 
 export default function ProjectHeader() {
   const [anchorMenu, setAnchorMenu] = React.useState<PopoverProps['anchorEl'] | undefined | null>()
@@ -53,9 +52,6 @@ export default function ProjectHeader() {
     navigate(routers.web.project.projectsAdmin)
   }
 
-  const handleMoveToArchived = () => {
-    navigate(routers.web.project.projectsArchived)
-  }
   return (
     <div>
       {/* Header */}
@@ -115,25 +111,6 @@ export default function ProjectHeader() {
       </div>
 
       {/* project admin */}
-      {isAdminPath && (
-        <div className='w-full py-5 px-5 border-b shadow-sm flex flex-col gap-2'>
-          <div className='flex flex-col gap-1'>
-            <span className='text-xl font-medium text-text_primary'>Project Directory</span>
-            <span className='text-base font-normal text-text_secondary'>
-              The project directory lists all projects in your account.
-            </span>
-          </div>
-          <div>
-            <Button variant='contained'>Add Project</Button>
-          </div>
-          <div className=' mt-1'>
-            <span className='text-sm border-r-2 border-r-primary-900 pr-2 '>20 Current Project</span>
-            <button onClick={handleMoveToArchived} className='text-primary-800 text-sm pl-2 font-medium'>
-              View Archived
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* project detail */}
       {!isProjectsPath && !isAdminPath && isAdminPath && (

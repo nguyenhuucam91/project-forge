@@ -1,6 +1,6 @@
 import React from 'react'
 import { ReactComponent as IconDotMenu } from '../icons/icon-dot-menu.svg'
-import {  useLocation, useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { format } from 'react-string-format'
 import { routers } from 'src/config/routers'
 import PopoverComponent from 'src/components/PopoverComponent'
@@ -41,7 +41,7 @@ export default function ProjectsComponent() {
     setAnchorElUser(null)
   }
   return (
-    <div className='w-full h-[200px] rounded-2xl shadow-lg bg-white p-7 flex flex-col justify-between'>
+    <div className='w-full h-[200px] rounded-2xl shadow-lg bg-white p-5 flex flex-col justify-between'>
       <div className='flex gap-3'>
         <div className='w-10 h-10 bg-primary-200 rounded-md'></div>
         <div className='flex flex-col gap-[2px] items-start justify-center flex-1'>
@@ -52,23 +52,6 @@ export default function ProjectsComponent() {
           <IconDotMenu className='text-primary-800 cursor-pointer'></IconDotMenu>
         </button>
         <PopoverComponent anchorElement={anchorElUser} handleClose={handleCloseUserMenu}>
-          {/* {settings.map((setting) => (
-          <MenuItem
-            key={setting}
-            onClick={handleCloseUserMenu}
-            sx={{
-              ':hover': {
-                color: '#206bc4',
-                backgroundColor: '#E6F7FF',
-                fontWeight: '500'
-              }
-            }}
-            className='hover:bg-primary-50'
-          >
-            <span className='hover:bg-primary-50'>{setting}</span>
-          </MenuItem>
-        ))} */}
-
           <MenuItem
             key={'Profile'}
             onClick={handleGoToProject}
@@ -114,15 +97,15 @@ export default function ProjectsComponent() {
             </div>
           </div>
         </div>
-        <div className='space-y-[10px]'>
-          <span className='font-medium text-sm leading-[18px] text-text_secondary'>Mask Up</span>
-          <div className='bg-primary-600 rounded-xl py-2 px-4'>
+        <div className='flex-col flex gap-[10px] items-center justify-start'>
+          <span className='font-medium text-sm leading-[18px] text-text_secondary'>Mask up</span>
+          <div className='bg-primary-600 rounded-xl py-2 px-2'>
             <span className='font-medium text-sm leading-[18px] text-white'>+10</span>
           </div>
         </div>
-        <div className='space-y-[10px]'>
+        <div className='flex-col flex gap-[10px] items-center justify-start'>
           <span className='font-medium text-sm leading-[18px] text-text_secondary'>Issues</span>
-          <div className='bg-orange-400 rounded-xl py-2 px-4'>
+          <div className='bg-orange-400 rounded-xl py-2 px-2'>
             <span className='font-medium text-sm leading-[18px] text-white'>+10</span>
           </div>
         </div>

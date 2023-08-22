@@ -34,6 +34,9 @@ export const routers = {
       logout: 'users/logout',
       refresh_token: 'refresh-token'
     },
+    projectAdmin: {
+      projects: '/project/projects'
+    },
     forge: {
       accessToken: '/forge/token'
     }

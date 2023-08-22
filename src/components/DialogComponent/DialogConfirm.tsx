@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import Dialog from '@mui/material/Dialog'
-import { Button } from '@mui/material'
+import ButtonPrimary from '../ButtonComponent/ButtonPrimary'
+import ButtonSecondary from '../ButtonComponent/ButtonSecondary'
 
 interface DialogConfirmType {
   open: boolean
@@ -9,8 +10,6 @@ interface DialogConfirmType {
   title: string
   children: ReactNode
   width?: number
-  lableOk?: string | null
-  lableCancel?: string | null
 }
 
 export default function DialogConfirm({
@@ -19,8 +18,6 @@ export default function DialogConfirm({
   handleClose,
   title,
   children,
-  lableOk = null,
-  lableCancel = null,
   width = 500
 }: DialogConfirmType) {
   return (
@@ -35,8 +32,8 @@ export default function DialogConfirm({
         <div className='px-8 py-6 w-full border-y flex justify-center items-center'>{children}</div>
         {/* action */}
         <div className=' p-4 flex flex-row-reverse items-center gap-4'>
-          <Button onClick={handleClose}>{lableOk || 'キャンセル'}</Button>
-          <Button onClick={handleOK}>{lableCancel || 'OK'}</Button>
+          <ButtonSecondary onClick={handleClose}>{'キャンセル'}</ButtonSecondary>
+          <ButtonPrimary onClick={handleOK}>{'OK'}</ButtonPrimary>
         </div>
       </div>
     </Dialog>

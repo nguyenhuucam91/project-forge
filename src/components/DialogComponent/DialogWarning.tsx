@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import Dialog from '@mui/material/Dialog'
-import { Button } from '@mui/material'
+import ButtonPrimary from '../ButtonComponent/ButtonPrimary'
+import ButtonSecondary from '../ButtonComponent/ButtonSecondary'
 import { ReactComponent as IconWaring } from './icons/icon-waring.svg'
 
 interface DialogWarningType {
@@ -24,8 +25,8 @@ export default function DialogWarning({ open, handleOK, handleClose, children }:
         {/* action */}
 
         <div className=' p-4 flex flex-row-reverse items-center gap-4'>
-          <Button onClick={handleClose}>キャンセル</Button>
-          <Button onClick={handleOK}>OK</Button>
+          <ButtonSecondary onClick={handleClose}>キャンセル</ButtonSecondary>
+          <ButtonPrimary onClick={handleOK}>OK</ButtonPrimary>
         </div>
       </div>
     </Dialog>

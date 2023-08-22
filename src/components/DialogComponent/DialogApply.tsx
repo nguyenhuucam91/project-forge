@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import Dialog from '@mui/material/Dialog'
-import { Button } from '@mui/material'
+import ButtonPrimary from '../ButtonComponent/ButtonPrimary'
+import ButtonSecondary from '../ButtonComponent/ButtonSecondary'
 
 interface DialogApplyType {
   open: boolean
@@ -24,9 +25,9 @@ export default function DialogApply({ open, handleOK, handleNotOk, handleClose, 
         <div className='px-8 py-6 w-full border-y flex justify-center items-center'>{children}</div>
         {/* action */}
         <div className=' p-4 flex flex-row-reverse items-center gap-4'>
-          <Button onClick={handleClose}>キャンセル</Button>
-          <Button onClick={handleNotOk}>保存しない</Button>
-          <Button onClick={handleOK}>保存</Button>
+          <ButtonSecondary onClick={handleClose}>キャンセル</ButtonSecondary>
+          <ButtonSecondary onClick={handleNotOk}>保存しない</ButtonSecondary>
+          <ButtonPrimary onClick={handleOK}>保存</ButtonPrimary>
         </div>
       </div>
     </Dialog>
