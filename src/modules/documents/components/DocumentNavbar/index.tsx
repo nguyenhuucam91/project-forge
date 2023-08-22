@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function DocumentNavbar() {
   return (
     <div className='w-full h-full bg-yellow-200 hidden xl:block'>

@@ -9,7 +9,7 @@ export const forgeAPI = {
         method: 'POST',
         url: url
       })
-      return res.data.data.access_token
+      return res.data.access_token
     } catch (error) {
       return null
     }

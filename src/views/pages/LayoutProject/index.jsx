@@ -6,7 +6,7 @@ import PopoverComponent from '../../../components/PopoverComponent'
 import CompanyItem from './components/CompanyItem'
 import ProjectItem from './components/ProjectItem'
 import AvatarComponent from './components/AvatarComponent'
-import ProjectHeader from 'src/modules/project/components/ProjectHeader'
+import ProjectHeader from './components/ProjectHeader'
 
 export default function LayoutProject() {
   const [anchorElProject, setAnchorElProject] = React.useState(null)
