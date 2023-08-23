@@ -8,10 +8,13 @@ import { ReactComponent as IconPolygon } from './icons//icon-polygon.svg'
 import { ReactComponent as IconPolyline } from './icons//icon-polyline.svg'
 import { ReactComponent as IconRect } from './icons//icon-rect.svg'
 import { ReactComponent as IconText } from './icons//icon-text.svg'
+import { ReactComponent as IconDim } from './icons//icon-dimension.svg'
 import { ReactComponent as IconUndo } from './icons//icon-undo.svg'
 import { ReactComponent as IconRedo } from './icons//icon-redo.svg'
 import { ReactComponent as IconCopy } from './icons//icon-copy.svg'
 import { ReactComponent as IconDelete } from './icons//icon-delete.svg'
+import TooltipComponent from 'src/components/TooltipComponent'
+import { useState } from 'react'
 
 type MarkupSidebarType = {
   addMaskUp: (type: string) => void
@@ -33,30 +36,50 @@ export default function MarkupSidebar({
   handleCloseMarkup,
   handleDeleteMarkup
 }: MarkupSidebarType) {
+  const [selectedTool, setSelectedTool] = useState<string>('')
+
   const handleDrawPolyline = () => {
+    setSelectedTool('Polyline')
     addMaskUp('Polyline')
   }
 
   const handleDrawArrow = () => {
+    setSelectedTool('Circle')
     addMaskUp('Arrow')
   }
   const handleDrawText = () => {
+    setSelectedTool('Circle')
+
     addMaskUp('Text')
   }
   const handleDrawPencil = () => {
+    setSelectedTool('Circle')
+
     addMaskUp('Pencil')
   }
 
   const handleDrawCircle = () => {
+    setSelectedTool('Circle')
+
     addMaskUp('Circle')
   }
 
   const handleDrawRect = () => {
+    setSelectedTool('Rect')
+
     addMaskUp('Rect')
   }
 
   const handleDrawPolygon = () => {
+    setSelectedTool('Polygon')
+
     addMaskUp('Polygon')
+  }
+
+  const handleCreateDimension = () => {
+    setSelectedTool('Dimension')
+
+    addMaskUp('Dimension')
   }
 
   return (
@@ -65,57 +88,119 @@ export default function MarkupSidebar({
       className='absolute shadow-lg bottom-[12px] left-1/2 -translate-x-1/2 z-10 flex  gap-3 items-center justify-center rounded-md bg-white px-3 py-2'
       ref={divRef}
     >
-      <MarkupButton handleOnClick={handleDrawRect}>
-        <IconRect></IconRect>
-      </MarkupButton>
+      <TooltipComponent title='Draw Rectangular' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleDrawRect} active={selectedTool === 'Rect'}>
+            <IconRect></IconRect>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
-      <MarkupButton handleOnClick={handleDrawCircle}>
-        <IconCircle></IconCircle>
-      </MarkupButton>
+      <TooltipComponent title='Draw Circle' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleDrawCircle} active={selectedTool === 'Circle'}>
+            <IconCircle></IconCircle>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
-      <MarkupButton handleOnClick={handleDrawPolyline}>
-        <IconPolyline></IconPolyline>
-      </MarkupButton>
+      <TooltipComponent title='Draw Polyline' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleDrawPolyline} active={selectedTool === 'Polyline'}>
+            <IconPolyline></IconPolyline>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
-      <MarkupButton handleOnClick={handleDrawArrow}>
-        <IconArrow></IconArrow>
-      </MarkupButton>
+      <TooltipComponent title='Draw Arrow' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleDrawArrow} active={selectedTool === 'Arrow'}>
+            <IconArrow></IconArrow>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
-      <MarkupButton handleOnClick={handleDrawPencil}>
-        <IconPencil></IconPencil>
-      </MarkupButton>
+      <TooltipComponent title='Draw Pencil' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleDrawPencil} active={selectedTool === 'Pencil'}>
+            <IconPencil></IconPencil>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
-      <MarkupButton handleOnClick={handleDrawText}>
-        <IconText></IconText>
-      </MarkupButton>
+      <TooltipComponent title='Draw Text' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleDrawText} active={selectedTool === 'Text'}>
+            <IconText></IconText>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
-      <MarkupButton handleOnClick={handleDrawPolygon}>
-        <IconPolygon></IconPolygon>
-      </MarkupButton>
+      <TooltipComponent title='Draw Polygon' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleDrawPolygon} active={selectedTool === 'Polygon'}>
+            <IconPolygon></IconPolygon>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
-      {/* <MarkupButton handleOnClick={handleChangeStyle}>
-        <span className='h-[4px] w-6 ' style={{ backgroundColor: color }}></span>
-      </MarkupButton> */}
+      <TooltipComponent title='Create Dimension' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleCreateDimension} active={selectedTool === 'Dimension'}>
+            <IconDim></IconDim>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
-      <MarkupButton handleOnClick={handleChangeCapture}>
-        <IconCapture></IconCapture>
-      </MarkupButton>
-      <hr className=' w-8 rotate-90 bg-primary-300'></hr>
-      <MarkupButton handleOnClick={handleUndo}>
-        <IconUndo></IconUndo>
-      </MarkupButton>
-      <MarkupButton handleOnClick={handleRedo}>
-        <IconRedo></IconRedo>
-      </MarkupButton>
-      <MarkupButton handleOnClick={handleCopy}>
-        <IconCopy></IconCopy>
-      </MarkupButton>
-      <MarkupButton handleOnClick={handleDeleteMarkup}>
-        <IconDelete></IconDelete>
-      </MarkupButton>
-      <MarkupButton handleOnClick={handleCloseMarkup}>
-        <IconClose></IconClose>
-      </MarkupButton>
+      <TooltipComponent title='Capture' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleChangeCapture}>
+            <IconCapture></IconCapture>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
+
+      <div className=' w-1 border-l-2 border-l-primary-900 h-8'></div>
+
+      <TooltipComponent title='Undo' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleUndo}>
+            <IconUndo></IconUndo>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
+
+      <TooltipComponent title='Redo' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleRedo}>
+            <IconRedo></IconRedo>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
+
+      <TooltipComponent title='Copy Markup' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleCopy}>
+            <IconCopy></IconCopy>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
+
+      <TooltipComponent title='Delete Markup' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleDeleteMarkup}>
+            <IconDelete></IconDelete>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
+
+      <TooltipComponent title='Close Markup' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleCloseMarkup}>
+            <IconClose></IconClose>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
     </div>
   )
 }

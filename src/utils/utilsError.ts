@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios'
+import { FormikErrors } from 'formik'
 import HttpStatusCode from 'src/config/constants/httpStatusCode.enum'
-import { ErrorResponse } from 'src/types/response.type'
+import { ErrorResponse, SuccessResponse } from 'src/types/response.type'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
   // eslint-disable-next-line import/no-named-as-default-member
@@ -20,4 +21,16 @@ export function isAxiosExpiredTokenError<UnauthorizedError>(error: unknown): err
     isAxiosUnauthorizedError<ErrorResponse<{ message: string }>>(error) &&
     error.response?.data?.data?.message === 'EXPIRED_TOKEN'
   )
+}
+
+export function setUnprocessableEntityErrorToForm<FormError, FormState>(
+  error: unknown,
+  setErrors: (errors: FormikErrors<FormState>) => void
+): void {
+  if (isAxiosUnprocessableEntityError<SuccessResponse<FormError>>(error) && error.response?.status === 422) {
+    const formError = error.response.data.data
+    if (formError) {
+      setErrors(formError)
+    }
+  }
 }

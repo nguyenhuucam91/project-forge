@@ -78,12 +78,12 @@ export class AxiosService {
           const message = data?.message || error.message
           toast.error(message)
         }
-        if ([HttpStatusCode.UnprocessableEntity].includes(error.response?.status as number)) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const data: any | undefined = error.response?.data
-          // const message = data?.message || error.message
-          toast.error(Object.values(data.data)[0] as string)
-        }
+        // if ([HttpStatusCode.UnprocessableEntity].includes(error.response?.status as number)) {
+        //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        //   const data: any | undefined = error.response?.data
+        //   // const message = data?.message || error.message
+        //   toast.error(Object.values(data.data)[0] as string)
+        // }
         // Lỗi Unauthorized (401) có rất nhiều trường hợp
         // - Token không đúng
         // - Không truyền token

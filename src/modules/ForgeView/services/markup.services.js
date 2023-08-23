@@ -21,6 +21,9 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
     addEvent()
     let maskUpElement
     switch (type) {
+      case 'Dimension':
+        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeDimension(markup)
+        break
       case 'Polyline':
         maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModePolyline(markup)
         break
@@ -32,6 +35,7 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
         break
       case 'Text':
         maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeText(markup)
+
         break
       case 'Circle':
         maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeCircle(markup)

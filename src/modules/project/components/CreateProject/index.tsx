@@ -1,56 +1,77 @@
 import DialogBase from 'src/components/DialogComponent/DialogBase'
 import InputComponent from 'src/components/InputComponent'
-import { Formik, FormikProps } from 'formik'
+import { Formik, FormikErrors, FormikProps } from 'formik'
 import ButtonSecondary from 'src/components/ButtonComponent/ButtonSecondary'
 import createProjectSchema from './createProject.schema'
-import projectAdminServices from '../../services/admin.services'
+import projectAdminServices from '../../services/admin.service'
 import toast from 'react-hot-toast'
+import { setUnprocessableEntityErrorToForm } from 'src/utils/utilsError'
 
 interface CreateProject {
   open: boolean
   handleClose: () => void
 }
 
-interface CreateProjectValues {
+interface ProjectFormValue {
   project_name: string
   project_description: string
 }
 
-export default function CreateProject({ open, handleClose }: CreateProject) {
-  const initialValues: CreateProjectValues = { project_name: '', project_description: '' }
+type ProjectError =
+  | {
+      [key in keyof ProjectFormValue]: string
+    }
+  | null
 
-  const handleCreateProject = async (values: CreateProjectValues) => {
+export default function CreateProject({ open, handleClose }: CreateProject) {
+  const initialValues: ProjectFormValue = { project_name: '', project_description: '' }
+  const handleCreateProject = async (
+    values: ProjectFormValue,
+    setErrors: (errors: FormikErrors<ProjectFormValue>) => void
+  ) => {
+    if (!values.project_name) {
+      setErrors({
+        project_name: 'Project name is required'
+      })
+      return
+    }
     try {
       const res = await projectAdminServices.createProject(values)
       if (res?.success) {
-        toast(res.message)
+        toast.success(res.message)
       }
     } catch (error) {
-      toast.error('Tao du an khong thanh cong')
+      setUnprocessableEntityErrorToForm<ProjectError, ProjectFormValue>(error, setErrors)
     }
   }
+
   return (
-    <Formik initialValues={initialValues} validationSchema={createProjectSchema} onSubmit={handleCreateProject}>
-      {({ values, handleChange }: FormikProps<CreateProjectValues>) => (
+    <Formik initialValues={initialValues} validationSchema={createProjectSchema} onSubmit={() => {}}>
+      {({ values, handleChange, errors, setErrors }: FormikProps<ProjectFormValue>) => (
         <DialogBase
           open={open}
           handleClose={handleClose}
-          handleOK={() => handleCreateProject(values)}
+          handleOK={() => handleCreateProject(values, setErrors)}
           title='Create Project Profile'
           width={600}
         >
           <div className='flex items-start justify-between gap-10'>
-            <div className='space-y-4'>
+            <div className='space-y-2'>
               <div className=' flex flex-col gap-2'>
                 <label htmlFor='project_name' className='text-text_primary'>
                   Project Name
                 </label>
-                <InputComponent
-                  id='project_name'
-                  name='project_name'
-                  value={values.project_name}
-                  onChange={handleChange}
-                ></InputComponent>
+                <div>
+                  <InputComponent
+                    id='project_name'
+                    name='project_name'
+                    value={values.project_name}
+                    onChange={handleChange}
+                  ></InputComponent>
+                  <div className='w-full h-[16px] mt-1'>
+                    {errors.project_name && <span className='text-sm text-red-500'>{errors.project_name}</span>}
+                  </div>
+                </div>
               </div>
               <div className=' flex flex-col gap-2'>
                 <label htmlFor='project_description' className='text-text_primary'>
@@ -62,6 +83,11 @@ export default function CreateProject({ open, handleClose }: CreateProject) {
                   value={values.project_description}
                   onChange={handleChange}
                 ></InputComponent>
+                <div className='w-full h-[16px]mt-1'>
+                  {errors.project_description && (
+                    <span className='text-sm text-red-500'>{errors.project_description}</span>
+                  )}
+                </div>
               </div>
             </div>
             <div>

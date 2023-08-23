@@ -5,6 +5,7 @@ import { ReactComponent as IconBold } from './icons/icon-bold.svg'
 import { ReactComponent as IconItalic } from './icons/icon-italic.svg'
 import { ReactComponent as IconUp } from './icons/icon-up.svg'
 import { ReactComponent as IconDown } from './icons/icon-down.svg'
+import TooltipComponent from 'src/components/TooltipComponent'
 
 type MarkupStyleSidebarProps = {
   style: MarkupStyleType
@@ -61,8 +62,6 @@ export default function MarkupStyleSidebar({ markupObject, style, setStyle }: Ma
     })
   }
   const handleChangeColor = (color: string) => {
-    console.log(12121)
-
     setStyle((prev) => {
       const copyStyle = { ...prev }
       copyStyle['stroke-color'] = color
@@ -74,21 +73,38 @@ export default function MarkupStyleSidebar({ markupObject, style, setStyle }: Ma
       id='markupStyleSidebar'
       className='absolute shadow-lg right-[12px] flex-col top-1/2 -translate-y-1/2 z-10 flex gap-3 items-center justify-center rounded-md bg-white px-2 py-3'
     >
-      <MarkupButton handleOnClick={handleFontDown}>
-        <IconDown></IconDown>
-      </MarkupButton>
-      <MarkupButton handleOnClick={handleFontUp}>
-        <IconUp></IconUp>
-      </MarkupButton>
+      <TooltipComponent title='Size up' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleFontUp}>
+            <IconUp></IconUp>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
-      <MarkupButton handleOnClick={handleBold}>
-        <IconBold></IconBold>
-      </MarkupButton>
+      <TooltipComponent title='Size down' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleFontDown}>
+            <IconDown></IconDown>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
-      <MarkupButton handleOnClick={handleItalic}>
-        <IconItalic></IconItalic>
-      </MarkupButton>
-      <hr className='w-full h-[2px] bg-primary-300' />
+      <TooltipComponent title='Bold Text' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleBold}>
+            <IconBold></IconBold>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
+
+      <TooltipComponent title='Italic Text' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleItalic}>
+            <IconItalic></IconItalic>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
+      <hr className='w-full h-[3px] bg-primary-900' />
 
       <MarkupButton handleOnClick={() => handleChangeColor('#FF0000')}>
         <div className='h-4 w-4 rounded-full ring-4 ring-[#FF0000]'></div>

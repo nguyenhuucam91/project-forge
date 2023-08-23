@@ -29,6 +29,7 @@ export default function AvatarComponent() {
     try {
       const refresh_token = getRefreshTokenFromLS()
       const result = await authenticationService.logout({ refresh_token })
+      console.log('🚀 ~ file: index.tsx:32 ~ handleLogout ~ result:', result)
       if (result.data.success) {
         toast.success(result.data.message)
         navigate(routers.web.authentication.login)

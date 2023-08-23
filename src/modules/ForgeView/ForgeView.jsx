@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { forgeAPI } from './services/forge.api'
+import { forgeAPI } from './services/forge.service'
 import MarkupSidebar from './components/MarkupSidebar'
 import MarkupStyleSidebar from './components/MarkupStyleSidebar'
 import { useMaskUpServices } from './services/markup.services'

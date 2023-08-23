@@ -26,7 +26,9 @@ export default function DialogBase({ open, handleOK, handleClose, title, childre
         {/* action */}
         <div className=' p-4 flex flex-row-reverse items-center justify-center gap-4'>
           <ButtonSecondary onClick={handleClose}>Cancel</ButtonSecondary>
-          <ButtonPrimary onClick={handleOK}>OK</ButtonPrimary>
+          <ButtonPrimary onClick={handleOK} type='submit'>
+            OK
+          </ButtonPrimary>
         </div>
       </div>
     </Dialog>

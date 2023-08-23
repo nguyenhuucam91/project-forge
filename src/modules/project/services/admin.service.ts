@@ -4,17 +4,9 @@ import { SuccessResponse } from 'src/types/response.type'
 
 const projectAdminServices = {
   async createProject(data: { project_name: string; project_description: string }) {
-    try {
-      const url = routers.api.projectAdmin.projects
-      const res = await axiosService.request<SuccessResponse<object>>({
-        method: 'POST',
-        url: url,
-        data: data
-      })
-      return res.data
-    } catch (error) {
-      return null
-    }
+    const url = routers.api.projectAdmin.projects
+    const res = await axiosService.post<SuccessResponse<object>>(url, data)
+    return res.data
   }
 }
 export default projectAdminServices
