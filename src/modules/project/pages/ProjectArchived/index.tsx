@@ -1,7 +1,9 @@
 
+import { useTitle } from 'react-use'
 import ProjectsComponent from '../../components/ProjectsComponent'
 
 export default function ProjectArchived() {
+  useTitle('Project Archived')
   return (
     <div className=' w-full h-full flex flex-col bg-gray-100'>
       {/* <ProjectHeader></ProjectHeader> */}

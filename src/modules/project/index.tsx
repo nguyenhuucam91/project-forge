@@ -1,7 +1,8 @@
-
+import { useTitle } from 'react-use'
 import ProjectsComponent from './components/ProjectsComponent'
 
 export default function Projects() {
+  useTitle('Projects')
   return (
     <div className=' w-full h-full flex flex-col bg-gray-100'>
       {/* <ProjectHeader></ProjectHeader> */}

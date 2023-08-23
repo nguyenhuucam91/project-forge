@@ -1,34 +1,43 @@
-
-import { Formik, FormikProps } from 'formik'
+import { Formik, FormikHelpers, FormikProps } from 'formik'
 import registerSchema from './registerSchema'
 import authenticationService from '../../services/authentication.service'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router'
 import { format } from 'react-string-format'
 import { routers } from 'src/config/routers'
+import { setUnprocessableEntityErrorToForm } from 'src/utils/utilsError'
+import { useTitle } from 'react-use'
 
-interface RegisterFormValues {
+interface RegisterFormValue {
   password: string
   confirm_password: string
   email: string
   name: string
 }
 
+type RegisterFormError =
+  | {
+      [key in keyof RegisterFormValue]: string
+    }
+  | null
+
 export default function Register() {
-  const initialValues: RegisterFormValues = { password: '', confirm_password: '', email: '', name: '' }
+  useTitle('Register')
+
+  const initialValues: RegisterFormValue = { password: '', confirm_password: '', email: '', name: '' }
   const navigate = useNavigate()
 
-  const handleRegister = async (values: RegisterFormValues) => {
+  const handleRegister = async (values: RegisterFormValue, { setErrors }: FormikHelpers<RegisterFormValue>) => {
     try {
       const result = await authenticationService.registerAccount(values)
-      if (!result.data.success) {
-        toast.error(result.data.message)
-      } else {
+      if (result.data.success) {
         toast.success(result.data.message)
         navigate(format(routers.web.project.projectStringFormat, '1'))
+      } else {
+        toast.error(result.data.message)
       }
     } catch (error) {
-      console.log(error)
+      setUnprocessableEntityErrorToForm<RegisterFormError, RegisterFormValue>(error, setErrors)
     }
   }
   return (
@@ -46,7 +55,7 @@ export default function Register() {
               </h1>
             </div>
             <Formik initialValues={initialValues} validationSchema={registerSchema} onSubmit={handleRegister}>
-              {({ values, handleChange, errors, handleSubmit }: FormikProps<RegisterFormValues>) => (
+              {({ values, handleChange, errors, handleSubmit }: FormikProps<RegisterFormValue>) => (
                 <div>
                   <div>
                     <label htmlFor='email' className='block mb-2 text-sm font-medium text-gray-900 '>

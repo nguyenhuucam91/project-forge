@@ -3,10 +3,13 @@ import { forgeAPI } from './services/forge.service'
 import MarkupSidebar from './components/MarkupSidebar'
 import MarkupStyleSidebar from './components/MarkupStyleSidebar'
 import { useMaskUpServices } from './services/markup.services'
+import { useTitle } from 'react-use'
 
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
 export default function ForgeView() {
+  useTitle('Document View')
+
   const [showMarkup, setShowMaskup] = useState(false)
   const viewDomRef = React.useRef(null)
   const viewRef = React.useRef(null)

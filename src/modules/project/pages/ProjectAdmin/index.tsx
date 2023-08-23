@@ -4,8 +4,10 @@ import { routers } from 'src/config/routers'
 import { useNavigate } from 'react-router'
 import { useState } from 'react'
 import ButtonPrimary from 'src/components/ButtonComponent/ButtonPrimary'
+import { useTitle } from 'react-use'
 
 export default function ProjectAdmin() {
+  useTitle('Project Admin')
   const [openCreateProject, setOpenCreateProject] = useState(false)
 
   const navigate = useNavigate()

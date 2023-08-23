@@ -11,8 +11,11 @@ import authenticationService from '../authentication/services/authentication.ser
 import { getRefreshTokenFromLS } from 'src/utils/utilsLocalStorage'
 import toast from 'react-hot-toast'
 import User from 'src/types/user.type'
+import { useTitle } from 'react-use'
 
 export default function Home() {
+  useTitle('Home')
+
   const navigate = useNavigate()
   const [user, setUser] = useState<User | undefined>(UserService.getUser())
 

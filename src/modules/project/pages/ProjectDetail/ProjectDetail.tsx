@@ -1,8 +1,11 @@
+import { useTitle } from 'react-use'
 import { ReactComponent as IconEmpty } from '../../components/icons/icon-empty.svg'
 import ProjectDetailContainer from '../../components/ProjectDetailContainer'
 import WeatherCard from '../../components/WeatherCard'
 
 export default function ProjectDetail() {
+  useTitle('Project Detail')
+
   return (
     <div className=' w-full flex-1 flex flex-col bg-gray-100'>
       {/* <ProjectHeader></ProjectHeader> */}

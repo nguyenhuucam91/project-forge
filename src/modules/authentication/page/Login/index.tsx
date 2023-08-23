@@ -1,18 +1,29 @@
-import { Formik, FormikProps } from 'formik'
+import { Formik, FormikHelpers, FormikProps } from 'formik'
 import loginSchema from './loginSchema'
 import authenticationService from '../../services/authentication.service'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router'
 import { routers } from 'src/config/routers'
+import { isAxiosError, setUnprocessableEntityErrorToForm } from 'src/utils/utilsError'
+import { useTitle } from 'react-use'
 
-interface LoginFormValues {
+interface LoginFormValue {
   email: string
   password: string
 }
+
+type LoginFormError =
+  | {
+      [key in keyof LoginFormValue]: string
+    }
+  | null
+
 export default function Login() {
-  const initialValues: LoginFormValues = { email: '', password: '' }
+  useTitle('Login')
+
+  const initialValues: LoginFormValue = { email: '', password: '' }
   const navigate = useNavigate()
-  const handleLogin = async (values: LoginFormValues) => {
+  const handleLogin = async (values: LoginFormValue, { setErrors }: FormikHelpers<LoginFormValue>) => {
     try {
       const result = await authenticationService.login(values)
       if (!result.data.success) {
@@ -22,7 +33,15 @@ export default function Login() {
         navigate(routers.web.project.projects)
       }
     } catch (error) {
-      console.log(error)
+      setUnprocessableEntityErrorToForm<LoginFormError, LoginFormValue>(error, setErrors)
+      if (isAxiosError(error)) {
+        if (error.response?.status === 404) {
+          setErrors({
+            password: 'Email or password is incorrect',
+            email: 'Email or password is incorrect'
+          })
+        }
+      }
     }
     // router.push(routers.web.home)
   }
@@ -42,7 +61,7 @@ export default function Login() {
                 </h1>
               </div>
               <Formik initialValues={initialValues} validationSchema={loginSchema} onSubmit={handleLogin}>
-                {({ values, handleChange, errors, handleSubmit }: FormikProps<LoginFormValues>) => (
+                {({ values, handleChange, errors, handleSubmit }: FormikProps<LoginFormValue>) => (
                   <div className=''>
                     <div>
                       <label htmlFor='email' className='block mb-2 text-sm font-medium text-gray-900 '>
