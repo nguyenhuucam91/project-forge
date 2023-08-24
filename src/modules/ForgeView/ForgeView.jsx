@@ -4,9 +4,9 @@ import MarkupSidebar from './components/MarkupSidebar'
 import MarkupStyleSidebar from './components/MarkupStyleSidebar'
 import { useMaskUpServices } from './services/markup.services'
 import { useTitle } from 'react-use'
-
+import * as Autodesk from '@types/forge-viewer'
 // eslint-disable-next-line no-undef
-const Autodesk = window.Autodesk
+// const Autodesk = window.Autodesk
 export default function ForgeView() {
   useTitle('Document View')
 
@@ -69,6 +69,7 @@ export default function ForgeView() {
           let explodeExtension = viewRef.current.getExtension('Autodesk.Explode')
           explodeExtension.unload()
         })
+
 
         viewRef.current.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, function () {
           const button = new Autodesk.Viewing.UI.Button('Markup')
@@ -197,7 +198,7 @@ export default function ForgeView() {
 
   return (
     <>
-      <div id='viewer' ref={viewDomRef}></div>
+      <div id='viewer' ref={viewDomRef} className='text-lg font-bold text-red-400'></div>
       {/* <div className=' absolute top-[300px] left-0 z-20 flex gap-3'>
         <button onClick={handleSnapping} className='p-5 bg-primary-800 text-white'>
           Save View

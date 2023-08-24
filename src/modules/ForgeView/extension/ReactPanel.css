@@ -1,0 +1,20 @@
+.react-docking-panel {
+  height: 208px;
+  width: 238px;
+  resize: auto;
+  left: 10px;
+  top: 500px;
+
+  .content {
+    height: calc(100% - 35px);
+    .react-content {
+      margin: 10px;
+    }
+  }
+}
+
+#react-panel-id .react-docking-title {
+  font-size: 18px;
+  color: red;
+  font-weight: 800;
+}
