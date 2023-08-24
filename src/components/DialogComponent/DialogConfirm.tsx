@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 import Dialog from '@mui/material/Dialog'
-import ButtonPrimary from '../ButtonComponent/ButtonPrimary'
-import ButtonSecondary from '../ButtonComponent/ButtonSecondary'
+import { ButtonPrimary, ButtonSecondary } from '../ButtonComponent'
 
 interface DialogConfirmType {
   open: boolean

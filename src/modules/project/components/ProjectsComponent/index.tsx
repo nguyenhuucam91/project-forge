@@ -2,7 +2,7 @@ import React from 'react'
 import { ReactComponent as IconDotMenu } from '../icons/icon-dot-menu.svg'
 import { useLocation, useNavigate } from 'react-router'
 import { format } from 'react-string-format'
-import { routers } from 'src/config/routers'
+import { url } from 'src/config/url'
 import PopoverComponent from 'src/components/PopoverComponent'
 import { MenuItem } from '@mui/material'
 
@@ -12,7 +12,7 @@ export default function ProjectsComponent() {
   // const handleNavigateProject = () => {
   //   navigate(format(routers.web.project.projectDetail, '1'))
   // }
-  const isProjectsArchivedPath = routers.web.project.projectsArchived === pathname
+  const isProjectsArchivedPath = url.web.project.projectsArchived === pathname
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
@@ -26,7 +26,7 @@ export default function ProjectsComponent() {
       //Active project
     } else {
       //open project
-      navigate(format(routers.web.project.projectDetail, '1'))
+      navigate(format(url.web.project.projectDetail, '1'))
     }
 
     setAnchorElUser(null)

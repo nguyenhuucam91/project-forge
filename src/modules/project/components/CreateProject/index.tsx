@@ -1,5 +1,4 @@
 import { useRef, useState, useMemo } from 'react'
-import DialogBase from 'src/components/DialogComponent/DialogBase'
 import InputComponent from 'src/components/InputComponent'
 import { Formik, FormikErrors, FormikProps } from 'formik'
 import ButtonSecondary from 'src/components/ButtonComponent/ButtonSecondary'
@@ -7,6 +6,7 @@ import createProjectSchema from './createProject.schema'
 import projectAdminServices from '../../services/admin.service'
 import toast from 'react-hot-toast'
 import { setUnprocessableEntityErrorToForm } from 'src/utils/utilsError'
+import { DialogBase } from 'src/components/DialogComponent'
 
 interface CreateProject {
   open: boolean

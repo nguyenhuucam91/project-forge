@@ -4,7 +4,7 @@ import authenticationService from '../../services/authentication.service'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router'
 import { format } from 'react-string-format'
-import { routers } from 'src/config/routers'
+import { url } from 'src/config/url'
 import { setUnprocessableEntityErrorToForm } from 'src/utils/utilsError'
 import { useTitle } from 'react-use'
 
@@ -32,7 +32,7 @@ export default function Register() {
       const result = await authenticationService.registerAccount(values)
       if (result.data.success) {
         toast.success(result.data.message)
-        navigate(format(routers.web.project.projectStringFormat, '1'))
+        navigate(format(url.web.project.projectStringFormat, '1'))
       } else {
         toast.error(result.data.message)
       }

@@ -1,8 +1,7 @@
 import { ReactNode } from 'react'
 import Dialog from '@mui/material/Dialog'
-import ButtonPrimary from '../ButtonComponent/ButtonPrimary'
-import ButtonSecondary from '../ButtonComponent/ButtonSecondary'
 import { ReactComponent as IconWaring } from './icons/icon-waring.svg'
+import { ButtonPrimary, ButtonSecondary } from '../ButtonComponent'
 
 interface DialogWarningType {
   open: boolean

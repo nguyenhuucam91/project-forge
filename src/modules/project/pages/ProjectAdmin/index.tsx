@@ -1,10 +1,10 @@
 import CreateProject from '../../components/CreateProject'
 import ProjectsComponent from '../../components/ProjectsComponent'
-import { routers } from 'src/config/routers'
+import { url } from 'src/config/url'
 import { useNavigate } from 'react-router'
 import { useState } from 'react'
-import ButtonPrimary from 'src/components/ButtonComponent/ButtonPrimary'
 import { useTitle } from 'react-use'
+import { ButtonPrimary } from 'src/components/ButtonComponent'
 
 export default function ProjectAdmin() {
   useTitle('Project Admin')
@@ -12,7 +12,7 @@ export default function ProjectAdmin() {
 
   const navigate = useNavigate()
   const handleMoveToArchived = () => {
-    navigate(routers.web.project.projectsArchived)
+    navigate(url.web.project.projectsArchived)
   }
 
   const handleCreateProject = () => {

@@ -3,9 +3,10 @@ import loginSchema from './loginSchema'
 import authenticationService from '../../services/authentication.service'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router'
-import { routers } from 'src/config/routers'
+import { url } from 'src/config/url'
 import { isAxiosError, setUnprocessableEntityErrorToForm } from 'src/utils/utilsError'
 import { useTitle } from 'react-use'
+import logo from 'src/assets/logo.png'
 
 interface LoginFormValue {
   email: string
@@ -30,7 +31,7 @@ export default function Login() {
         toast.error(result.data.message)
       } else {
         toast.success(result.data.message)
-        navigate(routers.web.project.projects)
+        navigate(url.web.project.projects)
       }
     } catch (error) {
       setUnprocessableEntityErrorToForm<LoginFormError, LoginFormValue>(error, setErrors)
@@ -52,10 +53,15 @@ export default function Login() {
           <div className='w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0 '>
             <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
               <div className='flex flex-col items-center justify-center w-full'>
-                <img
+                {/* <img
                   alt='logo'
                   srcSet='https://www.autodesk.com/bim-360/app/themes/bim360/assets/img/logos/nav-logo-desktop.png 1x, https://www.autodesk.com/bim-360/app/themes/bim360/assets/img/logos/nav-logo-desktop@2x.png 2x, https://www.autodesk.com/bim-360/app/themes/bim360/assets/img/logos/nav-logo-desktop@3x.png 3x'
-                />
+                /> */}
+                <div className='flex items-end gap-2'>
+                  <img src={logo} alt='Logo' className='w-12 aspect-square' />
+                  <h3 className='text-xl text-primary-900 font-medium'>CIM Tools</h3>
+                </div>
+
                 <h1 className='text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl mt-3'>
                   Sign in to your account
                 </h1>

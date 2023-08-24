@@ -1,10 +1,10 @@
-import StorageKeys from 'src/config/constants/StorageKeys.enum'
+import configs from 'src/config'
 import User from 'src/types/user.type'
 
 export const UserService = {
   getUser: (): User | undefined => {
-    if (localStorage.getItem(StorageKeys.user) !== null) {
-      return JSON.parse(localStorage.getItem(StorageKeys.user) as string) as User
+    if (localStorage.getItem(configs.StorageKeys.user) !== null) {
+      return JSON.parse(localStorage.getItem(configs.StorageKeys.user) as string) as User
     }
   },
   isAdmin: (): boolean => {
@@ -15,11 +15,11 @@ export const UserService = {
     return false
   },
   setUser: (user: any) => {
-    localStorage.setItem(StorageKeys.user, JSON.stringify(user))
+    localStorage.setItem(configs.StorageKeys.user, JSON.stringify(user))
   },
   removeUser: () => {
-    localStorage.removeItem(StorageKeys.user)
-    localStorage.removeItem(StorageKeys.access)
-    localStorage.removeItem(StorageKeys.refresh)
+    localStorage.removeItem(configs.StorageKeys.user)
+    localStorage.removeItem(configs.StorageKeys.access)
+    localStorage.removeItem(configs.StorageKeys.refresh)
   }
 }

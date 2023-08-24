@@ -1,4 +1,4 @@
-export const routers = {
+export const url = {
   web: {
     authentication: {
       login: 'login',
@@ -27,7 +27,6 @@ export const routers = {
     }
   },
   api: {
-    baseUrl: 'http://localhost:3031/v1/api/',
     authentication: {
       login: 'users/login',
       register: 'users/register',

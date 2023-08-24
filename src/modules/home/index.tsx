@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { routers } from 'src/config/routers'
+import { url } from 'src/config/url'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import PhoneIcon from '@mui/icons-material/Phone'
 import SearchIcon from '@mui/icons-material/Search'
@@ -117,7 +117,7 @@ export default function Home() {
             <div
               className='group text-base cursor-pointer'
               onClick={() => {
-                navigate(routers.web.project.projects)
+                navigate(url.web.project.projects)
               }}
             >
               <span>Explore Autodesk Construction Cloud</span>

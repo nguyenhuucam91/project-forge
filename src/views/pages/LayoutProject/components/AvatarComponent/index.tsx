@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import authenticationService from 'src/modules/authentication/services/authentication.service'
 import { getRefreshTokenFromLS } from 'src/utils/utilsLocalStorage'
 import { useNavigate } from 'react-router'
-import { routers } from 'src/config/routers'
+import { url } from 'src/config/url'
 
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 export default function AvatarComponent() {
@@ -32,7 +32,7 @@ export default function AvatarComponent() {
       console.log('🚀 ~ file: index.tsx:32 ~ handleLogout ~ result:', result)
       if (result.data.success) {
         toast.success(result.data.message)
-        navigate(routers.web.authentication.login)
+        navigate(url.web.authentication.login)
       } else {
         toast.error(result.data.message)
       }

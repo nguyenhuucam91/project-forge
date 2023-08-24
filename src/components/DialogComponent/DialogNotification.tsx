@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import Dialog from '@mui/material/Dialog'
-import ButtonPrimary from '../ButtonComponent/ButtonPrimary'
+import { ButtonPrimary } from '../ButtonComponent'
 
 interface DialogNotificationType {
   open: boolean

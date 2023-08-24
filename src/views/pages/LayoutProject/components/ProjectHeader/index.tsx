@@ -6,7 +6,7 @@ import { ReactComponent as IconHome } from './icons/icon-home.svg'
 import { ReactComponent as IconDocument } from './icons/icon-document.svg'
 import { ReactComponent as IconAdmin } from './icons/icon-admin.svg'
 import { matchPath, useLocation, useParams } from 'react-router'
-import { routers } from 'src/config/routers'
+import { url } from 'src/config/url'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import { useNavigate } from 'react-router-dom'
 import { format } from 'react-string-format'
@@ -18,11 +18,11 @@ export default function ProjectHeader() {
   const { pathname } = useLocation()
   console.log('🚀 ~ file: index.tsx:21 ~ ProjectHeader ~ pathname:', pathname)
 
-  const isProjectsPath = matchPath(routers.web.project.projects, pathname)
-  const isDocumentPath = matchPath(routers.web.documents.document, pathname)
-  const isAdminPath = matchPath(routers.web.project.projectsAdmin, pathname)
-  const isProjectsDetailPath = matchPath(routers.web.project.projectDetail, pathname)
-  const isProjectsArchivedPath = routers.web.project.projectsArchived === pathname
+  const isProjectsPath = matchPath(url.web.project.projects, pathname)
+  const isDocumentPath = matchPath(url.web.documents.document, pathname)
+  const isAdminPath = matchPath(url.web.project.projectsAdmin, pathname)
+  const isProjectsDetailPath = matchPath(url.web.project.projectDetail, pathname)
+  const isProjectsArchivedPath = url.web.project.projectsArchived === pathname
 
   const headerTitle = () => {
     if (isProjectsPath) {
@@ -41,15 +41,15 @@ export default function ProjectHeader() {
   }
 
   const handleNavigateHome = () => {
-    navigate(routers.web.project.projects)
+    navigate(url.web.project.projects)
   }
 
   const handleNavigateDocument = () => {
-    navigate(format(routers.web.documents.documentStringFormat, id as string))
+    navigate(format(url.web.documents.documentStringFormat, id as string))
   }
 
   const handleNavigateAdmin = () => {
-    navigate(routers.web.project.projectsAdmin)
+    navigate(url.web.project.projectsAdmin)
   }
 
   return (
