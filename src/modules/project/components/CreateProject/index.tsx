@@ -1,12 +1,14 @@
 import { useRef, useState, useMemo } from 'react'
 import InputComponent from 'src/components/InputComponent'
-import { Formik, FormikErrors, FormikProps } from 'formik'
+import { Formik, FormikErrors, FormikProps, FormikState } from 'formik'
 import ButtonSecondary from 'src/components/ButtonComponent/ButtonSecondary'
 import createProjectSchema from './createProject.schema'
-import projectAdminServices from '../../services/admin.service'
+import projectServices from '../../services/project.service'
 import toast from 'react-hot-toast'
 import { setUnprocessableEntityErrorToForm } from 'src/utils/utilsError'
 import { DialogBase } from 'src/components/DialogComponent'
+import { useMutation } from 'react-query'
+import { error } from 'console'
 
 interface CreateProject {
   open: boolean
@@ -26,16 +28,20 @@ type ProjectError =
 
 export default function CreateProject({ open, handleClose }: CreateProject) {
   const initialValues: ProjectFormValue = { project_name: '', project_description: '' }
-
   const inputFile = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File>()
+  const { mutate } = useMutation({
+    mutationFn: (project: FormData) => projectServices.createProject(project)
+  })
+
   const previewImage = useMemo(() => {
     return file ? URL.createObjectURL(file) : ''
   }, [file])
 
   const handleCreateProject = async (
     values: ProjectFormValue,
-    setErrors: (errors: FormikErrors<ProjectFormValue>) => void
+    setErrors: (errors: FormikErrors<ProjectFormValue>) => void,
+    resetForm: (nextState?: Partial<FormikState<ProjectFormValue>> | undefined) => void
   ) => {
     if (!values.project_name) {
       setErrors({
@@ -43,14 +49,19 @@ export default function CreateProject({ open, handleClose }: CreateProject) {
       })
       return
     }
-    try {
-      const res = await projectAdminServices.createProject(values)
-      if (res?.success) {
-        toast.success(res.message)
+    const form = new FormData()
+    form.append('project_image', file as Blob)
+    form.append('project_name', values.project_name)
+    form.append('project_description', values.project_description)
+
+    mutate(form, {
+      onError: (error) => {
+        setUnprocessableEntityErrorToForm<ProjectError, ProjectFormValue>(error, setErrors)
+      },
+      onSuccess: () => {
+        resetForm()
       }
-    } catch (error) {
-      setUnprocessableEntityErrorToForm<ProjectError, ProjectFormValue>(error, setErrors)
-    }
+    })
   }
   const handleBrowserImage = () => {
     inputFile.current?.click()
@@ -70,11 +81,16 @@ export default function CreateProject({ open, handleClose }: CreateProject) {
   }
   return (
     <Formik initialValues={initialValues} validationSchema={createProjectSchema} onSubmit={() => {}}>
-      {({ values, handleChange, errors, setErrors }: FormikProps<ProjectFormValue>) => (
+      {({ values, handleChange, errors, setErrors, resetForm }: FormikProps<ProjectFormValue>) => (
         <DialogBase
           open={open}
-          handleClose={handleClose}
-          handleOK={() => handleCreateProject(values, setErrors)}
+          handleClose={() => {
+            handleClose()
+            resetForm()
+          }}
+          handleOK={() => {
+            handleCreateProject(values, setErrors)
+          }}
           title='Create Project Profile'
           width={600}
         >
@@ -116,8 +132,12 @@ export default function CreateProject({ open, handleClose }: CreateProject) {
             <div>
               <h3 className='text-base text-text_primary mb-2 leading-[16px]'>Project Image</h3>
               <div className='flex gap-3'>
-                <div className='w-[100px] h-[100px] bg-slate-400 rounded-md'>
-                  <img src={previewImage || ''} alt='project_image' className='h-full w-full object-cover'></img>
+                <div className='w-[100px] h-[100px] bg-slate-400 rounded-md overflow-hidden'>
+                  <img
+                    src={previewImage || ''}
+                    alt='project_image'
+                    className='h-full w-full object-cover rounded-md'
+                  ></img>
                 </div>
                 <div>
                   <div className='flex flex-col gap-3'>

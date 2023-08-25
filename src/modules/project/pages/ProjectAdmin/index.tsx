@@ -5,6 +5,10 @@ import { useNavigate } from 'react-router'
 import { useState } from 'react'
 import { useTitle } from 'react-use'
 import { ButtonPrimary } from 'src/components/ButtonComponent'
+import queryKeys from 'src/config/queryKeys'
+import { useQuery } from 'react-query'
+import projectServices from '../../services/project.service'
+import { ProjectSkeleton } from 'src/components/Skeleton'
 
 export default function ProjectAdmin() {
   useTitle('Project Admin')
@@ -19,6 +23,14 @@ export default function ProjectAdmin() {
     setOpenCreateProject(true)
   }
 
+  const {
+    data: projects,
+    isLoading,
+    isSuccess
+  } = useQuery({
+    queryKey: [queryKeys.projects],
+    queryFn: projectServices.getListProject
+  })
   return (
     <div className=' w-full h-full flex flex-col bg-gray-100'>
       <div className='w-full py-5 px-5 border-b shadow-sm flex flex-col gap-2 bg-white'>
@@ -39,13 +51,20 @@ export default function ProjectAdmin() {
         </div>
       </div>
       <div className=' h-full w-full grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 flex-1 p-5 overflow-y-auto'>
-        {Array(30)
-          .fill(0)
-          .map((_, index) => (
-            <>
-              <ProjectsComponent key={index}></ProjectsComponent>
-            </>
-          ))}
+        {isLoading &&
+          Array(20)
+            .fill(1)
+            .map((_, i) => <ProjectSkeleton key={i}></ProjectSkeleton>)}
+
+        {isSuccess && projects && (
+          <>
+            {projects.map((project, index) => (
+              <>
+                <ProjectsComponent key={index} project={project}></ProjectsComponent>
+              </>
+            ))}
+          </>
+        )}
       </div>
       <CreateProject open={openCreateProject} handleClose={() => setOpenCreateProject(false)}></CreateProject>
     </div>
