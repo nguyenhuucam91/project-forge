@@ -1,56 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ReactComponent as IconDotMenu } from '../icons/icon-dot-menu.svg'
-import { useLocation, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { format } from 'react-string-format'
 import { url } from 'src/config/url'
 import PopoverComponent from 'src/components/PopoverComponent'
 import { MenuItem } from '@mui/material'
 import ProjectType from 'src/types/project.type'
+import SettingProject from '../SettingProject'
 
-export default function ProjectsComponent({ project }: { project: ProjectType }) {
-  console.log('🚀 ~ file: index.tsx:11 ~ ProjectsComponent ~ project:', project)
+export default function ProjectComponent({ project }: { project: ProjectType }) {
   const navigate = useNavigate()
-  const { pathname } = useLocation()
-  // const handleNavigateProject = () => {
-  //   navigate(format(routers.web.project.projectDetail, '1'))
-  // }
-  const isProjectsArchivedPath = url.web.project.projectsArchived === pathname
+  const [anchorElMenu, setAnchorElMenu] = React.useState(null)
+  const [showSetting, setShowSetting] = useState(false)
+
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
+    setAnchorElMenu(null)
   }
-  const [anchorElUser, setAnchorElUser] = React.useState(null)
 
   const handleOpenUserMenu = (event: any) => {
-    setAnchorElUser(event.currentTarget)
+    setAnchorElMenu(event.currentTarget)
   }
   const handleGoToProject = () => {
-    if (isProjectsArchivedPath) {
-      //Active project
-    } else {
-      //open project
-      navigate(format(url.web.project.projectDetail, '1'))
-    }
-
-    setAnchorElUser(null)
+    navigate(format(url.web.project.projectDetail, project._id))
+    setAnchorElMenu(null)
   }
 
-  const handleArchivedProject = async () => {
-    if (isProjectsArchivedPath) {
-      //Delete Project
-    } else {
-      //Archive project
-    }
-    setAnchorElUser(null)
-  }
   return (
     <div className='w-full h-[200px] rounded-2xl shadow-lg bg-white p-5 flex flex-col justify-between'>
       <div className='flex gap-3'>
         <div className='w-10 h-10 bg-primary-200 rounded-md'>
-          {project.project_image && (
+          {project?.project_image && (
             <img
               crossOrigin='anonymous'
-              src={project.project_image}
-              alt={project.project_name}
+              src={project?.project_image}
+              alt={project?.project_name}
               className='h-full w-full rounded-md object-cover'
             ></img>
           )}
@@ -58,15 +41,14 @@ export default function ProjectsComponent({ project }: { project: ProjectType })
         <div className='flex flex-col gap-[2px] items-start justify-center flex-1'>
           <span className='font-medium text-base leading-[18px] text-text_primary '>{project.project_name}</span>
           <span className='font-medium text-sm leading-[18px] text-text_secondary'>
-            {project?.update_at?.toString().replace('T', ' ').replace('Z', '')}
+            {project?.update_at?.toString().replace('T', ' ').replace('Z', '').slice(0, 16)}
           </span>
         </div>
         <button onClick={handleOpenUserMenu}>
           <IconDotMenu className='text-primary-800 cursor-pointer'></IconDotMenu>
         </button>
-        <PopoverComponent anchorElement={anchorElUser} handleClose={handleCloseUserMenu}>
+        <PopoverComponent anchorElement={anchorElMenu} handleClose={handleCloseUserMenu}>
           <MenuItem
-            key={'Profile'}
             onClick={handleGoToProject}
             sx={{
               ':hover': {
@@ -77,23 +59,7 @@ export default function ProjectsComponent({ project }: { project: ProjectType })
             }}
             className='hover:bg-primary-50'
           >
-            <span className='hover:bg-primary-50'>{!isProjectsArchivedPath ? 'Open Project' : 'Active project'}</span>
-          </MenuItem>
-          <MenuItem
-            key={'Logout'}
-            onClick={handleArchivedProject}
-            sx={{
-              ':hover': {
-                color: '#206bc4',
-                backgroundColor: '#E6F7FF',
-                fontWeight: '500'
-              }
-            }}
-            className='hover:bg-primary-50'
-          >
-            <span className='hover:bg-primary-50'>
-              {!isProjectsArchivedPath ? 'Archived Project' : 'Delete project'}
-            </span>
+            <span className='hover:bg-primary-50'>Open Project</span>
           </MenuItem>
         </PopoverComponent>
       </div>
@@ -113,7 +79,7 @@ export default function ProjectsComponent({ project }: { project: ProjectType })
               </div>
             </div>
           )}
-          {project?.shared_users && project?.shared_users.length < 5 && project?.shared_users.length !== 0 && (
+          {project?.shared_users && project?.shared_users.length <= 5 && project?.shared_users.length !== 0 && (
             <div className='flex gap-2'>
               <div className='w-[36px] h-[36px] bg-primary-50 rounded-xl'></div>
               {Array(project?.shared_users.length - 1)
@@ -142,6 +108,7 @@ export default function ProjectsComponent({ project }: { project: ProjectType })
           </div>
         </div>
       </div>
+      <SettingProject open={showSetting} handleClose={() => setShowSetting(false)} handleOK={() => {}}></SettingProject>
     </div>
   )
 }

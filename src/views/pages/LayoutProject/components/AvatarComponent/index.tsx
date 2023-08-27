@@ -56,22 +56,6 @@ export default function AvatarComponent() {
       </Tooltip>
 
       <PopoverComponent anchorElement={anchorElUser} handleClose={handleCloseUserMenu}>
-        {/* {settings.map((setting) => (
-          <MenuItem
-            key={setting}
-            onClick={handleCloseUserMenu}
-            sx={{
-              ':hover': {
-                color: '#206bc4',
-                backgroundColor: '#E6F7FF',
-                fontWeight: '500'
-              }
-            }}
-            className='hover:bg-primary-50'
-          >
-            <span className='hover:bg-primary-50'>{setting}</span>
-          </MenuItem>
-        ))} */}
         <MenuItem
           key={'Profile'}
           onClick={handleGoToProfile}

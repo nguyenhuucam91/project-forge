@@ -1,7 +1,10 @@
+import { format } from 'react-string-format'
 import axiosService from 'src/_api/axios.service'
 import configs from 'src/config'
 import ProjectType from 'src/types/project.type'
 import { SuccessResponse } from 'src/types/response.type'
+import User from 'src/types/user.type'
+import { SharedUser } from '../../../types/user.type'
 
 const projectServices = {
   async createProject(data: FormData) {
@@ -14,9 +17,33 @@ const projectServices = {
     return res.data
   },
 
+  async modifyProject(project_id: string, data: FormData) {
+    const url = format(configs.url.api.projectAdmin.projectsStringFormat, project_id)
+    console.log('🚀 ~ file: project.service.ts:21 ~ modifyProject ~ url:', url)
+    const res = await axiosService.patch<SuccessResponse<object>>(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return res.data
+  },
+
+  async addUserToProject(project_id: string, user: SharedUser) {
+    const url = format(configs.url.api.projectAdmin.addUserToProjectStringFormat, project_id)
+    const res = await axiosService.put<SuccessResponse<object>>(url, user)
+    return res.data
+  },
+
   async getListProject() {
     const url = configs.url.api.projectAdmin.projects
     const res = await axiosService.get<SuccessResponse<ProjectType[]>>(url)
+    return res.data.data
+  },
+
+  async getAllUsers() {
+    const url = configs.url.api.user.allUser
+    type Users = Pick<User, '_id' | 'email'>
+    const res = await axiosService.get<SuccessResponse<Users[]>>(url)
     return res.data.data
   }
 }

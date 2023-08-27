@@ -7,8 +7,8 @@ import projectServices from '../../services/project.service'
 import toast from 'react-hot-toast'
 import { setUnprocessableEntityErrorToForm } from 'src/utils/utilsError'
 import { DialogBase } from 'src/components/DialogComponent'
-import { useMutation } from 'react-query'
-import { error } from 'console'
+import { useMutation, useQueryClient } from 'react-query'
+import queryKeys from 'src/config/queryKeys'
 
 interface CreateProject {
   open: boolean
@@ -30,13 +30,11 @@ export default function CreateProject({ open, handleClose }: CreateProject) {
   const initialValues: ProjectFormValue = { project_name: '', project_description: '' }
   const inputFile = useRef<HTMLInputElement>(null)
   const [file, setFile] = useState<File>()
+
+  const queryClient = useQueryClient()
   const { mutate } = useMutation({
     mutationFn: (project: FormData) => projectServices.createProject(project)
   })
-
-  const previewImage = useMemo(() => {
-    return file ? URL.createObjectURL(file) : ''
-  }, [file])
 
   const handleCreateProject = async (
     values: ProjectFormValue,
@@ -60,12 +58,16 @@ export default function CreateProject({ open, handleClose }: CreateProject) {
       },
       onSuccess: () => {
         resetForm()
+        handleClose()
+        queryClient.invalidateQueries({ queryKey: [queryKeys.projects] })
       }
     })
   }
+
   const handleBrowserImage = () => {
     inputFile.current?.click()
   }
+
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileFromLocal = event.target.files?.[0]
     inputFile.current?.setAttribute('value', '')
@@ -79,6 +81,11 @@ export default function CreateProject({ open, handleClose }: CreateProject) {
       setFile(fileFromLocal)
     }
   }
+
+  const previewImage = useMemo(() => {
+    return file ? URL.createObjectURL(file) : ''
+  }, [file])
+
   return (
     <Formik initialValues={initialValues} validationSchema={createProjectSchema} onSubmit={() => {}}>
       {({ values, handleChange, errors, setErrors, resetForm }: FormikProps<ProjectFormValue>) => (
@@ -89,7 +96,7 @@ export default function CreateProject({ open, handleClose }: CreateProject) {
             resetForm()
           }}
           handleOK={() => {
-            handleCreateProject(values, setErrors)
+            handleCreateProject(values, setErrors, resetForm)
           }}
           title='Create Project Profile'
           width={600}

@@ -16,7 +16,6 @@ export default function ProjectHeader() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  console.log('🚀 ~ file: index.tsx:21 ~ ProjectHeader ~ pathname:', pathname)
 
   const isProjectsPath = matchPath(url.web.project.projects, pathname)
   const isDocumentPath = matchPath(url.web.documents.document, pathname)

@@ -10,3 +10,8 @@ export default interface User {
   createdAt: string
   updatedAt: string
 }
+
+export type SharedUser = {
+  user_id: string
+  project_role: 'User' | 'Admin'
+}

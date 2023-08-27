@@ -33,8 +33,13 @@ export const url = {
       logout: 'users/logout',
       refresh_token: 'refresh-token'
     },
+    user: {
+      allUser: 'users'
+    },
     projectAdmin: {
-      projects: '/project/projects'
+      projects: '/project/projects',
+      projectsStringFormat: '/project/projects/{0}',
+      addUserToProjectStringFormat: '/project/projects/{0}/shared'
     },
     forge: {
       accessToken: '/forge/token'

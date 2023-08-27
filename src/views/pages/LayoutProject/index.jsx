@@ -58,7 +58,7 @@ export default function LayoutProject() {
                 ></ProjectItem>
                 {Array(10)
                   .fill(0)
-                  .map((index) => {
+                  .map((_, index) => {
                     return (
                       <ProjectItem
                         key={index}

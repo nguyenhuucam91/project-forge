@@ -1,6 +1,5 @@
-
 import { useTitle } from 'react-use'
-import ProjectsComponent from '../../components/ProjectsComponent'
+import { ProjectComponentArchived } from '../../components/ProjectsComponent'
 
 export default function ProjectArchived() {
   useTitle('Project Archived')
@@ -12,7 +11,7 @@ export default function ProjectArchived() {
           .fill(0)
           .map((_, index) => (
             <>
-              <ProjectsComponent key={index}></ProjectsComponent>
+              <ProjectComponentArchived key={index}></ProjectComponentArchived>
             </>
           ))}
       </div>
