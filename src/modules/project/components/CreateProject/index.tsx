@@ -58,8 +58,8 @@ export default function CreateProject({ open, handleClose }: CreateProject) {
       },
       onSuccess: () => {
         resetForm()
+        queryClient.invalidateQueries({ queryKey: [queryKeys.projects.listActive] })
         handleClose()
-        queryClient.invalidateQueries({ queryKey: [queryKeys.projects] })
       }
     })
   }

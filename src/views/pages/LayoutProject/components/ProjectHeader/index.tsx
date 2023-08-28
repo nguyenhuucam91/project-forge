@@ -41,14 +41,17 @@ export default function ProjectHeader() {
 
   const handleNavigateHome = () => {
     navigate(url.web.project.projects)
+    setAnchorMenu(null)
   }
 
   const handleNavigateDocument = () => {
     navigate(format(url.web.documents.documentStringFormat, id as string))
+    setAnchorMenu(null)
   }
 
   const handleNavigateAdmin = () => {
     navigate(url.web.project.projectsAdmin)
+    setAnchorMenu(null)
   }
 
   return (

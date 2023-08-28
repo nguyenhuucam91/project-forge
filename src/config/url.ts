@@ -38,8 +38,11 @@ export const url = {
     },
     projectAdmin: {
       projects: '/project/projects',
+      projectsArchived: '/project/projects/archived',
       projectsStringFormat: '/project/projects/{0}',
-      addUserToProjectStringFormat: '/project/projects/{0}/shared'
+      addUserToProjectStringFormat: '/project/projects/{0}/shared',
+      activeProject: '/project/projects/{0}/active',
+      archiveProject: '/project/projects/{0}/archive'
     },
     forge: {
       accessToken: '/forge/token'

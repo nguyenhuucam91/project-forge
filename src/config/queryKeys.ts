@@ -1,6 +1,7 @@
 const queryKeys = {
   projects: {
-    list: 'projects',
+    listActive: 'projects',
+    listArchived: 'projects/archived',
     admin: 'projects-admin'
   }
 }

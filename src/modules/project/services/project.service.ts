@@ -34,8 +34,14 @@ const projectServices = {
     return res.data
   },
 
-  async getListProject() {
+  async getListProjectActive() {
     const url = configs.url.api.projectAdmin.projects
+    const res = await axiosService.get<SuccessResponse<ProjectType[]>>(url)
+    return res.data.data
+  },
+
+  async getListProjectArchived() {
+    const url = configs.url.api.projectAdmin.projectsArchived
     const res = await axiosService.get<SuccessResponse<ProjectType[]>>(url)
     return res.data.data
   },
@@ -45,6 +51,18 @@ const projectServices = {
     type Users = Pick<User, '_id' | 'email'>
     const res = await axiosService.get<SuccessResponse<Users[]>>(url)
     return res.data.data
+  },
+
+  async activeProject(project_id: string) {
+    const url = format(configs.url.api.projectAdmin.activeProject, project_id)
+    const res = await axiosService.patch<SuccessResponse<object>>(url)
+    return res.data
+  },
+
+  async archiveProject(project_id: string) {
+    const url = format(configs.url.api.projectAdmin.archiveProject, project_id)
+    const res = await axiosService.patch<SuccessResponse<object>>(url)
+    return res.data
   }
 }
 export default projectServices

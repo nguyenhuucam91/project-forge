@@ -4,6 +4,7 @@ import Loadable from 'src/components/Loadable'
 
 const Projects = Loadable(lazy(() => import('src/modules/project')))
 const ProjectAdmin = Loadable(lazy(() => import('src/modules/project/pages/ProjectAdmin')))
+const ProjectArchived = Loadable(lazy(() => import('src/modules/project/pages/ProjectArchived')))
 const ProjectDetail = Loadable(lazy(() => import('src/modules/project/pages/ProjectDetail/ProjectDetail')))
 const Documents = Loadable(lazy(() => import('src/modules/documents')))
 const ForgeView = Loadable(lazy(() => import('src/modules/ForgeView')))
@@ -15,7 +16,7 @@ const projectRoutes = [
   },
   {
     path: url.web.project.projectsArchived,
-    element: Projects
+    element: ProjectArchived
   },
   {
     path: url.web.project.projectsAdmin,

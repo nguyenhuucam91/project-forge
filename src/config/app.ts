@@ -1,4 +1,4 @@
 const app = {
-  baseUrl: 'http://localhost:3031/v1/api/'
+  baseUrl: 'http://localhost:3011/v1/api/'
 }
 export default app

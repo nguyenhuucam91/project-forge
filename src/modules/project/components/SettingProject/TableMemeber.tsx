@@ -46,7 +46,7 @@ export default function TableMember({ project }: { project: ProjectType }) {
   const [selectedEmail, setSelectedEmail] = useState<string>('')
   const [anchorElMenu, setAnchorElMenu] = useState(null)
   const [role, setRole] = useState('User')
-  const { refreshQuery } = useRefreshQuery([queryKeys.projects.list])
+  const { refreshQuery } = useRefreshQuery([queryKeys.projects.listActive])
 
   const { data: listUsers } = useQuery({ queryKey: ['user'], queryFn: projectServices.getAllUsers })
   const userId = UserService.getUser()?._id

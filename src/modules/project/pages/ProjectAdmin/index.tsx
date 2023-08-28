@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useTitle } from 'react-use'
 import { ButtonPrimary } from 'src/components/ButtonComponent'
 import { ProjectSkeleton } from 'src/components/Skeleton'
-import { useGetProjects } from '../../hook/useGetProjects'
+import { useGetProjectsActive } from '../../hook/useGetProjects'
 
 export default function ProjectAdmin() {
   useTitle('Project Admin')
@@ -21,7 +21,7 @@ export default function ProjectAdmin() {
     setOpenCreateProject(true)
   }
 
-  const { projects, isLoading, isSuccess } = useGetProjects()
+  const { projects, isLoading, isSuccess } = useGetProjectsActive()
 
   return (
     <div className=' w-full h-full flex flex-col bg-gray-100'>
@@ -42,7 +42,7 @@ export default function ProjectAdmin() {
           </button>
         </div>
       </div>
-      <div className=' h-full w-full grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 flex-1 p-5 overflow-y-auto auto-rows-max'>
+      <div className=' h-full w-full grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 flex-1 p-5 overflow-y-auto auto-rows-max mb-8'>
         {isLoading &&
           Array(20)
             .fill(1)

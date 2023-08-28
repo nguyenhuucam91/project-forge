@@ -5,10 +5,11 @@ import TableMember from './TableMemeber'
 import { useFormik } from 'formik'
 import ProjectType from 'src/types/project.type'
 import { useState } from 'react'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation } from 'react-query'
 import projectServices from '../../services/project.service'
 import { setUnprocessableEntityErrorToForm } from 'src/utils/utilsError'
 import queryKeys from 'src/config/queryKeys'
+import useRefreshQuery from 'src/hook/useRefreshQuery'
 
 interface SettingProjectType {
   open: boolean
@@ -30,8 +31,7 @@ type ProjectError =
 
 export default function SettingProject({ open, handleClose, project }: SettingProjectType) {
   const [file, setFile] = useState<File>()
-  const queryClient = useQueryClient()
-
+  const { refreshQuery } = useRefreshQuery([queryKeys.projects.listActive])
   const { mutate } = useMutation({
     mutationFn: (projectData: FormData) => projectServices.modifyProject(project._id, projectData)
   })
@@ -54,7 +54,7 @@ export default function SettingProject({ open, handleClose, project }: SettingPr
         onSuccess: () => {
           formik.resetForm()
           handleClose()
-          queryClient.invalidateQueries({ queryKey: [queryKeys.projects.list] })
+          refreshQuery()
         }
       })
     },
