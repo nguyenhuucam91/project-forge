@@ -4,7 +4,7 @@ import PopoverComponent from 'src/components/PopoverComponent'
 import { MenuItem } from '@mui/material'
 import ProjectType from 'src/types/project.type'
 import SettingProject from '../SettingProject'
-import { useActiveProject } from '../../hook/useModifyProject'
+import { useActiveProject, useDeleteProject } from '../../hook/useModifyProject'
 import queryKeys from 'src/config/queryKeys'
 import useRefreshQuery from 'src/hook/useRefreshQuery'
 
@@ -12,6 +12,7 @@ export default function ProjectComponentArchived({ project }: { project: Project
   const [anchorElMenu, setAnchorElMenu] = React.useState(null)
   const [showSetting, setShowSetting] = useState(false)
   const { activeProject } = useActiveProject()
+  const { deleteProject } = useDeleteProject()
   const { refreshQuery } = useRefreshQuery([queryKeys.projects.listArchived])
   const handleCloseUserMenu = () => {
     setAnchorElMenu(null)
@@ -26,6 +27,7 @@ export default function ProjectComponentArchived({ project }: { project: Project
   }
 
   const handleDeleteProject = async () => {
+    deleteProject(project._id, refreshQuery)
     setAnchorElMenu(null)
   }
 

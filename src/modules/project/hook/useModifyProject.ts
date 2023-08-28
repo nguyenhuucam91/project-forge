@@ -39,3 +39,22 @@ export const useArchiveProject = () => {
   }
   return { archiveProject }
 }
+
+export const useDeleteProject = () => {
+  const { mutate } = useMutation({
+    mutationFn: (project_id: string) => projectServices.deleteProject(project_id)
+  })
+
+  const deleteProject = (project_id: string, refreshQuery: () => Promise<void>) => {
+    mutate(project_id, {
+      onError: () => {
+        toast.error('Delete project failed')
+      },
+      onSuccess: () => {
+        toast.success('Delete project success')
+        refreshQuery()
+      }
+    })
+  }
+  return { deleteProject }
+}
