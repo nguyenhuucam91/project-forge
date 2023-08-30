@@ -18,7 +18,7 @@ export default function FolderComponent({ folder }: { folder: FolderType }) {
           <MoreHorizIcon className={`mr-5 ${open ? 'text-primary-900 font-medium' : 'text-gray-800'}`}></MoreHorizIcon>
         )}
       </div>
-      <div className='flex flex-col ml-[60px] gap-[4px]'>
+      {/* <div className='flex flex-col ml-[60px] gap-[4px]'>
         {open &&
           folder.files &&
           folder.files.length > 0 &&
@@ -27,7 +27,7 @@ export default function FolderComponent({ folder }: { folder: FolderType }) {
               {file.file_name}
             </span>
           ))}
-      </div>
+      </div> */}
     </div>
   )
 }
