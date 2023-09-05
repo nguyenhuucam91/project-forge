@@ -1,107 +1,55 @@
+import { FolderType } from 'src/types/folder.type'
 import FolderComponent from '../FolderComponent'
+import { Button } from '@mui/material'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import { useState } from 'react'
+import PopoverAddNewFolder from '../PopoverAddNewFolder'
 
-const folders = [
-  {
-    _id: 1,
-    folder_name: 'folder 1',
-    files: [
-      {
-        _id: 1.1,
-        file_name: 'structure 1',
-        version: 0
-      },
-      {
-        _id: 1.2,
-        file_name: 'structure 2',
-        version: 0
-      },
-      {
-        _id: 1.3,
-        file_name: 'structure 3',
-        version: 0
-      },
-      {
-        _id: 1.4,
-        file_name: 'structure 4',
-        version: 0
-      },
-      {
-        _id: 1.5,
-        file_name: 'structure 5',
-        version: 0
-      }
-    ]
-  },
-  {
-    _id: 2,
-    folder_name: 'folder 2',
-    files: [
-      {
-        _id: 2.1,
-        file_name: 'structure 1',
-        version: 0
-      },
-      {
-        _id: 2.2,
-        file_name: 'structure 2',
-        version: 0
-      },
-      {
-        _id: 2.3,
-        file_name: 'structure 3',
-        version: 0
-      },
-      {
-        _id: 2.4,
-        file_name: 'structure 4',
-        version: 0
-      },
-      {
-        _id: 2.5,
-        file_name: 'structure 5',
-        version: 0
-      }
-    ]
-  },
-  {
-    _id: 3,
-    folder_name: 'folder 3',
-    files: [
-      {
-        _id: 3.1,
-        file_name: 'structure 1',
-        version: 0
-      },
-      {
-        _id: 3.2,
-        file_name: 'structure 3',
-        version: 0
-      },
-      {
-        _id: 3.3,
-        file_name: 'structure 3',
-        version: 0
-      },
-      {
-        _id: 3.4,
-        file_name: 'structure 4',
-        version: 0
-      },
-      {
-        _id: 3.5,
-        file_name: 'structure 5',
-        version: 0
-      }
-    ]
+export default function DocumentNavbar({
+  openFolderId,
+  setOpenFolderId,
+  folders
+}: {
+  openFolderId: string
+  setOpenFolderId: React.Dispatch<React.SetStateAction<string>>
+  folders: FolderType[]
+}) {
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClose = () => {
+    setAnchorEl(null)
   }
-]
 
-export default function DocumentNavbar() {
+  const handleOpenFolder = (event: any) => {
+    setAnchorEl(event.currentTarget)
+  }
+
   return (
-    <div className='w-full h-full bg-gray-100 hidden xl:block'>
+    <div className='w-full h-full bg-white rounded-md shadow-md hidden xl:block'>
+      <div className='h-[50px] border-b-[2px] flex justify-center items-center font-medium text-primary-900'>
+        Project Folders
+      </div>
+      <div className='text-center mt-4'>
+        <Button
+          onClick={handleOpenFolder}
+          variant='contained'
+          sx={{ height: '36px', minWidth: '26px', marginLeft: '6px', textTransform: 'none' }}
+        >
+          <AddCircleOutlineIcon sx={{ margin: '0px' }} /> <span className='ml-2'>Add New</span>
+        </Button>
+      </div>
+
       {folders &&
         folders.length > 0 &&
-        folders.map((folder) => <FolderComponent key={folder._id} folder={folder}></FolderComponent>)}
+        folders.map((folder) => (
+          <FolderComponent
+            key={folder._id}
+            folder={folder}
+            openFolderId={openFolderId}
+            setOpenFolderId={setOpenFolderId}
+          ></FolderComponent>
+        ))}
+      <PopoverAddNewFolder anchorElement={anchorEl} handleClose={handleClose}></PopoverAddNewFolder>
     </div>
   )
 }

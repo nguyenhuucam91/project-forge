@@ -26,7 +26,7 @@ export default function ProjectComponentAdmin({ project }: { project: ProjectTyp
     setAnchorElMenu(event.currentTarget)
   }
   const handleGoToProject = () => {
-    navigate(format(url.web.project.projectDetail, project._id))
+    navigate(format(url.web.project.projectStringFormat, project._id))
     setAnchorElMenu(null)
   }
 

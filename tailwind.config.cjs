@@ -19,6 +19,9 @@ module.exports = {
           800: '#187acb',
           900: '#1859a8'
         }
+      },
+      screens: {
+        md2: '920px'
       }
     }
   },

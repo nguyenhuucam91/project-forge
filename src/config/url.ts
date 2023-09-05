@@ -9,9 +9,9 @@ export const url = {
     },
     project: {
       projectDetail: '/projects/:id',
+      projectStringFormat: '/projects/{0}',
       projectsAdmin: '/admin/projects/',
       projects: '/projects',
-      projectStringFormat: '/projects/{0}',
       projectsArchived: '/projects/archived'
     },
     documents: {

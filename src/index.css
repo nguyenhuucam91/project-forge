@@ -57,3 +57,19 @@ html {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.customSplitter {
+  border-right: 1px solid #02457a !important;
+  border-left: 1px solid #02457a !important;
+  width: 3px !important;
+  background-color: #02457a !important;
+}
+
+.customSplitter:hover {
+  width: 4px !important;
+  background-color: #02457a !important;
+}
+
+.customDocView {
+  height: calc(100% - 270px);
+}

@@ -1,28 +1,68 @@
-import { ButtonPrimary } from 'src/components/ButtonComponent'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import { Button } from '@mui/material'
-import DocViewer, { DocViewerRenderers } from 'react-doc-viewer'
-import pdf from './samle.pdf'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import PopoverModifyFile from '../PopoverModifyFile'
+import { useState } from 'react'
 
-const docs = [
-  { uri: pdf } // Local File
-]
+export default function DocumentTable({
+  files,
+  setSelectedFile
+}: {
+  files: {
+    id: number
+    file_name: string
+    version: number
+  }[]
+  setSelectedFile: React.Dispatch<React.SetStateAction<null>>
+}) {
+  const [anchorEl, setAnchorEl] = useState(null)
 
-export default function DocumentTable() {
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleOpen = (event: any) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const columns: GridColDef[] = [
+    {
+      field: 'file_name',
+      headerName: 'Name',
+      width: 230,
+      renderCell(params) {
+        return (
+          <div className='flex items-center justify-between w-full '>
+            <span>{params.row.file_name}</span>
+            <button onClick={handleOpen}>
+              <MoreHorizIcon className={`mr-5 text-primary-900 font-medium cursor-pointer`}></MoreHorizIcon>
+            </button>
+            <PopoverModifyFile anchorElement={anchorEl} handleClose={handleClose}></PopoverModifyFile>
+          </div>
+        )
+      }
+    },
+    { field: 'version', headerName: 'Version', width: 130 }
+  ]
+
   return (
-    <div className='w-full h-full bg-red-400 col-span-7'>
-      <DocViewer documents={docs} pluginRenderers={DocViewerRenderers}></DocViewer>
-      {/* Header */}
-      <div>
-        <div>
-          <ButtonPrimary>Upload files</ButtonPrimary>
-          <Button
-            variant='contained'
-            sx={{ width: '5px', height: '36px' }}
-            startIcon={<KeyboardArrowDownIcon sx={{ margin: '0px' }} />}
-          ></Button>
-        </div>
-      </div>
+    <div style={{ height: '100%', width: '100%', backgroundColor: 'white' }}>
+      <DataGrid
+        sx={{
+          '& .MuiDataGrid-main .MuiDataGrid-columnHeaders': {
+            backgroundColor: '#e9eced'
+          },
+          '& .MuiDataGrid-footerContainer .MuiDataGrid-selectedRowCount': {
+            display: 'none'
+          }
+        }}
+        rows={files}
+        columns={columns}
+        hideFooterPagination
+        hideFooter
+        checkboxSelection
+        onCellDoubleClick={(e) => console.log(e)}
+        onRowSelectionModelChange={(e) => setSelectedFile(e)}
+      />
     </div>
   )
 }
