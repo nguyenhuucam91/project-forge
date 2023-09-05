@@ -113,7 +113,6 @@ export default function Documents() {
           openFolderId={openFolderId}
           setOpenFolderId={setOpenFolderId}
         ></DocumentNavbar>
-
         <DocumentView files={files}></DocumentView>
       </div>
     </div>

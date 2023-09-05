@@ -12,7 +12,7 @@ export default function DocumentTable({
     file_name: string
     version: number
   }[]
-  setSelectedFile: React.Dispatch<React.SetStateAction<null>>
+  setSelectedFile: React.Dispatch<React.SetStateAction<never[]>>
 }) {
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -61,7 +61,7 @@ export default function DocumentTable({
         hideFooter
         checkboxSelection
         onCellDoubleClick={(e) => console.log(e)}
-        onRowSelectionModelChange={(e) => setSelectedFile(e)}
+        onRowSelectionModelChange={(e) => setSelectedFile(e as any)}
       />
     </div>
   )

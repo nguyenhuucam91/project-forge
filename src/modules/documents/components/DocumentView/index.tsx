@@ -1,10 +1,8 @@
 import { ButtonPrimary } from 'src/components/ButtonComponent'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { Button } from '@mui/material'
-import DocViewer, { DocViewerRenderers } from 'react-doc-viewer'
 import { ReflexContainer, ReflexElement, ReflexSplitter } from 'react-reflex'
 import 'react-reflex/styles.css'
-import pdf from './samle.pdf'
 import { useState } from 'react'
 import DocumentTable from '../DocumentTable'
 import PopoverAddNewFile from '../PopoverAddNewFile'
@@ -16,13 +14,10 @@ import { ReactComponent as IconLink } from '../../assets/icon-link.svg'
 import { ReactComponent as IconRename } from '../../assets/icon-rename.svg'
 import { ReactComponent as IconMove } from '../../assets/icon-move.svg'
 import useDocument from '../../hooks/useDocument'
+import DocumentPreview from '../DocumentPreview'
 
-const docs = [
-  { uri: pdf } // Local File
-]
 const minSizeLeftPanel = 790
 const maxSizeLeftPanel = window.innerWidth * 0.7
-const height = window.innerHeight - 184
 
 export default function DocumentView({
   files
@@ -37,8 +32,8 @@ export default function DocumentView({
 }) {
   const [preview, setPreview] = useState(true)
   const [anchorEl, setAnchorEl] = useState(null)
+  const [previewWidth, setPreviewWidth] = useState<number>(0)
   const [selectedFileIds, setSelectedFileIds] = useState([])
-  console.log('🚀 ~ file: index.tsx:41 ~ selectedFile:', selectedFileIds)
   const { handleOpenFile } = useDocument(selectedFileIds[0] || '0')
 
   const handleClose = () => {
@@ -47,6 +42,13 @@ export default function DocumentView({
 
   const handleOpenFolder = (event: any) => {
     setAnchorEl(event.currentTarget)
+  }
+
+  const handleResize = (e: any) => {
+    if (e.domElement) {
+      const width = e.domElement.getBoundingClientRect().width
+      setPreviewWidth(width)
+    }
   }
   return (
     <div className='w-full h-full col-span-7 flex flex-col'>
@@ -101,14 +103,14 @@ export default function DocumentView({
                 )}
               </div>
             </ReflexElement>
-            <ReflexSplitter propagate={true} className=' customSplitter' />
+            <ReflexSplitter
+              propagate={true}
+              className=' customSplitter'
+              onResize={handleResize}
+              onStopResize={handleResize}
+            />
             <ReflexElement>
-              <DocViewer
-                documents={docs}
-                pluginRenderers={DocViewerRenderers}
-                style={{ height: `${height}px` }}
-              ></DocViewer>
-              {/* <div className='h-full w-full bg-red-50'></div> */}
+              <DocumentPreview width={previewWidth}></DocumentPreview>
             </ReflexElement>
           </ReflexContainer>
         </div>
