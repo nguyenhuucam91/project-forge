@@ -2,10 +2,13 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import PopoverModifyFile from '../PopoverModifyFile'
 import { useState } from 'react'
+import { Button } from '@mui/material'
+import DocumentVersion from '../DocumentVersion'
 
 export default function DocumentTable({
   files,
-  setSelectedFile
+  setSelectedFile,
+  selectedFile
 }: {
   files: {
     id: number
@@ -13,9 +16,10 @@ export default function DocumentTable({
     version: number
   }[]
   setSelectedFile: React.Dispatch<React.SetStateAction<never[]>>
+  selectedFile: string[]
 }) {
   const [anchorEl, setAnchorEl] = useState(null)
-
+  const [openDocVersion, setOpenDocVersion] = useState(false)
   const handleClose = () => {
     setAnchorEl(null)
   }
@@ -24,24 +28,51 @@ export default function DocumentTable({
     setAnchorEl(event.currentTarget)
   }
 
+  const handleOpenDocumentVersion = () => {
+    setOpenDocVersion(!openDocVersion)
+  }
+
   const columns: GridColDef[] = [
     {
       field: 'file_name',
       headerName: 'Name',
       width: 230,
       renderCell(params) {
+        let isSelected = false
+        const selectedRows = params.api.getSelectedRows()
+        selectedRows.forEach((_, key) => {
+          if (key === params.row.id) {
+            isSelected = true
+          }
+        })
         return (
           <div className='flex items-center justify-between w-full '>
             <span>{params.row.file_name}</span>
-            <button onClick={handleOpen}>
-              <MoreHorizIcon className={`mr-5 text-primary-900 font-medium cursor-pointer`}></MoreHorizIcon>
-            </button>
-            <PopoverModifyFile anchorElement={anchorEl} handleClose={handleClose}></PopoverModifyFile>
+            {isSelected && (
+              <>
+                <button onClick={handleOpen}>
+                  <MoreHorizIcon className={`mr-5 text-primary-900 font-medium cursor-pointer`}></MoreHorizIcon>
+                </button>
+              </>
+            )}
           </div>
         )
       }
     },
-    { field: 'version', headerName: 'Version', width: 130 }
+    {
+      field: 'version',
+      headerName: 'Version',
+      width: 100,
+      renderCell(params) {
+        return (
+          <div className='text-center w-full'>
+            <Button variant='text' onClick={() => handleOpenDocumentVersion()}>
+              V{params.row.version}
+            </Button>
+          </div>
+        )
+      }
+    }
   ]
 
   return (
@@ -60,9 +91,18 @@ export default function DocumentTable({
         hideFooterPagination
         hideFooter
         checkboxSelection
+        disableRowSelectionOnClick
         onCellDoubleClick={(e) => console.log(e)}
-        onRowSelectionModelChange={(e) => setSelectedFile(e as any)}
+        onRowSelectionModelChange={(e) => {
+          setSelectedFile(e as any)
+        }}
       />
+      <PopoverModifyFile
+        anchorElement={anchorEl}
+        handleClose={handleClose}
+        selectedRowsCount={selectedFile.length}
+      ></PopoverModifyFile>
+      <DocumentVersion open={openDocVersion} handleClose={() => setOpenDocVersion(false)}></DocumentVersion>
     </div>
   )
 }

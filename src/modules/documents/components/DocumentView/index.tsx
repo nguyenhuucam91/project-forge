@@ -1,6 +1,4 @@
 import { ButtonPrimary } from 'src/components/ButtonComponent'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import { Button } from '@mui/material'
 import { ReflexContainer, ReflexElement, ReflexSplitter } from 'react-reflex'
 import 'react-reflex/styles.css'
 import { useState } from 'react'
@@ -34,6 +32,7 @@ export default function DocumentView({
   const [anchorEl, setAnchorEl] = useState(null)
   const [previewWidth, setPreviewWidth] = useState<number>(0)
   const [selectedFileIds, setSelectedFileIds] = useState([])
+
   const { handleOpenFile } = useDocument(selectedFileIds[0] || '0')
 
   const handleClose = () => {
@@ -56,10 +55,8 @@ export default function DocumentView({
       <div className='flex w-full justify-between h-[50px] pb-3 items-center'>
         <div>
           <ButtonPrimary onClick={handleOpenFolder}>Upload files</ButtonPrimary>
-          <Button variant='contained' sx={{ height: '36px', padding: '0 0', minWidth: '26px', marginLeft: '6px' }}>
-            <KeyboardArrowDownIcon sx={{ margin: '0px' }} />
-          </Button>
         </div>
+
         {selectedFileIds !== null && selectedFileIds?.length === 1 && (
           <div className='hidden md2:block'>
             <div className='flex items-center justify-center gap-2 h-12 py-0 px-2 bg-white rounded-md shadow-md'>
@@ -76,7 +73,6 @@ export default function DocumentView({
           <div className='hidden md2:block'>
             <div className='flex items-center justify-center gap-2 h-12 py-0 px-2 bg-white rounded-md shadow-md '>
               <ButtonHeader content='Move' icon={<IconMove></IconMove>}></ButtonHeader>
-              <ButtonHeader content='Copy link' icon={<IconLink></IconLink>}></ButtonHeader>
               <ButtonHeader content='Delete' icon={<IconDelete></IconDelete>}></ButtonHeader>
               <ButtonHeader content='Download' icon={<IconDownload></IconDownload>}></ButtonHeader>
             </div>
@@ -88,7 +84,11 @@ export default function DocumentView({
       {preview && (
         <div className='w-full flex-1 bg-white rounded-md shadow-sm'>
           {files && files?.length > 0 && (
-            <DocumentTable files={files} setSelectedFile={setSelectedFileIds}></DocumentTable>
+            <DocumentTable
+              files={files}
+              setSelectedFile={setSelectedFileIds}
+              selectedFile={selectedFileIds}
+            ></DocumentTable>
           )}
         </div>
       )}
@@ -99,7 +99,11 @@ export default function DocumentView({
             <ReflexElement minSize={minSizeLeftPanel} maxSize={maxSizeLeftPanel} flex={0.3}>
               <div className='w-full h-full'>
                 {files && files?.length > 0 && (
-                  <DocumentTable files={files} setSelectedFile={setSelectedFileIds}></DocumentTable>
+                  <DocumentTable
+                    files={files}
+                    setSelectedFile={setSelectedFileIds}
+                    selectedFile={selectedFileIds}
+                  ></DocumentTable>
                 )}
               </div>
             </ReflexElement>

@@ -43,7 +43,7 @@ export default function AvatarComponent() {
   }
   return (
     <div className='flex items-center justify-center gap-5'>
-      <Badge badgeContent={4} color='primary' className='cursor-pointer mt-3'>
+      <Badge badgeContent={3} color='primary' className='cursor-pointer mt-3'>
         <NotificationsNoneIcon className='text-primary-800' />
       </Badge>
       <Tooltip title='Profile'>

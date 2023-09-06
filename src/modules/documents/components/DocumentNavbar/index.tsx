@@ -27,7 +27,7 @@ export default function DocumentNavbar({
   return (
     <div className='w-full h-full bg-white rounded-md shadow-md hidden xl:block'>
       <div className='h-[50px] border-b-[2px] flex justify-center items-center font-medium text-primary-900'>
-        Project Folders
+        Documents
       </div>
       <div className='text-center mt-4'>
         <Button

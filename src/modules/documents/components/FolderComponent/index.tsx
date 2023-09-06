@@ -2,6 +2,8 @@
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { FolderType } from 'src/types/folder.type'
+import PopoverModifyFolder from '../PopoverModifyFolder'
+import { useState } from 'react'
 
 export default function FolderComponent({
   folder,
@@ -12,6 +14,15 @@ export default function FolderComponent({
   openFolderId: string
   setOpenFolderId: React.Dispatch<React.SetStateAction<string>>
 }) {
+  const [anchorEl, setAnchorEl] = useState(null)
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleClickMenu = (event: any) => {
+    setAnchorEl(event.currentTarget)
+  }
+
   return (
     /* eslint-disable jsx-a11y/no-static-element-interactions */
     <div className='pl-5 pt-3 transition-all duration-200 ease-linear'>
@@ -27,19 +38,12 @@ export default function FolderComponent({
           </span>
         </div>
         {openFolderId === folder._id.toString() && (
-          <MoreHorizIcon className={`mr-5 text-primary-900 font-medium`}></MoreHorizIcon>
+          <span onClick={handleClickMenu}>
+            <MoreHorizIcon className={`mr-5 text-primary-900 font-medium`}></MoreHorizIcon>
+          </span>
         )}
       </div>
-      {/* <div className='flex flex-col ml-[60px] gap-[4px]'>
-        {open &&
-          folder.files &&
-          folder.files.length > 0 &&
-          folder.files.map((file) => (
-            <span key={file._id} className='text-base cursor-pointer hover:text-primary-600'>
-              {file.file_name}
-            </span>
-          ))}
-      </div> */}
+      <PopoverModifyFolder anchorElement={anchorEl} handleClose={handleClose}></PopoverModifyFolder>
     </div>
   )
 }

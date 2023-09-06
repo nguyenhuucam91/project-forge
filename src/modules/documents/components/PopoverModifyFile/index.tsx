@@ -10,44 +10,50 @@ import PopoverComponent from 'src/components/PopoverComponent'
 type PopoverType = {
   handleClose: () => void
   anchorElement: PopoverProps['anchorEl'] | undefined | null
+  selectedRowsCount: number
 }
 
-export default function PopoverModifyFile({ anchorElement, handleClose }: PopoverType) {
+export default function PopoverModifyFile({ anchorElement, handleClose, selectedRowsCount }: PopoverType) {
+  console.log('🚀 ~ file: index.tsx:17 ~ PopoverModifyFile ~ selectedRowsCount:', selectedRowsCount)
   return (
     <PopoverComponent anchorElement={anchorElement} handleClose={handleClose} sx={{ boxShadow: 'none' }}>
-      <MenuItem
-        onClick={() => {}}
-        sx={{
-          ':hover': {
-            color: '#206bc4',
-            backgroundColor: '#E6F7FF',
-            fontWeight: '500'
-          }
-        }}
-        className='hover:bg-primary-50'
-      >
-        <div className='flex items-center gap-1'>
-          <IconOpen></IconOpen>
-          <span>Open</span>
-        </div>
-      </MenuItem>
+      {selectedRowsCount <= 1 && (
+        <MenuItem
+          onClick={() => {}}
+          sx={{
+            ':hover': {
+              color: '#206bc4',
+              backgroundColor: '#E6F7FF',
+              fontWeight: '500'
+            }
+          }}
+          className='hover:bg-primary-50'
+        >
+          <div className='flex items-center gap-1'>
+            <IconOpen></IconOpen>
+            <span>Open</span>
+          </div>
+        </MenuItem>
+      )}
 
-      <MenuItem
-        onClick={() => {}}
-        sx={{
-          ':hover': {
-            color: '#206bc4',
-            backgroundColor: '#E6F7FF',
-            fontWeight: '500'
-          }
-        }}
-        className='hover:bg-primary-50'
-      >
-        <div className='flex items-center gap-1'>
-          <IconRename></IconRename>
-          <span>Rename</span>
-        </div>
-      </MenuItem>
+      {selectedRowsCount <= 1 && (
+        <MenuItem
+          onClick={() => {}}
+          sx={{
+            ':hover': {
+              color: '#206bc4',
+              backgroundColor: '#E6F7FF',
+              fontWeight: '500'
+            }
+          }}
+          className='hover:bg-primary-50'
+        >
+          <div className='flex items-center gap-1'>
+            <IconRename></IconRename>
+            <span>Rename</span>
+          </div>
+        </MenuItem>
+      )}
 
       <MenuItem
         onClick={() => {}}
@@ -66,22 +72,24 @@ export default function PopoverModifyFile({ anchorElement, handleClose }: Popove
         </div>
       </MenuItem>
 
-      <MenuItem
-        onClick={() => {}}
-        sx={{
-          ':hover': {
-            color: '#206bc4',
-            backgroundColor: '#E6F7FF',
-            fontWeight: '500'
-          }
-        }}
-        className='hover:bg-primary-50'
-      >
-        <div className='flex items-center gap-1'>
-          <IconLink></IconLink>
-          <span>Copy link</span>
-        </div>
-      </MenuItem>
+      {selectedRowsCount <= 1 && (
+        <MenuItem
+          onClick={() => {}}
+          sx={{
+            ':hover': {
+              color: '#206bc4',
+              backgroundColor: '#E6F7FF',
+              fontWeight: '500'
+            }
+          }}
+          className='hover:bg-primary-50'
+        >
+          <div className='flex items-center gap-1'>
+            <IconLink></IconLink>
+            <span>Copy link</span>
+          </div>
+        </MenuItem>
+      )}
 
       <MenuItem
         onClick={() => {}}
