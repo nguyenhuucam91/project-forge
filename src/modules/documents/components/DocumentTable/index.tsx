@@ -65,12 +65,18 @@ export default function DocumentTable({
       width: 100,
       renderCell(params) {
         return (
-          <div className='text-center w-full'>
-            <Button variant='text' onClick={() => handleOpenDocumentVersion()}>
-              V{params.row.version}
-            </Button>
-          </div>
+          <Button variant='text' onClick={() => handleOpenDocumentVersion()}>
+            V{params.row.version}
+          </Button>
         )
+      }
+    },
+    {
+      field: 'extension',
+      headerName: 'Type',
+      width: 100,
+      renderCell(params) {
+        return <span className='text-primary-900 text-base'>{params.row.extension}</span>
       }
     }
   ]

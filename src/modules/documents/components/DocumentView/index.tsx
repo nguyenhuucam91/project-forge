@@ -24,6 +24,7 @@ export default function DocumentView({
     | {
         id: number
         file_name: string
+        extension: string
         version: number
       }[]
     | undefined
@@ -34,7 +35,16 @@ export default function DocumentView({
   const [selectedFileIds, setSelectedFileIds] = useState([])
 
   const { handleOpenFile } = useDocument(selectedFileIds[0] || '0')
-
+  const getSelectedFileType = () => {
+    if (selectedFileIds.length !== 1) {
+      return ''
+    }
+    const file = files?.find((f) => f.id === selectedFileIds[0])
+    if (file) {
+      return file.extension
+    }
+    return ''
+  }
   const handleClose = () => {
     setAnchorEl(null)
   }
@@ -114,7 +124,7 @@ export default function DocumentView({
               onStopResize={handleResize}
             />
             <ReflexElement>
-              <DocumentPreview width={previewWidth}></DocumentPreview>
+              <DocumentPreview width={previewWidth} type={getSelectedFileType()}></DocumentPreview>
             </ReflexElement>
           </ReflexContainer>
         </div>
