@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { forgeAPI } from './services/forge.service'
 import MarkupSidebar from './components/MarkupSidebar'
 import MarkupStyleSidebar from './components/MarkupStyleSidebar'
+import Sidebar from './components/Sidebar'
 import { useMaskUpServices } from './services/markup.services'
 import { useTitle } from 'react-use'
 
@@ -204,6 +205,7 @@ export default function ForgeView() {
         </button>
         <button onClick={handleRestore}>Restore</button>
       </div> */}
+      <Sidebar></Sidebar>
       {showMarkup && (
         <>
           <MarkupSidebar

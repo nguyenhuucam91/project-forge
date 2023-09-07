@@ -5,7 +5,7 @@ const docs = [
   { uri: pdf } // Local File
 ]
 
-const height = window.innerHeight - 184
+const height = window.innerHeight - 210
 export default function DocumentPreview({ width, type }: { width: number; type: string }) {
   console.log('🚀 ~ file: index.tsx:10 ~ DocumentPreview ~ type:', type)
   return (

@@ -1,12 +1,11 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { forgeAPI } from 'src/modules/ForgeView/services/forge.service'
 
 export default function ForgePreview({ urn, width }: { urn: string; width: number }) {
   const viewDomRef = React.useRef(null)
   const viewRef = React.useRef<Autodesk.Viewing.GuiViewer3D | null>(null)
   const viewerDocumentRef = useRef<Autodesk.Viewing.Document | null>(null)
-  const [listImg, setListImgs] = useState<ReactNode[]>([])
-  console.log('🚀 ~ file: index.tsx:8 ~ ForgePreview ~ listImg:', listImg)
+
   useEffect(() => {
     viewRef.current?.resize()
     viewRef.current?.fitToView()
@@ -84,32 +83,5 @@ export default function ForgePreview({ urn, width }: { urn: string; width: numbe
     }
   }, [urn])
 
-  const handleLoad = async () => {
-    const newListImgs: ReactNode[] = []
-    const view3dGeoAbles = viewerDocumentRef.current.getRoot().search({ type: 'geometry', role: '3d' })
-
-    view3dGeoAbles.forEach((view) => {
-      Autodesk.Viewing?.Thumbnails?.getUrlForBubbleNode(view).then((src) => {
-        console.log('====================================')
-        console.log(src)
-        console.log('====================================')
-      })
-    })
-
-    const view2dGeoAbles = viewerDocumentRef.current.getRoot().search({ type: 'geometry', role: '2d' })
-    view2dGeoAbles.forEach((view) => {
-      Autodesk.Viewing?.Thumbnails?.getUrlForBubbleNode(view).then((src) => {
-        console.log(src)
-      })
-    })
-    setListImgs(newListImgs)
-  }
-  return (
-    <div className='relative h-full w-full'>
-      <div ref={viewDomRef}></div>
-      <div className='absolute bg-red-200 w-[200px] h-[500px] z-30'>
-        <button onClick={handleLoad}>Load</button>
-      </div>
-    </div>
-  )
+  return <div ref={viewDomRef}></div>
 }

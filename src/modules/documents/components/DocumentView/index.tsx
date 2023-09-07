@@ -13,12 +13,14 @@ import { ReactComponent as IconRename } from '../../assets/icon-rename.svg'
 import { ReactComponent as IconMove } from '../../assets/icon-move.svg'
 import useDocument from '../../hooks/useDocument'
 import DocumentPreview from '../DocumentPreview'
+import { Breadcrumbs } from '@mui/material'
 
 const minSizeLeftPanel = 790
 const maxSizeLeftPanel = window.innerWidth * 0.7
 
 export default function DocumentView({
-  files
+  files,
+  selectedFolderName
 }: {
   files:
     | {
@@ -28,6 +30,7 @@ export default function DocumentView({
         version: number
       }[]
     | undefined
+  selectedFolderName: string
 }) {
   const [preview, setPreview] = useState(true)
   const [anchorEl, setAnchorEl] = useState(null)
@@ -60,7 +63,7 @@ export default function DocumentView({
     }
   }
   return (
-    <div className='w-full h-full col-span-7 flex flex-col'>
+    <div className='w-full h-full col-span-7 flex flex-col '>
       {/* Header */}
       <div className='flex w-full justify-between h-[50px] pb-3 items-center'>
         <div>
@@ -91,20 +94,26 @@ export default function DocumentView({
         <ButtonPrimary onClick={() => setPreview(!preview)}>Preview</ButtonPrimary>
       </div>
       {/* Content */}
+      <div className='pb-2'>
+        <Breadcrumbs aria-label='breadcrumb'>
+          <button>Project</button>
+          <button className='font-medium text-primary-700'>{selectedFolderName}</button>
+        </Breadcrumbs>
+      </div>
       {preview && (
-        <div className='w-full flex-1 bg-white rounded-md shadow-sm'>
+        <div className='w-full flex-1 bg-white rounded-md shadow-lg border'>
           {files && files?.length > 0 && (
             <DocumentTable
               files={files}
               setSelectedFile={setSelectedFileIds}
-              selectedFile={selectedFileIds}
+              selectedFileIds={selectedFileIds}
             ></DocumentTable>
           )}
         </div>
       )}
 
       {!preview && (
-        <div className='w-full flex-1 bg-white rounded-md shadow-sm'>
+        <div className='w-full flex-1 bg-white rounded-md shadow-lg border'>
           <ReflexContainer orientation='vertical' className='h-full'>
             <ReflexElement minSize={minSizeLeftPanel} maxSize={maxSizeLeftPanel} flex={0.3}>
               <div className='w-full h-full'>
@@ -112,7 +121,7 @@ export default function DocumentView({
                   <DocumentTable
                     files={files}
                     setSelectedFile={setSelectedFileIds}
-                    selectedFile={selectedFileIds}
+                    selectedFileIds={selectedFileIds}
                   ></DocumentTable>
                 )}
               </div>

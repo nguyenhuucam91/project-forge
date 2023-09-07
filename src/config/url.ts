@@ -15,10 +15,10 @@ export const url = {
       projectsArchived: '/projects/archived'
     },
     documents: {
-      document: '/project/:id/documents',
-      documentStringFormat: '/project/{0}/documents',
-      view: '/project/:projectid/documents/:docid',
-      viewStringFormat: '/project/{0}/documents/{1}'
+      document: '/projects/:projectId/documents',
+      documentStringFormat: '/projects/{0}/documents',
+      view: '/projects/:projectId/documents/:docId',
+      viewStringFormat: '/projects/{0}/documents/{1}'
     },
     errors: {
       notFound: '/404',

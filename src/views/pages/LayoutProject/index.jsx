@@ -21,7 +21,7 @@ export default function LayoutProject() {
 
   return (
     <div className='h-full'>
-      <div className='fixed w-screen px-[36px] h-[58px] z-10 flex items-center justify-between shadow-sm shadow-primary-300 bg-white'>
+      <div className='fixed w-screen px-[36px] h-[58px] z-[21] flex items-center justify-between shadow-sm shadow-primary-300 bg-white'>
         <div className='flex items-center'>
           <a href='/'>
             <img

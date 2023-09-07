@@ -9,31 +9,31 @@ const folders = [
     folder_name: 'Structure',
     files: [
       {
-        id: 1.1,
+        id: 11,
         file_name: 'structure 1',
         version: 0,
         extension: 'rvt'
       },
       {
-        id: 1.2,
+        id: 12,
         file_name: 'structure 2',
         version: 1,
         extension: 'rvt'
       },
       {
-        id: 1.3,
+        id: 13,
         file_name: 'structure 3',
         version: 2,
         extension: 'pdf'
       },
       {
-        id: 1.4,
+        id: 14,
         file_name: 'structure 4',
         version: 4,
         extension: 'rvt'
       },
       {
-        id: 1.5,
+        id: 15,
         file_name: 'structure 5',
         version: 5,
         extension: 'pdf'
@@ -45,31 +45,31 @@ const folders = [
     folder_name: 'Architecture',
     files: [
       {
-        id: 2.1,
+        id: 21,
         file_name: 'architecture 1',
         version: 0,
         extension: 'pdf'
       },
       {
-        id: 2.2,
+        id: 22,
         file_name: 'architecture 2',
         version: 0,
         extension: 'rvt'
       },
       {
-        id: 2.3,
+        id: 23,
         file_name: 'architecture 3',
         version: 0,
         extension: 'rvt'
       },
       {
-        id: 2.4,
+        id: 24,
         file_name: 'architecture 4',
         version: 0,
         extension: 'pdf'
       },
       {
-        id: 2.5,
+        id: 25,
         file_name: 'architecture 5',
         version: 0,
         extension: 'rvt'
@@ -81,31 +81,31 @@ const folders = [
     folder_name: 'MEP',
     files: [
       {
-        id: 3.1,
+        id: 31,
         file_name: 'mep 1',
         version: 0,
         extension: 'rvt'
       },
       {
-        id: 3.2,
+        id: 32,
         file_name: 'mep 3',
         version: 0,
         extension: 'pdf'
       },
       {
-        id: 3.3,
+        id: 33,
         file_name: 'mep 3',
         version: 0,
         extension: 'rvt'
       },
       {
-        id: 3.4,
+        id: 34,
         file_name: 'mep 4',
         version: 0,
         extension: 'pdf'
       },
       {
-        id: 3.5,
+        id: 35,
         file_name: 'mep 5',
         version: 0,
         extension: 'rvt'
@@ -120,15 +120,19 @@ export default function Documents() {
   const files = useMemo(() => {
     return folders.find((folder) => folder._id.toString() === openFolderId)?.files
   }, [openFolderId])
+
+  const folderName = useMemo(() => {
+    return folders.find((folder) => folder._id.toString() === openFolderId)?.folder_name || ''
+  }, [openFolderId])
   return (
-    <div className=' w-full h-full flex flex-col bg-gray-200'>
+    <div className=' w-full h-full flex flex-col '>
       <div className=' h-full w-full grid xl:grid-cols-8 grid-cols-1 gap-3 flex-1 p-3'>
         <DocumentNavbar
           folders={folders}
           openFolderId={openFolderId}
           setOpenFolderId={setOpenFolderId}
         ></DocumentNavbar>
-        <DocumentView files={files}></DocumentView>
+        <DocumentView files={files} selectedFolderName={folderName}></DocumentView>
       </div>
     </div>
   )

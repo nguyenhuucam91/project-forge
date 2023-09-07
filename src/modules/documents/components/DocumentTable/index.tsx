@@ -2,13 +2,16 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import PopoverModifyFile from '../PopoverModifyFile'
 import { useState } from 'react'
-import { Button } from '@mui/material'
+import {  Button } from '@mui/material'
 import DocumentVersion from '../DocumentVersion'
+import { useNavigate, useParams } from 'react-router'
+import { format } from 'react-string-format'
+import { url } from 'src/config/url'
 
 export default function DocumentTable({
   files,
   setSelectedFile,
-  selectedFile
+  selectedFileIds
 }: {
   files: {
     id: number
@@ -16,10 +19,12 @@ export default function DocumentTable({
     version: number
   }[]
   setSelectedFile: React.Dispatch<React.SetStateAction<never[]>>
-  selectedFile: string[]
+  selectedFileIds: string[]
 }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const [openDocVersion, setOpenDocVersion] = useState(false)
+  const navigate = useNavigate()
+  const { projectId } = useParams()
   const handleClose = () => {
     setAnchorEl(null)
   }
@@ -30,6 +35,10 @@ export default function DocumentTable({
 
   const handleOpenDocumentVersion = () => {
     setOpenDocVersion(!openDocVersion)
+  }
+
+  const handleCellClick = (e: any) => {
+    navigate(format(url.web.documents.viewStringFormat, projectId as string, e?.id))
   }
 
   const columns: GridColDef[] = [
@@ -47,7 +56,7 @@ export default function DocumentTable({
         })
         return (
           <div className='flex items-center justify-between w-full '>
-            <span>{params.row.file_name}</span>
+            <span className='text-base leading-4'>{params.row.file_name}</span>
             {isSelected && (
               <>
                 <button onClick={handleOpen}>
@@ -86,7 +95,7 @@ export default function DocumentTable({
       <DataGrid
         sx={{
           '& .MuiDataGrid-main .MuiDataGrid-columnHeaders': {
-            backgroundColor: '#e9eced'
+            backgroundColor: '#fff'
           },
           '& .MuiDataGrid-footerContainer .MuiDataGrid-selectedRowCount': {
             display: 'none'
@@ -98,7 +107,8 @@ export default function DocumentTable({
         hideFooter
         checkboxSelection
         disableRowSelectionOnClick
-        onCellDoubleClick={(e) => console.log(e)}
+        rowSelectionModel={selectedFileIds}
+        onCellDoubleClick={handleCellClick}
         onRowSelectionModelChange={(e) => {
           setSelectedFile(e as any)
         }}
@@ -106,7 +116,7 @@ export default function DocumentTable({
       <PopoverModifyFile
         anchorElement={anchorEl}
         handleClose={handleClose}
-        selectedRowsCount={selectedFile.length}
+        selectedRowsCount={selectedFileIds.length}
       ></PopoverModifyFile>
       <DocumentVersion open={openDocVersion} handleClose={() => setOpenDocVersion(false)}></DocumentVersion>
     </div>
