@@ -18,13 +18,13 @@ const folders = [
         id: 12,
         file_name: 'structure 2',
         version: 1,
-        extension: 'rvt'
+        extension: 'dwg'
       },
       {
         id: 13,
         file_name: 'structure 3',
         version: 2,
-        extension: 'pdf'
+        extension: 'nwd'
       },
       {
         id: 14,

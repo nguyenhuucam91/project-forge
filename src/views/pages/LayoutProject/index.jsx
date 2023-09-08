@@ -21,7 +21,7 @@ export default function LayoutProject() {
 
   return (
     <div className='h-full'>
-      <div className='fixed w-screen px-[36px] h-[58px] z-[21] flex items-center justify-between shadow-sm shadow-primary-300 bg-white'>
+      <div className='fixed w-screen px-[36px] h-[58px] z-[12] flex items-center justify-between shadow-sm shadow-primary-300 bg-white'>
         <div className='flex items-center'>
           <a href='/'>
             <img
@@ -75,7 +75,7 @@ export default function LayoutProject() {
         <AvatarComponent></AvatarComponent>
       </div>
       <div className='w-full h-[58px]'></div>
-      <div className='flex flex-col overflow-hidden h-[calc(100vh-58px)]'>
+      <div className='flex flex-col h-[calc(100vh-58px)] overflow-hidden'>
         <ProjectHeader></ProjectHeader>
         <Outlet></Outlet>
       </div>

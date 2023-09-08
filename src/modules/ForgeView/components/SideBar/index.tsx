@@ -10,8 +10,8 @@ export default function SideBar() {
   return (
     <>
       <div
-        className='absolute top-[58px] left-0 w-[60px] z-20 bg-white shadow-lg flex items-center flex-col py-5 gap-4'
-        style={{ height: 'calc( 100% - 58px)' }}
+        className='fixed top-[58px] left-0 w-[60px] z-20 bg-white shadow-lg flex items-center flex-col py-5 gap-4'
+        style={{ height: 'calc( 100% - 60px)' }}
       >
         <MarkupButton
           handleOnClick={() => {

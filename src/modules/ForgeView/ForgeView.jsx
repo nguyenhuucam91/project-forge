@@ -5,6 +5,10 @@ import MarkupStyleSidebar from './components/MarkupStyleSidebar'
 import Sidebar from './components/Sidebar'
 import { useMaskUpServices } from './services/markup.services'
 import { useTitle } from 'react-use'
+import { Breadcrumbs } from '@mui/material'
+import { useNavigate, useParams } from 'react-router'
+import { format } from 'react-string-format'
+import { url } from 'src/config/url'
 
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
@@ -16,6 +20,9 @@ export default function ForgeView() {
   const viewRef = React.useRef(null)
   const markupRef = useRef(null)
   const divRef = useRef(null)
+
+  const { projectId } = useParams()
+  const navigate = useNavigate()
 
   const [style, setStyle] = useState({
     'font-size': 200,
@@ -195,9 +202,20 @@ export default function ForgeView() {
   //   // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
   //   // console.log('🚀 ~ file: ForgeView.jsx:155 ~ handleSnapping ~ names:', names)
   // }
-
+  const handleBackHome = () => {
+    navigate(format(url.web.documents.documentStringFormat, projectId))
+  }
   return (
     <>
+      <div className='w-full h-[40px] bg-white fixed z-[11] shadow-md pl-[70px] flex items-center'>
+        <Breadcrumbs aria-label='breadcrumb'>
+          <button onClick={handleBackHome}>Project</button>
+          <button onClick={handleBackHome} className='font-medium '>
+            Structure
+          </button>
+          <button className='font-medium text-primary-900'>Structure 1</button>
+        </Breadcrumbs>
+      </div>
       <div id='viewer' ref={viewDomRef}></div>
       {/* <div className=' absolute top-[300px] left-0 z-20 flex gap-3'>
         <button onClick={handleSnapping} className='p-5 bg-primary-800 text-white'>

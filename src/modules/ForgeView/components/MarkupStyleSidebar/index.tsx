@@ -73,7 +73,7 @@ export default function MarkupStyleSidebar({ markupObject, style, setStyle }: Ma
       id='markupStyleSidebar'
       className='absolute shadow-lg right-[12px] flex-col top-1/2 -translate-y-1/2 z-10 flex gap-3 items-center justify-center rounded-md bg-white px-2 py-3'
     >
-      <TooltipComponent title='Size up' placement='top'>
+      <TooltipComponent title='Size up' placement='left'>
         <div>
           <MarkupButton handleOnClick={handleFontUp}>
             <IconUp></IconUp>
@@ -81,7 +81,7 @@ export default function MarkupStyleSidebar({ markupObject, style, setStyle }: Ma
         </div>
       </TooltipComponent>
 
-      <TooltipComponent title='Size down' placement='top'>
+      <TooltipComponent title='Size down' placement='left'>
         <div>
           <MarkupButton handleOnClick={handleFontDown}>
             <IconDown></IconDown>
@@ -89,7 +89,7 @@ export default function MarkupStyleSidebar({ markupObject, style, setStyle }: Ma
         </div>
       </TooltipComponent>
 
-      <TooltipComponent title='Bold Text' placement='top'>
+      <TooltipComponent title='Bold Text' placement='left'>
         <div>
           <MarkupButton handleOnClick={handleBold}>
             <IconBold></IconBold>
@@ -97,15 +97,14 @@ export default function MarkupStyleSidebar({ markupObject, style, setStyle }: Ma
         </div>
       </TooltipComponent>
 
-      <TooltipComponent title='Italic Text' placement='top'>
+      <TooltipComponent title='Italic Text' placement='left'>
         <div>
           <MarkupButton handleOnClick={handleItalic}>
             <IconItalic></IconItalic>
           </MarkupButton>
         </div>
       </TooltipComponent>
-      <hr className='w-full h-[3px] bg-primary-900' />
-
+      <div className=' w-1 border-l-2 border-l-primary-900 h-8 rotate-90'></div>
       <MarkupButton handleOnClick={() => handleChangeColor('#FF0000')}>
         <div className='h-4 w-4 rounded-full ring-4 ring-[#FF0000]'></div>
       </MarkupButton>

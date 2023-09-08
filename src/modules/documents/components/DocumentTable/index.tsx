@@ -2,11 +2,23 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import PopoverModifyFile from '../PopoverModifyFile'
 import { useState } from 'react'
-import {  Button } from '@mui/material'
+import { Button } from '@mui/material'
 import DocumentVersion from '../DocumentVersion'
 import { useNavigate, useParams } from 'react-router'
 import { format } from 'react-string-format'
 import { url } from 'src/config/url'
+
+import { ReactComponent as IconAutocad } from '../../assets/icon-autocad.svg'
+import { ReactComponent as IconNavisworks } from '../../assets/icon-navisworks.svg'
+import { ReactComponent as IconPdf } from '../../assets/icon-pdf.svg'
+import { ReactComponent as IconRevit } from '../../assets/icon-revit.svg'
+
+const fileIcons = {
+  pdf: <IconPdf></IconPdf>,
+  dwg: <IconAutocad></IconAutocad>,
+  nwd: <IconNavisworks></IconNavisworks>,
+  rvt: <IconRevit></IconRevit>
+}
 
 export default function DocumentTable({
   files,
@@ -56,7 +68,11 @@ export default function DocumentTable({
         })
         return (
           <div className='flex items-center justify-between w-full '>
-            <span className='text-base leading-4'>{params.row.file_name}</span>
+            <div className='flex items-center gap-2'>
+              {fileIcons[params.row.extension] ?? ''}
+              <span className='text-base leading-4'>{params.row.file_name}</span>
+            </div>
+
             {isSelected && (
               <>
                 <button onClick={handleOpen}>
