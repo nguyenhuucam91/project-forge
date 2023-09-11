@@ -46,7 +46,7 @@ export const url = {
     },
     forge: {
       accessToken: '/forge/token',
-      addMarkup: '/project/files/{0}/markup'
+      addMarkup: '/project/projects/{0}/files/{1}/markup'
     }
   }
 }

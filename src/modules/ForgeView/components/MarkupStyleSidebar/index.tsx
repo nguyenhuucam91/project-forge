@@ -8,16 +8,15 @@ import { ReactComponent as IconDown } from './icons/icon-down.svg'
 import TooltipComponent from 'src/components/TooltipComponent'
 
 type MarkupStyleSidebarProps = {
-  style: MarkupStyleType
   markupObject: any
   setStyle: (value: React.SetStateAction<MarkupStyleType>) => void
 }
 
-export default function MarkupStyleSidebar({ markupObject, style, setStyle }: MarkupStyleSidebarProps) {
+export default function MarkupStyleSidebar({ markupObject, setStyle }: MarkupStyleSidebarProps) {
   const handleFontUp = () => {
     setStyle((prev) => {
       const copyStyle = { ...prev }
-      if (markupObject.type === 'label') {
+      if (markupObject?.type === 'label') {
         copyStyle['font-size'] = copyStyle['font-size'] + 30
       } else {
         copyStyle['stroke-width'] = copyStyle['stroke-width'] + 5
@@ -28,7 +27,7 @@ export default function MarkupStyleSidebar({ markupObject, style, setStyle }: Ma
   const handleFontDown = () => {
     setStyle((prev) => {
       const copyStyle = { ...prev }
-      if (markupObject.type === 'label') {
+      if (markupObject?.type === 'label') {
         copyStyle['font-size'] = copyStyle['font-size'] - 30
       } else {
         copyStyle['stroke-width'] = copyStyle['stroke-width'] - 5

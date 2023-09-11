@@ -8,8 +8,8 @@ type DrawerType = {
 export default function DrawerBase({ open, handleClose, children }: DrawerType) {
   return (
     <div
-      className={`fixed left-[60px] w-[280px] z-[19] bg-white shadow-lg transition delay-300 ease-out ${
-        !open ? '-translate-x-[280px]' : ''
+      className={`fixed left-[60px] w-[360px] z-[19] bg-white shadow-lg transition delay-300 ease-out ${
+        !open ? '-translate-x-[360px]' : ''
       }`}
       style={{ height: 'calc( 100% - 60px)' }}
     >

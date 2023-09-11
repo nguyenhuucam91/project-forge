@@ -1,6 +1,8 @@
 import { format } from 'react-string-format'
 import axiosService from 'src/_api/axios.service'
 import configs from 'src/config'
+import { MarkupType } from 'src/types/markup.type'
+import { SuccessResponse } from 'src/types/response.type'
 
 export const forgeAPI = {
   async getAccessToken() {
@@ -24,13 +26,17 @@ export const forgeAPI = {
     img: string
   }) {
     try {
-      const url = format(configs.url.api.forge.addMarkup, file_id)
+      const url = format(configs.url.api.forge.addMarkup, '64ec76442b2494ec54aa5c31', file_id)
       const res = await axiosService.post(url, { svg, viewerStateOptions, img })
-      console.log('🚀 ~ file: forge.service.ts:29 ~ { svg, viewerStateOptions, img }:', {
-        svg,
-        viewerStateOptions,
-        img
-      })
+      return res.data.data
+    } catch (error) {
+      return null
+    }
+  },
+  async getMarkups(file_id: string) {
+    try {
+      const url = format(configs.url.api.forge.addMarkup, '64ec76442b2494ec54aa5c31', file_id)
+      const res = await axiosService.get<SuccessResponse<MarkupType[]>>(url)
       return res.data.data
     } catch (error) {
       return null

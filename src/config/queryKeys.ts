@@ -3,6 +3,9 @@ const queryKeys = {
     listActive: 'projects',
     listArchived: 'projects/archived',
     admin: 'projects-admin'
+  },
+  files: {
+    markups: 'markups'
   }
 }
 

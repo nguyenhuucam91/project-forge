@@ -9,6 +9,29 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
   const [clicked, setClicked] = useState(false)
   const [markupObject, setMarkupObject] = useState(null)
 
+  const handleRestore = (viewPortObject) => {
+    const viewer = viewRef.current
+    viewer.restoreState(viewPortObject, false)
+  }
+  const handleLoadMasksUp = (svg, viewPortObject) => {
+    viewRef.current.unloadExtension('Autodesk.Viewing.MarkupsCore')
+    viewRef.current.loadExtension('Autodesk.Viewing.MarkupsCore')
+
+    handleRestore(viewPortObject)
+    setTimeout(() => {
+      setShowMaskup(true)
+      markupRef.current = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
+      const markup = markupRef.current
+      markup.show()
+      markup.loadMarkups(svg, 'layerName')
+      markup.enterEditMode('layerName')
+      changeMarkupStyleUseEffect()
+    }, 300)
+    setTimeout(() => {
+      changeMarkupStyleUseEffect()
+    }, 300)
+  }
+
   const handleSaveMarkup = async () => {
     const viewer = viewRef.current
     const stateFilter = {
@@ -26,14 +49,12 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
       const res = await forgeAPI.addMarkup({
         file_id: '64ecbd931495ac98c090fb92',
         svg,
-        img: '1asa',
+        img: img,
         viewerStateOptions
       })
       console.log('🚀 ~ file: markup.services.js:27 ~ handleSaveMarkup ~ res:', res)
     } catch (error) {
-      console.log('====================================')
       console.log(error)
-      console.log('====================================')
     }
   }
   const handleAddMaskUp = (type) => {
@@ -177,14 +198,12 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
   const handleUndo = () => {
     markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
     const markup = markupRef.current
-    console.log('🚀 ~ file: markup.services.js:130 ~ handleUndo ~ markup:', markup)
     markup.undo()
   }
 
   const handleRedo = () => {
     markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
     const markup = markupRef.current
-    console.log('🚀 ~ file: markup.services.js:136 ~ handleRedo ~ markup:', markup)
     markup.redo()
   }
 
@@ -196,6 +215,7 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
   }
   const changeMarkupStyleUseEffect = () => {
     const markup = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
+    console.log('🚀 ~ file: markup.services.js:252 ~ changeMarkupStyleUseEffect ~ markup:', markup)
 
     if (!markup) {
       return
@@ -227,6 +247,7 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
     handleChangeCapture,
     handleCloseMarkup,
     changeMarkupStyleUseEffect,
-    handleSaveMarkup
+    handleSaveMarkup,
+    handleLoadMasksUp
   }
 }

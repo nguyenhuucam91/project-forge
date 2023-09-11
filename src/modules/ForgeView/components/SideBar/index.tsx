@@ -4,7 +4,7 @@ import { ReactComponent as IconError } from '../../assets/icon_error.svg'
 import { useState } from 'react'
 import DrawerMarkup from '../DrawerMarkup'
 
-export default function SideBar() {
+export default function SideBar({ handleLoadMasksUp }: { handleLoadMasksUp: (svg: any, viewPortObject: any) => void }) {
   const [openDrawerMarkup, setOpenDrawerMarkup] = useState(false)
 
   return (
@@ -26,7 +26,11 @@ export default function SideBar() {
           <IconError></IconError>
         </MarkupButton>
       </div>
-      <DrawerMarkup open={openDrawerMarkup} handleClose={() => setOpenDrawerMarkup(false)}></DrawerMarkup>
+      <DrawerMarkup
+        open={openDrawerMarkup}
+        handleClose={() => setOpenDrawerMarkup(false)}
+        handleLoadMasksUp={handleLoadMasksUp}
+      ></DrawerMarkup>
     </>
   )
 }

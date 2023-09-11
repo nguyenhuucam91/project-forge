@@ -3,7 +3,12 @@ export type MarkupType = {
   _id: string
   img: string
   status: MarkupStatus
-  user_id: string
+
   create_at?: string
-  update_at: string
+  update_at?: string
+  username: string
+  file_id: string
+
+  svg: string
+  viewerStateOptions: string
 }
