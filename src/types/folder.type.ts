@@ -2,7 +2,7 @@ export type FolderType = {
   _id: number
   folder_name: string
   files: {
-    id: number
+    id: any
     file_name: string
     version: number
   }[]

@@ -9,7 +9,7 @@ const folders = [
     folder_name: 'Structure',
     files: [
       {
-        id: 11,
+        id: '64ecbd931495ac98c090fb92',
         file_name: 'structure 1',
         version: 0,
         extension: 'rvt'

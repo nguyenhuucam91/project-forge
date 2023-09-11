@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import getScreenshotDataUrl from './captureMaskup'
+import { forgeAPI } from './forge.service'
 
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
@@ -8,6 +9,33 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
   const [clicked, setClicked] = useState(false)
   const [markupObject, setMarkupObject] = useState(null)
 
+  const handleSaveMarkup = async () => {
+    const viewer = viewRef.current
+    const stateFilter = {
+      seedURN: false,
+      objectSet: true,
+      viewport: true,
+      renderOptions: true
+    }
+    const viewerStateOptions = viewer.getState(stateFilter)
+    markupRef.current = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
+    const markup = markupRef.current
+    const svg = markup.generateData()
+    const img = await getScreenshotDataUrl(viewRef.current)
+    try {
+      const res = await forgeAPI.addMarkup({
+        file_id: '64ecbd931495ac98c090fb92',
+        svg,
+        img: '1asa',
+        viewerStateOptions
+      })
+      console.log('🚀 ~ file: markup.services.js:27 ~ handleSaveMarkup ~ res:', res)
+    } catch (error) {
+      console.log('====================================')
+      console.log(error)
+      console.log('====================================')
+    }
+  }
   const handleAddMaskUp = (type) => {
     if (!clicked) {
       setClicked(true)
@@ -198,6 +226,7 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
     handleDeleteMarkup,
     handleChangeCapture,
     handleCloseMarkup,
-    changeMarkupStyleUseEffect
+    changeMarkupStyleUseEffect,
+    handleSaveMarkup
   }
 }

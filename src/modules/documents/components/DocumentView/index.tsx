@@ -24,7 +24,7 @@ export default function DocumentView({
 }: {
   files:
     | {
-        id: number
+        id: any
         file_name: string
         extension: string
         version: number

@@ -13,6 +13,7 @@ import { ReactComponent as IconUndo } from './icons//icon-undo.svg'
 import { ReactComponent as IconRedo } from './icons//icon-redo.svg'
 import { ReactComponent as IconCopy } from './icons//icon-copy.svg'
 import { ReactComponent as IconDelete } from './icons//icon-delete.svg'
+import { ReactComponent as IconSave } from './icons//icon-save.svg'
 import TooltipComponent from 'src/components/TooltipComponent'
 import { useState } from 'react'
 
@@ -24,6 +25,7 @@ type MarkupSidebarType = {
   handleUndo: () => void
   handleRedo: () => void
   handleCopy: () => void
+  handleSaveMasksUp: () => void
   divRef: React.MutableRefObject<null>
 }
 export default function MarkupSidebar({
@@ -34,7 +36,8 @@ export default function MarkupSidebar({
   handleCopy,
   handleChangeCapture,
   handleCloseMarkup,
-  handleDeleteMarkup
+  handleDeleteMarkup,
+  handleSaveMasksUp
 }: MarkupSidebarType) {
   const [selectedTool, setSelectedTool] = useState<string>('')
 
@@ -44,16 +47,16 @@ export default function MarkupSidebar({
   }
 
   const handleDrawArrow = () => {
-    setSelectedTool('Circle')
+    setSelectedTool('Arrow')
     addMaskUp('Arrow')
   }
   const handleDrawText = () => {
-    setSelectedTool('Circle')
+    setSelectedTool('Text')
 
     addMaskUp('Text')
   }
   const handleDrawPencil = () => {
-    setSelectedTool('Circle')
+    setSelectedTool('Pencil')
 
     addMaskUp('Pencil')
   }
@@ -78,7 +81,6 @@ export default function MarkupSidebar({
 
   const handleCreateDimension = () => {
     setSelectedTool('Dimension')
-
     addMaskUp('Dimension')
   }
 
@@ -161,6 +163,14 @@ export default function MarkupSidebar({
       </TooltipComponent>
 
       <div className=' w-1 border-l-2 border-l-primary-900 h-8'></div>
+
+      <TooltipComponent title='Save' placement='top'>
+        <div>
+          <MarkupButton handleOnClick={handleSaveMasksUp}>
+            <IconSave></IconSave>
+          </MarkupButton>
+        </div>
+      </TooltipComponent>
 
       <TooltipComponent title='Undo' placement='top'>
         <div>

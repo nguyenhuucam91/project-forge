@@ -45,7 +45,8 @@ export const url = {
       archiveProject: '/project/projects/{0}/archive'
     },
     forge: {
-      accessToken: '/forge/token'
+      accessToken: '/forge/token',
+      addMarkup: '/project/files/{0}/markup'
     }
   }
 }

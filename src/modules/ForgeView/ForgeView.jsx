@@ -40,7 +40,8 @@ export default function ForgeView() {
     handleChangeCapture,
     handleCloseMarkup,
     handleDeleteMarkup,
-    changeMarkupStyleUseEffect
+    changeMarkupStyleUseEffect,
+    handleSaveMarkup
   } = useMaskUpServices({ markupRef, viewRef, style, setShowMaskup })
 
   const [urnState, setUrnState] = useState([
@@ -144,67 +145,79 @@ export default function ForgeView() {
     createInitViewer()
   }, [urnState])
 
-  // const handleSnapping = () => {
-  //   const viewer = viewRef.current
-  //   const stateFilter1 = {
-  //     seedURN: false,
-  //     objectSet: true,
-  //     viewport: true,
-  //     renderOptions: true
-  //   }
-  //   localStorage.setItem('homeView', JSON.stringify(viewer.getState(stateFilter1)))
-  //   // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
-  //   // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
-  //   console.log('handleSnapping')
-  // }
-  // const filterState = (srcState, setNames, elementNames) => {
-  //   const state = JSON.parse(JSON.stringify(srcState))
+  const handleSnapping = () => {
+    const viewer = viewRef.current
+    const stateFilter1 = {
+      seedURN: false,
+      objectSet: true,
+      viewport: true,
+      renderOptions: true
+    }
+    localStorage.setItem('homeView', JSON.stringify(viewer.getState(stateFilter1)))
+    // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
+    // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
+    console.log('handleSnapping')
+  }
+  const filterState = (srcState, setNames, elementNames) => {
+    const state = JSON.parse(JSON.stringify(srcState))
 
-  //   const sets = Array.isArray(setNames) ? setNames : [setNames]
+    const sets = Array.isArray(setNames) ? setNames : [setNames]
 
-  //   const elements = Array.isArray(elementNames) ? elementNames : [elementNames]
+    const elements = Array.isArray(elementNames) ? elementNames : [elementNames]
 
-  //   sets.forEach((setName) => {
-  //     if (state[setName]) {
-  //       elements.forEach((elementName) => {
-  //         state[setName].forEach((element) => {
-  //           delete element[elementName]
-  //         })
-  //       })
-  //     }
-  //   })
+    sets.forEach((setName) => {
+      if (state[setName]) {
+        elements.forEach((elementName) => {
+          state[setName].forEach((element) => {
+            delete element[elementName]
+          })
+        })
+      }
+    })
 
-  //   return state
-  // }
-  // const handleRestore = () => {
-  //   const viewer = viewRef.current
-  //   const viewPortValue = localStorage.getItem('homeView')
-  //   const viewPortObject = JSON.parse(viewPortValue)
-  //   const filteredState = filterState(viewPortObject, 'objectSet', 'explodeScale')
-  //   console.log('🚀 ~ file: ForgeView.jsx:163 ~ handleRestore ~ viewPortObject:', viewPortObject)
-  //   const stateFilter2 = {
-  //     seedURN: false,
-  //     objectSet: true,
-  //     viewport: true,
-  //     renderOptions: {
-  //       environment: false,
-  //       ambientOcclusion: false,
-  //       toneMap: {
-  //         exposure: false
-  //       },
-  //       appearance: false
-  //     }
-  //   }
-  //   viewer.restoreState(viewPortObject, stateFilter2, false)
-  //   console.log('handleRestore')
+    return state
+  }
+  const handleRestore = () => {
+    const viewer = viewRef.current
+    const viewPortValue = localStorage.getItem('homeView')
+    const viewPortObject = JSON.parse(viewPortValue)
+    const filteredState = filterState(viewPortObject, 'objectSet', 'explodeScale')
+    console.log('🚀 ~ file: ForgeView.jsx:163 ~ handleRestore ~ viewPortObject:', viewPortObject)
+    const stateFilter2 = {
+      seedURN: false,
+      objectSet: true,
+      viewport: true,
+      renderOptions: {
+        environment: false,
+        ambientOcclusion: false,
+        toneMap: {
+          exposure: false
+        },
+        appearance: false
+      }
+    }
+    viewer.restoreState(viewPortObject, false)
+    console.log('handleRestore')
 
-  //   // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
-  //   // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
-  //   // console.log('🚀 ~ file: ForgeView.jsx:155 ~ handleSnapping ~ names:', names)
-  // }
+    // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
+    // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
+    // console.log('🚀 ~ file: ForgeView.jsx:155 ~ handleSnapping ~ names:', names)
+  }
   const handleBackHome = () => {
     navigate(format(url.web.documents.documentStringFormat, projectId))
   }
+
+  const handleSaveMasksUp2 = () => {
+    handleRestore()
+    setTimeout(() => {
+      markupRef.current = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
+      const markup = markupRef.current
+      const objectSvg = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" layer-order-id="markups-svg" style="position:absolute; left:0; top:0; transform:scale(1,-1); -ms-transform:scale(1,-1); -webkit-transform:scale(1,-1); -moz-transform:scale(1,-1); -o-transform:scale(1,-1); transformOrigin:0, 0; -ms-transformOrigin:0, 0; -webkit-transformOrigin:0, 0; -moz-transformOrigin:0, 0; -o-transformOrigin:0, 0; " width="1920" height="873" viewBox="-8447.870494038381 -999.6180326433453 17292.28376940093 7862.585427443894" pointer-events="painted" cursor="crosshair"><metadata><markup_document xmlns="http://www.w3.org/1999/xhtml" data-model-version="4"></markup_document></metadata><g cursor="inherit" pointer-events="painted"><metadata><markup_element xmlns="http://www.w3.org/1999/xhtml" stroke-width="56.169345894060676" stroke-color="#ff0000" stroke-opacity="1" fill-color="#ff0000" fill-opacity="1" type="arrow" head="153.23940287714225 3530.600151443866" tail="-2206.436825774347 1729.3205307551614" rotation="5.631189241886737"></markup_element></metadata><path id="markup" d="M -1484.3079343562238 -28.084672947030334 l 2800.1078310302655 0 l -16.850803768218203 -56.169345894060676 l 185.35884145040023 84.25401884109101 l -185.35884145040023 84.25401884109101 l 16.850803768218203 -56.169345894060676 l -2800.1078310302655 0 z" stroke-width="56.169345894060676" stroke="rgba(255,0,0,1)" fill="rgba(255,0,0,1)" transform="translate( -1026.5987114486024 , 2629.9603410995137 ) rotate( -322.6433771995837 )"/></g></svg>`
+      markup.show()
+      markup.loadMarkups(objectSvg, 'layerName')
+    }, 500)
+  }
+
   return (
     <>
       <div className='w-full h-[40px] bg-white fixed z-[11] shadow-md pl-[70px] flex items-center'>
@@ -217,12 +230,13 @@ export default function ForgeView() {
         </Breadcrumbs>
       </div>
       <div id='viewer' ref={viewDomRef}></div>
-      {/* <div className=' absolute top-[300px] left-0 z-20 flex gap-3'>
+      <div className=' absolute top-[300px] left-0 z-20 flex gap-3'>
         <button onClick={handleSnapping} className='p-5 bg-primary-800 text-white'>
           Save View
         </button>
-        <button onClick={handleRestore}>Restore</button>
-      </div> */}
+        <button onClick={handleRestore}>handleRestore</button>
+        <button onClick={handleSaveMasksUp2}>Restore</button>
+      </div>
       <Sidebar></Sidebar>
       {showMarkup && (
         <>
@@ -235,6 +249,7 @@ export default function ForgeView() {
             handleRedo={handleRedo}
             handleUndo={handleUndo}
             handleDeleteMarkup={handleDeleteMarkup}
+            handleSaveMasksUp={handleSaveMarkup}
           ></MarkupSidebar>
 
           <MarkupStyleSidebar markupObject={markupObject} style={style} setStyle={setStyle}></MarkupStyleSidebar>
