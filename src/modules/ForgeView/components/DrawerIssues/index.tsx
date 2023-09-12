@@ -152,7 +152,7 @@ export default function DrawerIssues({ open, handleClose }: DrawerType) {
               <span>Issues</span>
             </div>
             <div className='text-lg text-text_primary font- border-b w-full border-gray-400'></div>
-            <div className='max-h-[770px] overflow-y-auto'>
+            <div className='max-h-[770px] overflow-y-auto' style={{ maxHeight: 'calc(100% - 48px - 50px)' }}>
               {issues &&
                 issues.length > 0 &&
                 issues.map((issue) => <IssueComponent key={issue._id} issue={issue}></IssueComponent>)}
