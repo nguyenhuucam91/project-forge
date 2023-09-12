@@ -39,15 +39,15 @@ export default function MarkupComponent({
             handleChange={() => {}}
             sx={{
               fontSize: '14px',
-              width: '20px',
-              '& .MuiSelect-select': { border: 'none' },
+              minWidth: '70px',
+              '& .MuiSelect-select': { border: 'none', paddingLeft: '10px' },
               '.MuiOutlinedInput-notchedOutline': { border: 0 },
-              '.MuiSvgIcon-root': { right: '10px' }
+              '.MuiSvgIcon-root': { right: '5px' }
             }}
           ></SelectComponent>
         </div>
         <div className='flex flex-col'>
-          <span className='text-sm text-text_primary'>{markup.username}</span>
+          <span className='text-sm text-text_primary font-medium'>{markup.username}</span>
           <span className='text-sm text-text_secondary'>{markup.update_at?.replace('T', ' ').substring(0, 16)}</span>
         </div>
       </div>

@@ -3,9 +3,11 @@ import { ReactComponent as IconDelete } from '../../assets/icon_pencil.svg'
 import { ReactComponent as IconError } from '../../assets/icon_error.svg'
 import { useState } from 'react'
 import DrawerMarkup from '../DrawerMarkup'
+import DrawerIssues from '../DrawerIssues'
 
 export default function SideBar({ handleLoadMasksUp }: { handleLoadMasksUp: (svg: any, viewPortObject: any) => void }) {
   const [openDrawerMarkup, setOpenDrawerMarkup] = useState(false)
+  const [openDrawerIssue, setOpenDrawerIssue] = useState(false)
 
   return (
     <>
@@ -16,13 +18,20 @@ export default function SideBar({ handleLoadMasksUp }: { handleLoadMasksUp: (svg
         <MarkupButton
           handleOnClick={() => {
             setOpenDrawerMarkup(!openDrawerMarkup)
+            setOpenDrawerIssue(false)
           }}
           active={false}
         >
           <IconDelete></IconDelete>
         </MarkupButton>
 
-        <MarkupButton handleOnClick={() => {}} active={false}>
+        <MarkupButton
+          handleOnClick={() => {
+            setOpenDrawerIssue(!openDrawerIssue)
+            setOpenDrawerMarkup(false)
+          }}
+          active={false}
+        >
           <IconError></IconError>
         </MarkupButton>
       </div>
@@ -31,6 +40,8 @@ export default function SideBar({ handleLoadMasksUp }: { handleLoadMasksUp: (svg
         handleClose={() => setOpenDrawerMarkup(false)}
         handleLoadMasksUp={handleLoadMasksUp}
       ></DrawerMarkup>
+
+      <DrawerIssues open={openDrawerIssue} handleClose={() => setOpenDrawerIssue(false)}></DrawerIssues>
     </>
   )
 }

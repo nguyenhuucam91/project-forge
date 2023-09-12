@@ -7,12 +7,13 @@ interface SelectInterface extends SelectProps {
   sx?: SxProps<Theme> | undefined
 }
 
-export default function SelectComponent({ value, options, handleChange, sx }: SelectInterface) {
+export default function SelectComponent({ value, options, handleChange, sx, fullWidth = false }: SelectInterface) {
   return (
     <Select
       value={value}
       onChange={handleChange}
       sx={{ '& .MuiSelect-select': { paddingX: 1, paddingY: 0 }, height: '36px', minWidth: '100px', ...sx }}
+      fullWidth={fullWidth}
     >
       {options.map((op) => (
         <MenuItem value={op.value} key={op.value}>

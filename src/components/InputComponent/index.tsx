@@ -1,9 +1,10 @@
 import { TextField, StandardTextFieldProps } from '@mui/material'
 
-export default function InputComponent({ id, onChange, disabled, value }: StandardTextFieldProps) {
+export default function InputComponent({ id, onChange, disabled, value, fullWidth = false }: StandardTextFieldProps) {
   return (
     <>
       <TextField
+        fullWidth={fullWidth}
         color='primary'
         variant='outlined'
         id={id}
