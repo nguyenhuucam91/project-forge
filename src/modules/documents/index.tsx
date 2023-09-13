@@ -2,6 +2,11 @@ import { useTitle } from 'react-use'
 import DocumentNavbar from './components/DocumentNavbar'
 import DocumentView from './components/DocumentView'
 import { useMemo, useState } from 'react'
+import { useQuery } from 'react-query'
+import queryKeys from 'src/config/queryKeys'
+import { useParams } from 'react-router'
+import { documentService } from './services/document.service'
+import { FolderType } from 'src/types/folder.type'
 
 const folders = [
   {
@@ -117,6 +122,8 @@ const folders = [
 export default function Documents() {
   useTitle('Project Documents')
   const [openFolderId, setOpenFolderId] = useState<string>('')
+  const { projectId } = useParams()
+
   const files = useMemo(() => {
     return folders.find((folder) => folder._id.toString() === openFolderId)?.files
   }, [openFolderId])
@@ -124,11 +131,17 @@ export default function Documents() {
   const folderName = useMemo(() => {
     return folders.find((folder) => folder._id.toString() === openFolderId)?.folder_name || ''
   }, [openFolderId])
+
+  const { data: project } = useQuery({
+    queryKey: [queryKeys.projects.Project],
+    queryFn: () => documentService.getProjectData(projectId as string)
+  })
+
   return (
     <div className=' w-full h-full flex flex-col '>
       <div className=' h-full w-full grid xl:grid-cols-8 grid-cols-1 gap-3 flex-1 p-3'>
         <DocumentNavbar
-          folders={folders}
+          folders={project?.folders as FolderType[]}
           openFolderId={openFolderId}
           setOpenFolderId={setOpenFolderId}
         ></DocumentNavbar>

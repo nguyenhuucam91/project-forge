@@ -7,7 +7,7 @@ export default function IssueComponent({ issue }: { issue: IssueType }) {
         <div className='flex items-center justify-between w-full'>
           <div className='flex items-center gap-1'>
             {issue.status === 'open' && (
-              <span className='px-2 py-[3px] text-sm font-normal text-white rounded-full bg-yellow-500'>
+              <span className='px-2 py-[3px] text-sm font-normal text-white rounded-full bg-green-600'>
                 {issue.status}
               </span>
             )}

@@ -11,10 +11,13 @@ import { useMutation } from 'react-query'
 import { forgeAPI } from '../../services/forge.service'
 import { useParams } from 'react-router'
 import toast from 'react-hot-toast'
+import useRefreshQuery from 'src/hook/useRefreshQuery'
+import queryKeys from 'src/config/queryKeys'
 
 const initDate = new Date().toISOString().slice(0, 10)
 export default function IssueCreateComponent({ handleClose }: { handleClose: () => void }) {
   const { projectId, docId } = useParams()
+  const { refreshQuery } = useRefreshQuery([queryKeys.files.issues])
 
   const { mutate } = useMutation({
     mutationFn: (issue: IssueType) => forgeAPI.addIssue(projectId as string, docId as string, issue)
@@ -38,6 +41,7 @@ export default function IssueCreateComponent({ handleClose }: { handleClose: () 
       onSuccess: () => {
         toast.success('Add Issue Success')
         handleClose()
+        refreshQuery()
       }
     })
   }

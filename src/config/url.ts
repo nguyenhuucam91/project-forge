@@ -48,6 +48,9 @@ export const url = {
       accessToken: '/forge/token',
       addMarkup: '/project/projects/{0}/files/{1}/markup',
       addIssue: '/project/projects/{0}/files/{1}/issue'
+    },
+    document: {
+      folders: '/project/projects/{0}/folders'
     }
   }
 }

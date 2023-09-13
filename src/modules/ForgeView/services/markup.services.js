@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import getScreenshotDataUrl from './captureMaskup'
 import { forgeAPI } from './forge.service'
+import { useParams } from 'react-router'
 
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
@@ -8,6 +9,7 @@ const Autodesk = window.Autodesk
 export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) => {
   const [clicked, setClicked] = useState(false)
   const [markupObject, setMarkupObject] = useState(null)
+  const { projectId, docId } = useParams()
 
   const handleRestore = (viewPortObject) => {
     const viewer = viewRef.current
@@ -45,9 +47,11 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
     const markup = markupRef.current
     const svg = markup.generateData()
     const img = await getScreenshotDataUrl(viewRef.current)
+
     try {
       const res = await forgeAPI.addMarkup({
-        file_id: '64ecbd931495ac98c090fb92',
+        project_id: projectId,
+        file_id: docId,
         svg,
         img: img,
         viewerStateOptions

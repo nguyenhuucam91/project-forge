@@ -25,7 +25,6 @@ const projectServices = {
 
   async modifyProject(project_id: string, data: FormData) {
     const url = format(configs.url.api.projectAdmin.projectsStringFormat, project_id)
-    console.log('🚀 ~ file: project.service.ts:21 ~ modifyProject ~ url:', url)
     const res = await axiosService.patch<SuccessResponse<object>>(url, data, {
       headers: {
         'Content-Type': 'multipart/form-data'

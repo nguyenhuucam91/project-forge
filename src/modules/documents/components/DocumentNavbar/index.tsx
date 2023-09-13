@@ -4,7 +4,8 @@ import { Button } from '@mui/material'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import { useState } from 'react'
-import PopoverAddNewFolder from '../PopoverAddNewFolder'
+// import PopoverAddNewFolder from '../PopoverAddNewFolder'
+import DialogCreateFolder from '../DialogCreateFolder'
 
 export default function DocumentNavbar({
   openFolderId,
@@ -15,14 +16,16 @@ export default function DocumentNavbar({
   setOpenFolderId: React.Dispatch<React.SetStateAction<string>>
   folders: FolderType[]
 }) {
-  const [anchorEl, setAnchorEl] = useState(null)
+  // const [anchorEl, setAnchorEl] = useState(null)
+  const [isCreateProject, setIsCreateProject] = useState(false)
 
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
+  // const handleClose = () => {
+  //   setAnchorEl(null)
+  // }
 
-  const handleOpenFolder = (event: any) => {
-    setAnchorEl(event.currentTarget)
+  const handleOpenFolder = () => {
+    // setAnchorEl(event.currentTarget)
+    setIsCreateProject(true)
   }
   const handleGotoTrash = () => {}
 
@@ -51,7 +54,13 @@ export default function DocumentNavbar({
             setOpenFolderId={setOpenFolderId}
           ></FolderComponent>
         ))}
-      <PopoverAddNewFolder anchorElement={anchorEl} handleClose={handleClose}></PopoverAddNewFolder>
+      <DialogCreateFolder
+        open={isCreateProject}
+        handleClose={() => {
+          setIsCreateProject(false)
+        }}
+      ></DialogCreateFolder>
+      {/* <PopoverAddNewFolder anchorElement={anchorEl} handleClose={handleClose}></PopoverAddNewFolder> */}
       <div className='text-center absolute bottom-5 w-full'>
         <Button
           onClick={handleGotoTrash}

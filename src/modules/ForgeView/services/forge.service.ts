@@ -16,49 +16,35 @@ export const forgeAPI = {
     }
   },
   async addMarkup({
+    project_id,
     file_id,
     svg,
     viewerStateOptions,
     img
   }: {
+    project_id: string
     file_id: string
     svg: string
     viewerStateOptions: string
     img: string
   }) {
-    try {
-      const url = format(configs.url.api.forge.addMarkup, '64ec76442b2494ec54aa5c31', file_id)
-      const res = await axiosService.post(url, { svg, viewerStateOptions, img })
-      return res.data.data
-    } catch (error) {
-      return null
-    }
+    const url = format(configs.url.api.forge.addMarkup, project_id, file_id)
+    const res = await axiosService.post(url, { svg, viewerStateOptions, img })
+    return res.data.data
   },
-  async getMarkups(file_id: string) {
-    try {
-      const url = format(configs.url.api.forge.addMarkup, '64ec76442b2494ec54aa5c31', file_id)
-      const res = await axiosService.get<SuccessResponse<MarkupType[]>>(url)
-      return res.data.data
-    } catch (error) {
-      return null
-    }
+  async getMarkups(project_id: string, file_id: string) {
+    const url = format(configs.url.api.forge.addMarkup, project_id, file_id)
+    const res = await axiosService.get<SuccessResponse<MarkupType[]>>(url)
+    return res.data.data
   },
   async addIssue(project_id: string, file_id: string, issue: IssueType) {
-    try {
-      const url = format(configs.url.api.forge.addIssue, project_id, file_id)
-      const res = await axiosService.post(url, { ...issue, file_id })
-      return res.data.data
-    } catch (error) {
-      return null
-    }
+    const url = format(configs.url.api.forge.addIssue, project_id, file_id)
+    const res = await axiosService.post(url, { ...issue, file_id })
+    return res.data.data
   },
   async getIssues(project_id: string, file_id: string) {
-    try {
-      const url = format(configs.url.api.forge.addIssue, project_id, file_id)
-      const res = await axiosService.get<SuccessResponse<IssueType[]>>(url)
-      return res.data.data
-    } catch (error) {
-      return null
-    }
+    const url = format(configs.url.api.forge.addIssue, project_id, file_id)
+    const res = await axiosService.get<SuccessResponse<IssueType[]>>(url)
+    return res.data.data
   }
 }

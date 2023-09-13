@@ -7,6 +7,7 @@ import { forgeAPI } from '../../services/forge.service'
 import { FormikErrors } from 'formik'
 import { IssueType } from 'src/types/issue.type'
 import { SelectProps } from '@mui/material'
+import { useParams } from 'react-router'
 interface SelectMarkupType extends SelectProps {
   value: string
   name: string
@@ -17,9 +18,10 @@ interface SelectMarkupType extends SelectProps {
   ) => Promise<void | FormikErrors<IssueType>>
 }
 export default function SelectMarkup({ name, value, setFieldValue }: SelectMarkupType) {
+  const { projectId, docId } = useParams()
   const { data: markups } = useQuery({
     queryKey: [queryKeys.files.markups],
-    queryFn: () => forgeAPI.getMarkups('64ecbd931495ac98c090fb92')
+    queryFn: () => forgeAPI.getMarkups(projectId as string, docId as string)
   })
   return (
     <Box>

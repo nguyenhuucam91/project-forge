@@ -144,7 +144,7 @@ export default function TableMember({ project }: { project: ProjectType }) {
             {project?.shared_users &&
               project?.shared_users?.length > 0 &&
               project?.shared_users?.map((user) => (
-                <StyledTableRow key={user._id}>
+                <StyledTableRow key={user.user_id}>
                   <StyledTableCell component='th' scope='row'>
                     {user.email}
                   </StyledTableCell>

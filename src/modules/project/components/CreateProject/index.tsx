@@ -140,21 +140,23 @@ export default function CreateProject({ open, handleClose }: CreateProject) {
               <h3 className='text-base text-text_primary mb-2 leading-[16px]'>Project Image</h3>
               <div className='flex gap-3'>
                 <div className='w-[100px] h-[100px] bg-slate-400 rounded-md overflow-hidden'>
-                  <img
-                    src={previewImage || ''}
-                    alt='project_image'
-                    className='h-full w-full object-cover rounded-md'
-                  ></img>
+                  {previewImage && (
+                    <img
+                      src={previewImage || ''}
+                      alt='project_image'
+                      className='h-full w-full object-cover rounded-md'
+                    ></img>
+                  )}
                 </div>
                 <div>
                   <div className='flex flex-col gap-3'>
                     <span className='text-sm text-text_primary'>Select image to upload</span>
-                    <span className='text-[12px] text-text_secondary mb-[8px]'>JPEG, PNG file (1MB max)</span>
+                    <span className='text-[12px] text-text_secondary mb-[8px]'>JPEG, PNG, JPG file (1MB max)</span>
                     <input
                       type='file'
                       ref={inputFile}
                       className='hidden'
-                      accept='.jpeg, .png'
+                      accept='.jpeg, .png, .jpg'
                       onChange={onFileChange}
                       onClick={(event) => {
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
