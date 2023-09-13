@@ -22,7 +22,6 @@ export default function FomikSelectComponent({
   sx,
   fullWidth = false
 }: SelectInterface) {
-  console.log('🚀 ~ file: index.tsx:25 ~ value:', value)
   return (
     <Select
       value={value}

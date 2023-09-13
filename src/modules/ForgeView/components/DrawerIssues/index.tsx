@@ -1,150 +1,35 @@
-import { IssueType } from 'src/types/issue.type'
 import DrawerBase from '../DrawerBase'
 import IssueComponent from '../IssueComponent'
 import { ButtonCreate } from 'src/components/ButtonComponent'
 import { useState } from 'react'
 import IssueCreateComponent from '../IssueCreateComponent'
+import { useQuery } from 'react-query'
+import queryKeys from 'src/config/queryKeys'
+import { forgeAPI } from '../../services/forge.service'
+import { useParams } from 'react-router'
 
 type DrawerType = {
   handleClose: () => void
   open: boolean
 }
-const issues: IssueType[] = [
-  {
-    _id: '1',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '2',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '3',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '4',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '6',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '7',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '8',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '9',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '10',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '11',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '12',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '13',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  },
-  {
-    _id: '14',
-    status: 'Open',
-    type: 'Khan Cap',
-    title: 'Bo sung noi that cho ban cong',
-    owner_id: '1',
-    assigned_id: '2',
-    due_date: '2023-01-01',
-    update_at: '2023-01-01'
-  }
-]
+
 export default function DrawerIssues({ open, handleClose }: DrawerType) {
   const [createMode, setCreateMode] = useState<boolean>(false)
+  const { projectId, docId } = useParams()
+
+  const { data: issues } = useQuery({
+    queryKey: [queryKeys.files.issues],
+    queryFn: () => forgeAPI.getIssues(projectId as string, docId as string)
+  })
+
   return (
-    <DrawerBase open={open} handleClose={handleClose}>
+    <DrawerBase
+      open={open}
+      handleClose={() => {
+        handleClose()
+        setCreateMode(false)
+      }}
+    >
       <div className='h-full w-full relative'>
         {!createMode && (
           <>
@@ -162,7 +47,7 @@ export default function DrawerIssues({ open, handleClose }: DrawerType) {
             </div>
           </>
         )}
-        {createMode && <IssueCreateComponent></IssueCreateComponent>}
+        {createMode && <IssueCreateComponent handleClose={() => setCreateMode(false)}></IssueCreateComponent>}
       </div>
     </DrawerBase>
   )

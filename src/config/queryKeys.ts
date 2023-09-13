@@ -5,7 +5,8 @@ const queryKeys = {
     admin: 'projects-admin'
   },
   files: {
-    markups: 'markups'
+    markups: 'markups',
+    issues: 'issues'
   }
 }
 

@@ -13,7 +13,7 @@ export default function DrawerBase({ open, handleClose, children }: DrawerType) 
       }`}
       style={{ height: 'calc( 100% - 60px)' }}
     >
-      <button onClick={handleClose} className=' absolute top-1 right-1'>
+      <button onClick={handleClose} className=' absolute top-1 right-1 z-20'>
         <CloseOutlinedIcon sx={{ width: '20px' }}></CloseOutlinedIcon>
       </button>
       {children}

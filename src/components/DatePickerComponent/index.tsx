@@ -19,7 +19,7 @@ export default function DatePickerComponent({ value, name, setFieldValue }: Date
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
-          defaultValue={dayjs(value || '2023-04-17')}
+          defaultValue={dayjs(value)}
           onChange={(date) => setFieldValue(name as string, date?.format('YYYY-MM-DD'))}
           sx={{
             width: '100%',

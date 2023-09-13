@@ -1,67 +1,65 @@
-import * as React from 'react'
 import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
-import InputAdornment from '@mui/material/InputAdornment'
-import AccountCircle from '@mui/icons-material/AccountCircle'
-import IconButton from '@mui/material/IconButton'
-import Visibility from '@mui/icons-material/Visibility'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import SvgIcon from '@mui/material/SvgIcon'
-
-const currencies = [
-  {
-    value: 'USD',
-    label: '$'
-  },
-  {
-    value: 'EUR',
-    label: '€'
-  },
-  {
-    value: 'BTC',
-    label: '฿'
-  },
-  {
-    value: 'JPY',
-    label: '¥'
-  }
-]
-
-export default function SelectTextFields() {
+import { useQuery } from 'react-query'
+import queryKeys from 'src/config/queryKeys'
+import { forgeAPI } from '../../services/forge.service'
+import { FormikErrors } from 'formik'
+import { IssueType } from 'src/types/issue.type'
+import { SelectProps } from '@mui/material'
+interface SelectMarkupType extends SelectProps {
+  value: string
+  name: string
+  setFieldValue: (
+    field: string,
+    value: any,
+    shouldValidate?: boolean | undefined
+  ) => Promise<void | FormikErrors<IssueType>>
+}
+export default function SelectMarkup({ name, value, setFieldValue }: SelectMarkupType) {
+  const { data: markups } = useQuery({
+    queryKey: [queryKeys.files.markups],
+    queryFn: () => forgeAPI.getMarkups('64ecbd931495ac98c090fb92')
+  })
   return (
     <Box>
       <Select
-        sx={{ width: 130 }}
+        value={value}
         defaultValue=''
         displayEmpty
+        onChange={(e) => {
+          setFieldValue(name, e.target.value)
+        }}
         renderValue={(value) => {
-          console.log(value)
+          const selectedMarkup = markups?.find((m) => m._id === value)
           return (
             <Box sx={{ display: 'flex', gap: 1 }}>
-              <img
-                alt='img'
-                style={{ height: '40px', width: '40px' }}
-                src='https://images.unsplash.com/photo-1693922874336-fd3c4b0084b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80'
-              />
-              {value}
+              {selectedMarkup && (
+                <div className='flex items-center gap-2'>
+                  <img alt='img' className='h-[40px] w-[40px] object-cover' src={selectedMarkup?.img} />
+                  <span className='text-sm text-text_primary font-medium'>{selectedMarkup?.username}</span>
+                </div>
+              )}
             </Box>
           )
         }}
+        fullWidth
+        sx={{ '& .MuiSelect-select': { paddingX: 1, paddingY: 0 }, height: '50px', minWidth: '100px' }}
       >
-        {currencies.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            <div style={{ display: 'flex' }}>
-              <img
-                alt='img'
-                style={{ height: '40px', width: '40px', marginRight: '15px' }}
-                src='https://images.unsplash.com/photo-1693922874336-fd3c4b0084b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80'
-              />
-              {option.value}
-            </div>
-          </MenuItem>
-        ))}
+        {markups &&
+          markups.map((markup) => (
+            <MenuItem key={markup._id} value={markup._id}>
+              <div className='flex gap-1 items-center justify-between'>
+                <img alt='img' className='h-[40px] w-[40px] object-cover' src={markup.img} />
+                <div className='flex flex-col'>
+                  <span className='text-sm text-text_primary font-medium'>{markup.username}</span>
+                  <span className='text-sm text-text_secondary'>
+                    {markup.update_at?.replace('T', ' ').substring(0, 16)}
+                  </span>
+                </div>
+              </div>
+            </MenuItem>
+          ))}
       </Select>
     </Box>
   )
