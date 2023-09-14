@@ -15,6 +15,7 @@ import { ErrorResponse } from 'src/types/response.type'
 import { UserService } from 'src/services/user.service'
 import { toast } from 'react-toastify'
 import configs from 'src/config'
+import { useNavigate } from 'react-router'
 
 export class AxiosService {
   instance: AxiosInstance
@@ -110,11 +111,12 @@ export class AxiosService {
           // không truyền token,
           // token hết hạn nhưng gọi refresh token bị fail
           // thì tiến hành xóa local storage và toast message
-
           clearLS()
           this.accessToken = ''
           this.refreshToken = ''
           toast.error(error.response?.data.data?.message || error.response?.data.message || "Can't get refresh token")
+          history.replaceState({}, '', configs.url.web.authentication.login)
+          window.location.reload()
         }
         return Promise.reject(error)
       }
