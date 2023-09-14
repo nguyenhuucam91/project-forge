@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined'
+import FolderOpenTwoToneIcon from '@mui/icons-material/FolderOpenTwoTone'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import { FolderType } from 'src/types/folder.type'
 import PopoverModifyFolder from '../PopoverModifyFolder'
-import { ReactComponent as IconOpenFolder } from '../../assets/icon-openFolder.svg'
 import { useState } from 'react'
 
 export default function FolderComponent({
@@ -32,9 +32,15 @@ export default function FolderComponent({
           {openFolderId !== folder._id.toString() && (
             <FolderOpenOutlinedIcon className={'text-gray-800'}></FolderOpenOutlinedIcon>
           )}
-          {openFolderId === folder._id.toString() && <IconOpenFolder className='text-primary-900'></IconOpenFolder>}
+          {openFolderId === folder._id.toString() && (
+            <FolderOpenTwoToneIcon className='text-primary-900 '></FolderOpenTwoToneIcon>
+          )}
           <span
-            className={`${openFolderId === folder._id.toString() ? 'text-primary-900 font-medium' : 'text-gray-800'}`}
+            className={`${
+              openFolderId === folder._id.toString()
+                ? 'text-primary-900 font-medium min-w-[86px] text-sm'
+                : 'text-gray-800 text-sm'
+            }`}
           >
             {folder.folder_name}
           </span>

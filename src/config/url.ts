@@ -40,7 +40,8 @@ export const url = {
       projects: '/project/projects',
       projectsArchived: '/project/projects/archived',
       projectsStringFormat: '/project/projects/{0}',
-      addUserToProjectStringFormat: '/project/projects/{0}/shared',
+      projectUserStringFormat: '/project/projects/{0}/shared',
+      projectUpdateUserStringFormat: '/project/projects/{0}/shared/{1}',
       activeProject: '/project/projects/{0}/active',
       archiveProject: '/project/projects/{0}/archive'
     },

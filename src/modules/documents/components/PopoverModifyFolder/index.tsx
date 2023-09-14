@@ -34,19 +34,6 @@ export default function PopoverModifyFolder({ anchorElement, handleClose }: Popo
         }}
         className='hover:bg-primary-50'
       >
-        <span className='hover:bg-primary-50'>Upload file</span>
-      </MenuItem>
-      <MenuItem
-        onClick={() => {}}
-        sx={{
-          ':hover': {
-            color: '#206bc4',
-            backgroundColor: '#E6F7FF',
-            fontWeight: '500'
-          }
-        }}
-        className='hover:bg-primary-50'
-      >
         <span className='hover:bg-primary-50'>Delete Folder</span>
       </MenuItem>
     </PopoverComponent>

@@ -34,8 +34,21 @@ const projectServices = {
   },
 
   async addUserToProject(project_id: string, user: SharedUser) {
-    const url = format(configs.url.api.projectAdmin.addUserToProjectStringFormat, project_id)
-    const res = await axiosService.put<SuccessResponse<object>>(url, user)
+    const url = format(configs.url.api.projectAdmin.projectUserStringFormat, project_id)
+    const res = await axiosService.post<SuccessResponse<object>>(url, user)
+    return res.data
+  },
+
+  async changeUserPermission(project_id: string, user: SharedUser) {
+    const url = format(configs.url.api.projectAdmin.projectUpdateUserStringFormat, project_id, user.user_id)
+    console.log('🚀 ~ file: project.service.ts:44 ~ changeUserPermission ~ url:', url)
+    const res = await axiosService.patch<SuccessResponse<object>>(url, { project_role: user.project_role })
+    return res.data
+  },
+
+  async removeUser(project_id: string, user_id: string) {
+    const url = format(configs.url.api.projectAdmin.projectUpdateUserStringFormat, project_id, user_id)
+    const res = await axiosService.delete<SuccessResponse<object>>(url)
     return res.data
   },
 

@@ -21,15 +21,17 @@ import useRefreshQuery from 'src/hook/useRefreshQuery'
 import queryKeys from 'src/config/queryKeys'
 import { UserService } from 'src/services/user.service'
 import ProjectType from 'src/types/project.type'
+import { useModifyUser } from '../../hook/useModifyProject'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#187acb',
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
+    padding: '8px 12px'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    padding: '6px 16px'
+    padding: '4px 12px'
   }
 }))
 
@@ -43,9 +45,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }))
 
 export default function TableMember({ project }: { project: ProjectType }) {
+  console.log('🚀 ~ file: TableMemeber.tsx:47 ~ TableMember ~ project:', project)
   const [selectedEmail, setSelectedEmail] = useState<string>('')
+  const [selectedUserId, setSelectedUserId] = useState<string>('')
   const [anchorElMenu, setAnchorElMenu] = useState(null)
   const [role, setRole] = useState('User')
+
+  const { changePermission, removeUser } = useModifyUser(project._id)
   const { refreshQuery } = useRefreshQuery([queryKeys.projects.listActive])
 
   const { data: listUsers } = useQuery({ queryKey: ['user'], queryFn: projectServices.getAllUsers })
@@ -63,8 +69,9 @@ export default function TableMember({ project }: { project: ProjectType }) {
   const handleChange = (event: SelectChangeEvent) => {
     setRole(event.target.value as string)
   }
-  const handleClickRole = (event: any) => {
+  const handleClickRole = (event: any, userId: string) => {
     setAnchorElMenu(event.currentTarget)
+    setSelectedUserId(userId)
   }
 
   const handleAddUser = () => {
@@ -88,6 +95,28 @@ export default function TableMember({ project }: { project: ProjectType }) {
         refreshQuery()
       }
     })
+  }
+  const handleChangePermissionToAdmin = () => {
+    const sharedUser: SharedUser = {
+      user_id: selectedUserId,
+      project_role: 'Admin'
+    }
+    changePermission(sharedUser, refreshQuery)
+    handleCloseUserMenu()
+  }
+
+  const handleChangePermissionToUser = () => {
+    const sharedUser: SharedUser = {
+      user_id: selectedUserId,
+      project_role: 'User'
+    }
+    changePermission(sharedUser, refreshQuery)
+    handleCloseUserMenu()
+  }
+
+  const handleRemoveUser = () => {
+    removeUser(selectedUserId, refreshQuery)
+    handleCloseUserMenu()
   }
   return (
     <>
@@ -123,6 +152,7 @@ export default function TableMember({ project }: { project: ProjectType }) {
                 { label: 'Admin', value: 'Admin' }
               ]}
               handleChange={handleChange}
+              sx={{ minWidth: '100px', width: '100px' }}
             ></SelectComponent>
             <ButtonPrimary startIcon={<ControlPointIcon></ControlPointIcon>} onClick={handleAddUser}>
               Add
@@ -131,10 +161,10 @@ export default function TableMember({ project }: { project: ProjectType }) {
         )}
         sx={{ '& .MuiInputBase-root': { paddingX: '6px', paddingY: '1px' }, marginTop: '10px', width: '100%' }}
       />
-      <TableContainer component={Paper} sx={{ maxHeight: 280, marginTop: '10px', height: 280 }}>
+      <TableContainer component={Paper} sx={{ maxHeight: 250, marginTop: '10px', height: 250 }}>
         <Table sx={{ minWidth: 700 }} stickyHeader aria-label='sticky table'>
           <TableHead className='bg-slate-200'>
-            <TableRow>
+            <TableRow sx={{ padding: '0px' }}>
               <StyledTableCell>Email</StyledTableCell>
               <StyledTableCell align='center'>Status</StyledTableCell>
               <StyledTableCell align='center'>Role</StyledTableCell>
@@ -154,11 +184,11 @@ export default function TableMember({ project }: { project: ProjectType }) {
                   </StyledTableCell>
                   <StyledTableCell align='center'>
                     <Button
-                      onClick={handleClickRole}
+                      onClick={(e) => handleClickRole(e, user.user_id)}
                       sx={{ width: '96px' }}
                       endIcon={<ExpandMoreIcon></ExpandMoreIcon>}
                     >
-                      User
+                      {user.project_role}
                     </Button>
                   </StyledTableCell>
                 </StyledTableRow>
@@ -169,7 +199,7 @@ export default function TableMember({ project }: { project: ProjectType }) {
 
       <PopoverComponent anchorElement={anchorElMenu} handleClose={handleCloseUserMenu}>
         <MenuItem
-          onClick={() => {}}
+          onClick={handleChangePermissionToAdmin}
           sx={{
             ':hover': {
               color: '#206bc4',
@@ -182,7 +212,7 @@ export default function TableMember({ project }: { project: ProjectType }) {
           <span className='hover:bg-primary-50'>Admin</span>
         </MenuItem>
         <MenuItem
-          onClick={() => {}}
+          onClick={handleChangePermissionToUser}
           sx={{
             ':hover': {
               color: '#206bc4',
@@ -196,7 +226,7 @@ export default function TableMember({ project }: { project: ProjectType }) {
         </MenuItem>
         <hr></hr>
         <MenuItem
-          onClick={() => {}}
+          onClick={handleRemoveUser}
           sx={{
             ':hover': {
               color: '#206bc4',
