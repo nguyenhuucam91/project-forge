@@ -15,7 +15,6 @@ import { ErrorResponse } from 'src/types/response.type'
 import { UserService } from 'src/services/user.service'
 import { toast } from 'react-toastify'
 import configs from 'src/config'
-import { useNavigate } from 'react-router'
 
 export class AxiosService {
   instance: AxiosInstance

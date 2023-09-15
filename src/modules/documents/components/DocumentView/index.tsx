@@ -3,7 +3,6 @@ import { ReflexContainer, ReflexElement, ReflexSplitter } from 'react-reflex'
 import 'react-reflex/styles.css'
 import { useState } from 'react'
 import DocumentTable from '../DocumentTable'
-import PopoverAddNewFile from '../PopoverAddNewFile'
 import ButtonHeader from '../Button'
 import { ReactComponent as IconOpen } from '../../assets/icon-open.svg'
 import { ReactComponent as IconDownload } from '../../assets/icon-download.svg'
@@ -14,47 +13,46 @@ import { ReactComponent as IconMove } from '../../assets/icon-move.svg'
 import useDocument from '../../hooks/useDocument'
 import DocumentPreview from '../DocumentPreview'
 import { Breadcrumbs } from '@mui/material'
+import ButtonUploadFile from '../ButtonUploadFile'
+import FileType from 'src/types/file.type'
+import DialogModifyFileName from '../DialogModifyFileName'
 
 const minSizeLeftPanel = 790
 const maxSizeLeftPanel = window.innerWidth * 0.7
 
 export default function DocumentView({
   files,
-  selectedFolderName
+  selectedFolderName,
+  selectedFolderId
 }: {
-  files:
-    | {
-        id: any
-        file_name: string
-        extension: string
-        version: number
-      }[]
-    | undefined
+  files: FileType[]
   selectedFolderName: string
+  selectedFolderId: string
 }) {
   const [preview, setPreview] = useState(true)
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [openRename, setOpenRename] = useState(false)
+  // const [anchorEl, setAnchorEl] = useState(null)
   const [previewWidth, setPreviewWidth] = useState<number>(0)
   const [selectedFileIds, setSelectedFileIds] = useState([])
 
   const { handleOpenFile } = useDocument(selectedFileIds[0] || '0')
-  const getSelectedFileType = () => {
+  const getSelectedFile = () => {
     if (selectedFileIds.length !== 1) {
-      return ''
+      return {}
     }
-    const file = files?.find((f) => f.id === selectedFileIds[0])
+    const file = files?.find((f) => f._id === selectedFileIds[0])
     if (file) {
-      return file.extension
+      return file
     }
-    return ''
+    return {}
   }
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
+  // const handleClose = () => {
+  //   setAnchorEl(null)
+  // }
 
-  const handleOpenFolder = (event: any) => {
-    setAnchorEl(event.currentTarget)
-  }
+  // const handleOpenFolder = (event: any) => {
+  //   // setAnchorEl(event.currentTarget)
+  // }
 
   const handleResize = (e: any) => {
     if (e.domElement) {
@@ -62,19 +60,20 @@ export default function DocumentView({
       setPreviewWidth(width)
     }
   }
+  const handleRename = () => {
+    setOpenRename(true)
+  }
   return (
     <div className='w-full h-full col-span-7 flex flex-col '>
       {/* Header */}
       <div className='flex w-full justify-between h-[50px] pb-3 items-center'>
-        <div>
-          <ButtonPrimary onClick={handleOpenFolder}>Upload files</ButtonPrimary>
-        </div>
+        <ButtonUploadFile folder_id={selectedFolderId}></ButtonUploadFile>
 
         {selectedFileIds !== null && selectedFileIds?.length === 1 && (
           <div className='hidden md2:block'>
             <div className='flex items-center justify-center gap-2 h-12 py-0 px-2 bg-white rounded-md shadow-md'>
               <ButtonHeader content='Open' icon={<IconOpen></IconOpen>} onClick={handleOpenFile}></ButtonHeader>
-              <ButtonHeader content='Rename' icon={<IconRename></IconRename>}></ButtonHeader>
+              <ButtonHeader onClick={handleRename} content='Rename' icon={<IconRename></IconRename>}></ButtonHeader>
               <ButtonHeader content='Move' icon={<IconMove></IconMove>}></ButtonHeader>
               <ButtonHeader content='Copy link' icon={<IconLink></IconLink>}></ButtonHeader>
               <ButtonHeader content='Delete' icon={<IconDelete></IconDelete>}></ButtonHeader>
@@ -133,12 +132,18 @@ export default function DocumentView({
               onStopResize={handleResize}
             />
             <ReflexElement>
-              <DocumentPreview width={previewWidth} type={getSelectedFileType()}></DocumentPreview>
+              <DocumentPreview width={previewWidth} file={getSelectedFile() as FileType}></DocumentPreview>
             </ReflexElement>
           </ReflexContainer>
         </div>
       )}
-      <PopoverAddNewFile anchorElement={anchorEl} handleClose={handleClose}></PopoverAddNewFile>
+      {/* <PopoverAddNewFile anchorElement={anchorEl} handleClose={handleClose}></PopoverAddNewFile> */}
+
+      <DialogModifyFileName
+        open={openRename}
+        file={getSelectedFile() as FileType}
+        handleClose={() => setOpenRename(false)}
+      ></DialogModifyFileName>
     </div>
   )
 }

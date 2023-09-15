@@ -13,7 +13,7 @@ import { ReactComponent as IconUndo } from './icons//icon-undo.svg'
 import { ReactComponent as IconRedo } from './icons//icon-redo.svg'
 import { ReactComponent as IconCopy } from './icons//icon-copy.svg'
 import { ReactComponent as IconDelete } from './icons//icon-delete.svg'
-import { ReactComponent as IconSave } from './icons//icon-save.svg'
+
 import TooltipComponent from 'src/components/TooltipComponent'
 import { useState } from 'react'
 
@@ -25,7 +25,6 @@ type MarkupSidebarType = {
   handleUndo: () => void
   handleRedo: () => void
   handleCopy: () => void
-  handleSaveMasksUp: () => void
   divRef: React.MutableRefObject<null>
 }
 export default function MarkupSidebar({
@@ -36,8 +35,7 @@ export default function MarkupSidebar({
   handleCopy,
   handleChangeCapture,
   handleCloseMarkup,
-  handleDeleteMarkup,
-  handleSaveMasksUp
+  handleDeleteMarkup
 }: MarkupSidebarType) {
   const [selectedTool, setSelectedTool] = useState<string>('')
 
@@ -163,14 +161,6 @@ export default function MarkupSidebar({
       </TooltipComponent>
 
       <div className=' w-1 border-l-2 border-l-primary-900 h-8'></div>
-
-      <TooltipComponent title='Save' placement='top'>
-        <div>
-          <MarkupButton handleOnClick={handleSaveMasksUp}>
-            <IconSave></IconSave>
-          </MarkupButton>
-        </div>
-      </TooltipComponent>
 
       <TooltipComponent title='Undo' placement='top'>
         <div>

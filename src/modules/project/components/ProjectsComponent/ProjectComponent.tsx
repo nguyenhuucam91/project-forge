@@ -69,10 +69,34 @@ export default function ProjectComponent({ project }: { project: ProjectType }) 
           <span className='font-medium text-sm leading-[18px] text-text_secondary'>Shared Users</span>
           {project?.shared_users && project?.shared_users.length > 5 && (
             <div className='flex gap-2'>
-              <div className='w-[36px] h-[36px] bg-primary-50 rounded-xl'></div>
-              <div className='w-[36px] h-[36px] bg-primary-100 rounded-xl -ml-5'></div>
-              <div className='w-[36px] h-[36px] bg-primary-200 rounded-xl -ml-5'></div>
-              <div className='w-[36px] h-[36px] bg-primary-300 rounded-xl -ml-5'></div>
+              <div className='w-[36px] h-[36px] bg-primary-50 rounded-xl'>
+                <img
+                  src={project.shared_users[0].avatar}
+                  alt='avatar'
+                  className='w-[36px] h-[36px]  rounded-xl object-cover border-[2px] border-primary-600'
+                />
+              </div>
+              <div className='w-[36px] h-[36px] bg-primary-100 rounded-xl -ml-5'>
+                <img
+                  src={project.shared_users[1].avatar}
+                  alt='avatar'
+                  className='w-[36px] h-[36px]  rounded-xl object-cover border-[2px] border-primary-600'
+                />
+              </div>
+              <div className='w-[36px] h-[36px] bg-primary-200 rounded-xl -ml-5'>
+                <img
+                  src={project.shared_users[2].avatar}
+                  alt='avatar'
+                  className='w-[36px] h-[36px]  rounded-xl object-cover border-[2px] border-primary-600'
+                />
+              </div>
+              <div className='w-[36px] h-[36px] bg-primary-300 rounded-xl -ml-5'>
+                <img
+                  src={project.shared_users[3].avatar}
+                  alt='avatar'
+                  className='w-[36px] h-[36px]  rounded-xl object-cover border-[2px] border-primary-600'
+                />
+              </div>
               <div className='w-[36px] h-[36px] bg-primary-400 rounded-xl -ml-5 justify-center flex items-center'>
                 <span className='font-medium text-sm leading-[18px] text-white'>
                   +{project?.shared_users.length - 5}
@@ -80,16 +104,26 @@ export default function ProjectComponent({ project }: { project: ProjectType }) 
               </div>
             </div>
           )}
-          {project?.shared_users && project?.shared_users.length <= 5 && project?.shared_users.length !== 0 && (
-            <div className='flex gap-2'>
-              <div className='w-[36px] h-[36px] bg-primary-50 rounded-xl'></div>
-              {Array(project?.shared_users.length - 1)
-                .fill(0)
-                .map((_, i) => (
-                  <div className='w-[36px] h-[36px] bg-primary-100 rounded-xl -ml-5' key={i}></div>
-                ))}
-            </div>
-          )}
+          {project?.shared_users !== undefined &&
+            project?.shared_users.length <= 5 &&
+            project?.shared_users.length !== 0 && (
+              <div className='flex gap-2 ml-5'>
+                {Array(project?.shared_users.length)
+                  .fill(0)
+                  .map((_, i) => {
+                    console.log(project!.shared_users)
+                    return (
+                      <div className='w-[36px] h-[36px] bg-primary-900 rounded-xl -ml-5' key={i}>
+                        <img
+                          src={(project?.shared_users[i] as any)?.avatar}
+                          alt='avatar'
+                          className='w-[36px] h-[36px] rounded-xl object-cover border-[2px] border-primary-600'
+                        />
+                      </div>
+                    )
+                  })}
+              </div>
+            )}
           {project?.shared_users?.length === 0 && (
             <div className='w-[36px] h-[36px] bg-gray-400 rounded-xl ml-5 justify-center flex items-center'>
               <span className='font-medium text-sm leading-[18px] text-white'>0</span>
@@ -109,7 +143,12 @@ export default function ProjectComponent({ project }: { project: ProjectType }) 
           </div>
         </div>
       </div>
-      <SettingProject open={showSetting} handleClose={() => setShowSetting(false)} handleOK={() => {}}></SettingProject>
+      <SettingProject
+        project={project}
+        open={showSetting}
+        handleClose={() => setShowSetting(false)}
+        handleOK={() => {}}
+      ></SettingProject>
     </div>
   )
 }

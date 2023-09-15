@@ -13,18 +13,18 @@ interface DialogDangerType {
 export default function DialogDanger({ open, handleOK, handleClose, children }: DialogDangerType) {
   return (
     <Dialog open={open} onClose={handleClose}>
-      <div className='rounded min-w-[500px]'>
+      <div className='rounded min-w-[400px] text-center'>
         {/* title */}
         <div className='w-full h-3 bg-red-600'></div>
 
         {/* content */}
         <div className='px-8 py-6 w-full border-y flex justify-start items-center gap-5'>
           <IconDanger className='w-[70px] h-[70px] text-red-600'></IconDanger>
-          {children}
+          <div className='flex-1'>{children}</div>
         </div>
         {/* action */}
         <div className=' p-4 flex flex-row-reverse items-center gap-4'>
-          <ButtonSecondary onClick={handleClose}>キャンセル</ButtonSecondary>
+          <ButtonSecondary onClick={handleClose}>Cancel</ButtonSecondary>
           <ButtonPrimary onClick={handleOK}>OK</ButtonPrimary>
         </div>
       </div>

@@ -7,135 +7,24 @@ import queryKeys from 'src/config/queryKeys'
 import { useParams } from 'react-router'
 import { documentService } from './services/document.service'
 import { FolderType } from 'src/types/folder.type'
-
-const folders = [
-  {
-    _id: 1,
-    folder_name: 'Structure',
-    files: [
-      {
-        id: '64ecbd931495ac98c090fb92',
-        file_name: 'structure 1',
-        version: 0,
-        extension: 'rvt'
-      },
-      {
-        id: 12,
-        file_name: 'structure 2',
-        version: 1,
-        extension: 'dwg'
-      },
-      {
-        id: 13,
-        file_name: 'structure 3',
-        version: 2,
-        extension: 'nwd'
-      },
-      {
-        id: 14,
-        file_name: 'structure 4',
-        version: 4,
-        extension: 'rvt'
-      },
-      {
-        id: 15,
-        file_name: 'structure 5',
-        version: 5,
-        extension: 'pdf'
-      }
-    ]
-  },
-  {
-    _id: 2,
-    folder_name: 'Architecture',
-    files: [
-      {
-        id: 21,
-        file_name: 'architecture 1',
-        version: 0,
-        extension: 'pdf'
-      },
-      {
-        id: 22,
-        file_name: 'architecture 2',
-        version: 0,
-        extension: 'rvt'
-      },
-      {
-        id: 23,
-        file_name: 'architecture 3',
-        version: 0,
-        extension: 'rvt'
-      },
-      {
-        id: 24,
-        file_name: 'architecture 4',
-        version: 0,
-        extension: 'pdf'
-      },
-      {
-        id: 25,
-        file_name: 'architecture 5',
-        version: 0,
-        extension: 'rvt'
-      }
-    ]
-  },
-  {
-    _id: 3,
-    folder_name: 'MEP',
-    files: [
-      {
-        id: 31,
-        file_name: 'mep 1',
-        version: 0,
-        extension: 'rvt'
-      },
-      {
-        id: 32,
-        file_name: 'mep 3',
-        version: 0,
-        extension: 'pdf'
-      },
-      {
-        id: 33,
-        file_name: 'mep 3',
-        version: 0,
-        extension: 'rvt'
-      },
-      {
-        id: 34,
-        file_name: 'mep 4',
-        version: 0,
-        extension: 'pdf'
-      },
-      {
-        id: 35,
-        file_name: 'mep 5',
-        version: 0,
-        extension: 'rvt'
-      }
-    ]
-  }
-]
+import FileType from 'src/types/file.type'
 
 export default function Documents() {
   useTitle('Project Documents')
   const [openFolderId, setOpenFolderId] = useState<string>('')
   const { projectId } = useParams()
-
-  const files = useMemo(() => {
-    return folders.find((folder) => folder._id.toString() === openFolderId)?.files
-  }, [openFolderId])
-
-  const folderName = useMemo(() => {
-    return folders.find((folder) => folder._id.toString() === openFolderId)?.folder_name || ''
-  }, [openFolderId])
-
   const { data: project } = useQuery({
     queryKey: [queryKeys.projects.Project],
     queryFn: () => documentService.getProjectData(projectId as string)
   })
+
+  const files = useMemo(() => {
+    return project?.folders.find((folder) => folder._id.toString() === openFolderId)?.files
+  }, [openFolderId, project?.folders])
+
+  const folderName = useMemo(() => {
+    return project?.folders.find((folder) => folder._id.toString() === openFolderId)?.folder_name || ''
+  }, [openFolderId, project?.folders])
 
   return (
     <div className=' w-full h-full flex flex-col '>
@@ -145,7 +34,11 @@ export default function Documents() {
           openFolderId={openFolderId}
           setOpenFolderId={setOpenFolderId}
         ></DocumentNavbar>
-        <DocumentView files={files} selectedFolderName={folderName}></DocumentView>
+        <DocumentView
+          files={files as FileType[]}
+          selectedFolderName={folderName}
+          selectedFolderId={openFolderId}
+        ></DocumentView>
       </div>
     </div>
   )

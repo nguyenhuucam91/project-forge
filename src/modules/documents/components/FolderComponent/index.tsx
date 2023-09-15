@@ -51,7 +51,7 @@ export default function FolderComponent({
           </span>
         )}
       </div>
-      <PopoverModifyFolder anchorElement={anchorEl} handleClose={handleClose}></PopoverModifyFolder>
+      <PopoverModifyFolder folder={folder} anchorElement={anchorEl} handleClose={handleClose}></PopoverModifyFolder>
     </div>
   )
 }

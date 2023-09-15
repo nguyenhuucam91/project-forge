@@ -2,6 +2,9 @@ import { useState } from 'react'
 import getScreenshotDataUrl from './captureMaskup'
 import { forgeAPI } from './forge.service'
 import { useParams } from 'react-router'
+import toast from 'react-hot-toast'
+import queryKeys from 'src/config/queryKeys'
+import useRefreshQuery from 'src/hook/useRefreshQuery'
 
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
@@ -10,6 +13,7 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
   const [clicked, setClicked] = useState(false)
   const [markupObject, setMarkupObject] = useState(null)
   const { projectId, docId } = useParams()
+  const { refreshQuery } = useRefreshQuery([queryKeys.files.markups])
 
   const handleRestore = (viewPortObject) => {
     const viewer = viewRef.current
@@ -34,7 +38,7 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
     }, 300)
   }
 
-  const handleSaveMarkup = async () => {
+  const handleSaveMarkup = async (status) => {
     const viewer = viewRef.current
     const stateFilter = {
       seedURN: false,
@@ -49,14 +53,16 @@ export const useMaskUpServices = ({ markupRef, viewRef, style, setShowMaskup }) 
     const img = await getScreenshotDataUrl(viewRef.current)
 
     try {
-      const res = await forgeAPI.addMarkup({
+      await forgeAPI.addMarkup({
         project_id: projectId,
         file_id: docId,
         svg,
         img: img,
-        viewerStateOptions
+        viewerStateOptions,
+        status
       })
-      console.log('🚀 ~ file: markup.services.js:27 ~ handleSaveMarkup ~ res:', res)
+      toast.success('Add maskup success')
+      refreshQuery()
     } catch (error) {
       console.log(error)
     }

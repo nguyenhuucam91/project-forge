@@ -7,12 +7,13 @@ import InputComponent from 'src/components/InputComponent'
 import { IssueType } from 'src/types/issue.type'
 import SelectMarkup from '../SelectMarkup'
 import IssueCreateSchema from './IssueCreateSchema'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { forgeAPI } from '../../services/forge.service'
 import { useParams } from 'react-router'
 import toast from 'react-hot-toast'
 import useRefreshQuery from 'src/hook/useRefreshQuery'
 import queryKeys from 'src/config/queryKeys'
+import { documentService } from 'src/modules/documents/services/document.service'
 
 const initDate = new Date().toISOString().slice(0, 10)
 export default function IssueCreateComponent({ handleClose }: { handleClose: () => void }) {
@@ -22,6 +23,11 @@ export default function IssueCreateComponent({ handleClose }: { handleClose: () 
   const { mutate } = useMutation({
     mutationFn: (issue: IssueType) => forgeAPI.addIssue(projectId as string, docId as string, issue)
   })
+  const { data: project } = useQuery({
+    queryKey: [queryKeys.projects.Project],
+    queryFn: () => documentService.getProjectData(projectId as string)
+  })
+  console.log('🚀 ~ file: index.tsx:30 ~ IssueCreateComponent ~ project:', project)
 
   const initialValues: IssueType = {
     status: 'open',
@@ -125,13 +131,22 @@ export default function IssueCreateComponent({ handleClose }: { handleClose: () 
             <label htmlFor='assigned_id' className='block mb-2 text-sm font-medium text-gray-900 '>
               Assign To<span className='ml-1 text-red-600'>*</span>
             </label>
-            <InputComponent
-              fullWidth
+            <FomikSelectComponent
               value={values.assigned_id}
               name='assigned_id'
               id='assigned_id'
-              onChange={handleChange}
-            ></InputComponent>
+              options={
+                project?.shared_users?.map((user) => {
+                  return {
+                    value: user.user_id,
+                    label: user.email
+                  }
+                }) || []
+              }
+              fullWidth
+              className='w-full'
+              setFieldValue={setFieldValue}
+            ></FomikSelectComponent>
             <div className='h-4 w-full py-1 mb-3'>
               {errors.assigned_id && <span className='text-sm text-red-400'>{errors.assigned_id}</span>}
             </div>

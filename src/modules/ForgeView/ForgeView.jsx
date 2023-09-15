@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { forgeAPI } from './services/forge.service'
 import MarkupSidebar from './components/MarkupSidebar'
 import MarkupStyleSidebar from './components/MarkupStyleSidebar'
+import MarkupTopSidebar from './components/MarkupTopSidebar'
 // eslint-disable-next-line import/no-unresolved
 import Sidebar from './components/Sidebar'
 import { useMaskUpServices } from './services/markup.services'
@@ -196,9 +197,8 @@ export default function ForgeView() {
             handleRedo={handleRedo}
             handleUndo={handleUndo}
             handleDeleteMarkup={handleDeleteMarkup}
-            handleSaveMasksUp={handleSaveMarkup}
           ></MarkupSidebar>
-
+          <MarkupTopSidebar handleSaveMasksUp={handleSaveMarkup}></MarkupTopSidebar>
           <MarkupStyleSidebar markupObject={markupObject} style={style} setStyle={setStyle}></MarkupStyleSidebar>
         </>
       )}

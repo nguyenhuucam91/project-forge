@@ -29,7 +29,7 @@ export default interface ProjectType {
   create_at?: Date
   update_at?: Date
   project_owner_id: string
-  shared_users?: {
+  shared_users: {
     user_id: string
     username: string
     project_role: ProjectRole
@@ -37,5 +37,5 @@ export default interface ProjectType {
     avatar: string
     isPending: boolean
   }[]
-  folders?: FolderType[]
+  folders: FolderType[]
 }

@@ -20,16 +20,18 @@ export const forgeAPI = {
     file_id,
     svg,
     viewerStateOptions,
-    img
+    img,
+    status
   }: {
     project_id: string
     file_id: string
     svg: string
     viewerStateOptions: string
     img: string
+    status: string
   }) {
     const url = format(configs.url.api.forge.addMarkup, project_id, file_id)
-    const res = await axiosService.post(url, { svg, viewerStateOptions, img })
+    const res = await axiosService.post(url, { svg, viewerStateOptions, img, status })
     return res.data.data
   },
   async getMarkups(project_id: string, file_id: string) {

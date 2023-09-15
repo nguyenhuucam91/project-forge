@@ -51,7 +51,9 @@ export const url = {
       addIssue: '/project/projects/{0}/files/{1}/issue'
     },
     document: {
-      folders: '/project/projects/{0}/folders'
+      folders: '/project/projects/{0}/folders',
+      modifyFolder: '/project/projects/{0}/folders/{1}',
+      modifyFile: '/project/projects/{0}/files/{1}'
     }
   }
 }

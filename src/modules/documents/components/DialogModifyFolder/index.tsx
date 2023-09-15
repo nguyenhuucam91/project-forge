@@ -6,17 +6,20 @@ import { documentService } from '../../services/document.service'
 import { useParams } from 'react-router'
 import toast from 'react-hot-toast'
 
-interface CreateProject {
+interface ModifyFolder {
+  folder_name: string
+  folder_id: string
   open: boolean
   handleClose: () => void
 }
-export default function DialogCreateFolder({ open, handleClose }: CreateProject) {
-  const [folderName, setFolderName] = useState('')
+export default function DialogModifyFolder({ folder_name, folder_id, open, handleClose }: ModifyFolder) {
+  const [folderName, setFolderName] = useState(folder_name)
   const { projectId } = useParams()
 
   const { mutate } = useMutation({
-    mutationFn: (folderName: string) => documentService.createFolder(projectId as string, folderName)
+    mutationFn: (folderName: string) => documentService.modifyFolder(projectId as string, folder_id, folderName)
   })
+
   const handleCreateFolder = async () => {
     if (folderName === '') {
       toast.error('Folder Name is required')
@@ -26,7 +29,7 @@ export default function DialogCreateFolder({ open, handleClose }: CreateProject)
         toast.error('Folder name is exited')
       },
       onSuccess: () => {
-        toast.success('Add Folder Success')
+        toast.success('Modify Folder Success')
         handleClose()
         setFolderName('')
       }
@@ -39,7 +42,7 @@ export default function DialogCreateFolder({ open, handleClose }: CreateProject)
         handleClose()
       }}
       handleOK={handleCreateFolder}
-      title='Create Folder'
+      title='Modify Folder'
       width={600}
     >
       <div className='flex flex-col justify-between items-start gap-2 w-[400px]'>

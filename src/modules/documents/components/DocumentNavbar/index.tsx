@@ -46,14 +46,16 @@ export default function DocumentNavbar({
 
       {folders &&
         folders.length > 0 &&
-        folders.map((folder) => (
-          <FolderComponent
-            key={folder._id}
-            folder={folder}
-            openFolderId={openFolderId}
-            setOpenFolderId={setOpenFolderId}
-          ></FolderComponent>
-        ))}
+        folders
+          .sort((a, b) => (a.folder_name > b.folder_name ? 1 : -1))
+          .map((folder) => (
+            <FolderComponent
+              key={folder._id}
+              folder={folder}
+              openFolderId={openFolderId}
+              setOpenFolderId={setOpenFolderId}
+            ></FolderComponent>
+          ))}
       <DialogCreateFolder
         open={isCreateProject}
         handleClose={() => {

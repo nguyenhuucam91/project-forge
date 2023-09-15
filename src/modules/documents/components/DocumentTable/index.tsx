@@ -12,8 +12,13 @@ import { ReactComponent as IconAutocad } from '../../assets/icon-autocad.svg'
 import { ReactComponent as IconNavisworks } from '../../assets/icon-navisworks.svg'
 import { ReactComponent as IconPdf } from '../../assets/icon-pdf.svg'
 import { ReactComponent as IconRevit } from '../../assets/icon-revit.svg'
+import FileType from 'src/types/file.type'
 
-const fileIcons = {
+interface FileIcons {
+  [key: string]: JSX.Element // Hoặc thay JSX.Element bằng kiểu dữ liệu phù hợp với các icon
+}
+
+const fileIcons: FileIcons = {
   pdf: <IconPdf></IconPdf>,
   dwg: <IconAutocad></IconAutocad>,
   nwd: <IconNavisworks></IconNavisworks>,
@@ -25,14 +30,13 @@ export default function DocumentTable({
   setSelectedFile,
   selectedFileIds
 }: {
-  files: {
-    id: number
-    file_name: string
-    version: number
-  }[]
+  files: FileType[]
   setSelectedFile: React.Dispatch<React.SetStateAction<never[]>>
   selectedFileIds: string[]
 }) {
+  const newFile = files.map((f) => {
+    return { ...f, id: f._id }
+  })
   const [anchorEl, setAnchorEl] = useState(null)
   const [openDocVersion, setOpenDocVersion] = useState(false)
   const navigate = useNavigate()
@@ -69,7 +73,7 @@ export default function DocumentTable({
         return (
           <div className='flex items-center justify-between w-full '>
             <div className='flex items-center gap-2'>
-              {fileIcons[params.row.extension] ?? ''}
+              {fileIcons[params.row.file_ext as string] ?? ''}
               <span className='text-base leading-4'>{params.row.file_name}</span>
             </div>
 
@@ -97,11 +101,29 @@ export default function DocumentTable({
       }
     },
     {
-      field: 'extension',
+      field: 'file_ext',
       headerName: 'Type',
       width: 100,
       renderCell(params) {
-        return <span className='text-primary-900 text-base'>{params.row.extension}</span>
+        return <span className='text-primary-900 text-base'>{params.row.file_ext}</span>
+      }
+    },
+    {
+      field: 'update_at',
+      headerName: 'Last Updated',
+      width: 150,
+      renderCell(params) {
+        return (
+          <span className='text-primary-900 text-base'>{params.row.update_at.replace('T', ' ').substring(0, 16)}</span>
+        )
+      }
+    },
+    {
+      field: 'user_id',
+      headerName: 'Updated by',
+      width: 100,
+      renderCell(params) {
+        return <span className='text-primary-900 text-base'>{params.row.user_id}</span>
       }
     }
   ]
@@ -111,13 +133,15 @@ export default function DocumentTable({
       <DataGrid
         sx={{
           '& .MuiDataGrid-main .MuiDataGrid-columnHeaders': {
-            backgroundColor: '#fff'
+            backgroundColor: '#fff',
+            minHeight: '46px !important',
+            maxHeight: '46px !important'
           },
           '& .MuiDataGrid-footerContainer .MuiDataGrid-selectedRowCount': {
             display: 'none'
           }
         }}
-        rows={files}
+        rows={newFile}
         columns={columns}
         hideFooterPagination
         hideFooter
