@@ -1,3 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#viewer {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 58px);
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+input,
+select,
+textarea {
+  background-color: transparent;
+  outline: none;
+}
+button {
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  border: 0;
+}
+body {
+  min-height: 100vh;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+  font-family: 'Roboto', sans-serif;
+}
+
+html {
+  font-size: 16px;
+}
+.markupExtensionIcon {
+  background-image: url('./assets/img/markup.png');
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.customSplitter {
+  border-right: 1px solid #02457a !important;
+  border-left: 1px solid #02457a !important;
+  width: 3px !important;
+  background-color: #02457a !important;
+}
+
+.customSplitter:hover {
+  width: 4px !important;
+  background-color: #02457a !important;
+}
+
+.customDocView {
+  height: calc(100% - 270px);
+}

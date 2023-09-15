@@ -1,52 +1,59 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { forgeAPI } from './services/forge.api'
-import getScreenshotDataUrl from './services/captureMaskup'
+import { forgeAPI } from './services/forge.service'
 import MarkupSidebar from './components/MarkupSidebar'
+import MarkupStyleSidebar from './components/MarkupStyleSidebar'
+import MarkupTopSidebar from './components/MarkupTopSidebar'
+// eslint-disable-next-line import/no-unresolved
+import Sidebar from './components/Sidebar'
+import { useMaskUpServices } from './services/markup.services'
+import { useTitle } from 'react-use'
+import { Breadcrumbs } from '@mui/material'
+import { useNavigate, useParams } from 'react-router'
+import { format } from 'react-string-format'
+import { url } from 'src/config/url'
+
 // eslint-disable-next-line no-undef
 const Autodesk = window.Autodesk
 export default function ForgeView() {
+  useTitle('Document View')
+
+  const [showMarkup, setShowMaskup] = useState(false)
   const viewDomRef = React.useRef(null)
   const viewRef = React.useRef(null)
   const markupRef = useRef(null)
-  const [clicked, setClicked] = useState()
+  const divRef = useRef(null)
 
-  const [urnState, setUrnState] = useState([
-    'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bG5lMWRpd3p1enpudGNocWtmaGt5NmE0ZHpsZnRydHYtYmFzaWMtYXBwLyVFNCVCQiU5NSVFNSU4RiVBMyVFNSU4NiU4NSVFNyVCNCU4RCVFMyU4MSVCRSVFMyU4MiU4QSVFNSU5QiVCMyUyMDExMSgxKS5ydnQ'
-  ])
+  const { projectId } = useParams()
+  const navigate = useNavigate()
 
   const [style, setStyle] = useState({
-    'font-size': 108,
+    'font-size': 200,
     'font-weight': 'normal',
     'font-style': 'normal',
     'stroke-color': '#ff0000',
     'stroke-width': 50
   })
+  const {
+    markupObject,
+    handleCopy,
+    handleRedo,
+    handleUndo,
+    handleAddMaskUp,
+    handleChangeCapture,
+    handleCloseMarkup,
+    handleDeleteMarkup,
+    changeMarkupStyleUseEffect,
+    handleSaveMarkup,
+    handleLoadMasksUp
+  } = useMaskUpServices({ markupRef, viewRef, style, setShowMaskup })
+
+  const [urnState, setUrnState] = useState([
+    'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bG5lMWRpd3p1enpudGNocWtmaGt5NmE0ZHpsZnRydHYtYmFzaWMtYXBwLyVFNCVCQiU5NSVFNSU4RiVBMyVFNSU4NiU4NSVFNyVCNCU4RCVFMyU4MSVCRSVFMyU4MiU4QSVFNSU5QiVCMyUyMDExMSgxKS5ydnQ'
+  ])
 
   useEffect(() => {
     changeMarkupStyleUseEffect()
-  }, [style, clicked])
-  const changeMarkupStyleUseEffect = () => {
-    const markup = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
-
-    if (!markup) {
-      return
-    } else {
-      const viewState = viewRef.current.getState({ viewport: true })
-      const scaleView = viewState.viewport.distanceToOrbit / 6999 || 1
-
-      const styleAttributes = ['font-size', 'font-weight', 'font-style', 'stroke-color', 'stroke-width']
-      const nsu = Autodesk.Viewing.Extensions.Markups.Core.Utils
-      const styleObject = nsu.createStyle(styleAttributes, markup)
-
-      styleObject['font-size'] = style['font-size']
-      styleObject['font-weight'] = style['font-weight']
-      styleObject['font-style'] = style['font-style']
-      styleObject['stroke-color'] = style['stroke-color']
-      styleObject['stroke-width'] = style['stroke-width'] * scaleView
-
-      markup.setStyle(styleObject)
-    }
-  }
+  }, [style, setShowMaskup])
 
   useEffect(() => {
     const createInitViewer = async () => {
@@ -70,15 +77,33 @@ export default function ForgeView() {
         })
 
         viewRef.current.loadExtension('Autodesk.DocumentBrowser')
-        viewRef.current.loadExtension('MarkupExtension')
         viewRef.current.addEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT, () => {
           let explodeExtension = viewRef.current.getExtension('Autodesk.Explode')
           explodeExtension.unload()
         })
 
-        viewRef.current.addEventListener(Autodesk.Viewing.CAMERA_CHANGE_EVENT, () => {
-          const viewState = viewRef.current.getState({ viewport: true })
-          console.log(viewState.viewport.distanceToOrbit)
+        viewRef.current.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, function () {
+          const button = new Autodesk.Viewing.UI.Button('Markup')
+          button.onClick = function () {
+            console.log(1212)
+            // eslint-disable-next-line no-undef
+            const toolbar = document.getElementById('guiviewer3d-toolbar')
+            if (!showMarkup) {
+              viewRef.current.loadExtension('Autodesk.Viewing.MarkupsCore')
+              toolbar.style.visibility = 'hidden'
+              handleAddMaskUp('Pencil')
+              changeMarkupStyleUseEffect()
+            } else {
+              viewRef.current.unloadExtension('Autodesk.Viewing.MarkupsCore')
+              toolbar.style.visibility = 'visible'
+            }
+            setShowMaskup(!showMarkup)
+          }
+          button.addClass('markupExtensionIcon')
+          button.setToolTip('Markup')
+          const group = new Autodesk.Viewing.UI.ControlGroup('Markup')
+          group.addControl(button)
+          viewRef.current.toolbar.addControl(group)
         })
       }
 
@@ -100,13 +125,11 @@ export default function ForgeView() {
       }
 
       Autodesk.Viewing.Initializer(options, function onInitialized() {
-        // let htmlElement = document.getElementById('viewer')
         let htmlElement = viewDomRef.current
 
         if (htmlElement) {
           const config = {
-            extensions: ['Autodesk.Viewing.MarkupsCore', 'MarkupExtension']
-            //'Autodesk.ADN.Viewing.Extension.Markup',
+            extensions: ['Autodesk.Viewing.MarkupsCore', 'MarkupExtension', 'WalkingPathToolExtension']
           }
           viewRef.current = new Autodesk.Viewing.GuiViewer3D(htmlElement, config)
 
@@ -116,7 +139,6 @@ export default function ForgeView() {
           if (startedCode > 0) {
             return
           }
-
           urnState.map((urnState) => {
             Autodesk.Viewing.Document.load(urnState, onDocumentLoadSuccessInit, onDocumentLoadFailureInit)
           })
@@ -124,111 +146,62 @@ export default function ForgeView() {
       })
     }
     createInitViewer()
-  }, [urnState])
+  }, [urnState, setUrnState])
 
-  const addMaskUp = (type) => {
-    if (!clicked) {
-      setClicked(true)
-    }
-    markupRef.current = viewRef.current.getExtension('Autodesk.Viewing.MarkupsCore')
-    const markup = markupRef.current
-    markup.enterEditMode()
-    let maskUpElement
-    switch (type) {
-      case 'Polyline':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModePolyline(markup)
-        break
-      case 'Arrow':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeArrow(markup)
-        break
-      case 'Pencil':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeFreehand(markup)
-        break
-      case 'Text':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeText(markup)
-        break
-      case 'Circle':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeCircle(markup)
-        break
-      case 'Rect':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeRectangle(markup)
-        break
-      case 'Cloud':
-        maskUpElement = new Autodesk.Viewing.Extensions.Markups.Core.EditModeCloud(markup)
-        break
-      default:
-        break
-    }
-    markup.changeEditMode(maskUpElement)
-    changeMarkupStyle()
+  // const handleSnapping = () => {
+  //   const viewer = viewRef.current
+  //   const stateFilter1 = {
+  //     seedURN: false,
+  //     objectSet: true,
+  //     viewport: true,
+  //     renderOptions: true
+  //   }
+  //   localStorage.setItem('homeView', JSON.stringify(viewer.getState(stateFilter1)))
+  //   // Autodesk.Viewing.theExtensionManager.registerExtension('WalkingPathToolExtension2', WalkingPathToolExtension)
+  //   // const names = viewer.toolController.activateTool('WalkingPathToolExtension2')
+  //   console.log('handleSnapping')
+  // }
+
+  const handleBackHome = () => {
+    navigate(format(url.web.documents.documentStringFormat, projectId))
   }
 
-  const changeMarkupStyle = () => {
-    markupRef.current = viewRef.current?.getExtension('Autodesk.Viewing.MarkupsCore')
-    const markup = markupRef.current
-    if (!markup || !clicked) {
-      return
-    }
-    const viewState = viewRef.current.getState({ viewport: true })
-    const scaleView = viewState.viewport.distanceToOrbit / 6999 || 1
-
-    const styleAttributes = ['font-size', 'font-weight', 'font-style', 'stroke-color', 'stroke-width']
-    const nsu = Autodesk.Viewing.Extensions.Markups.Core.Utils
-    const styleObject = nsu.createStyle(styleAttributes, markup)
-
-    styleObject['font-size'] = style['font-size']
-    styleObject['font-weight'] = style['font-weight']
-    styleObject['font-style'] = style['font-style']
-    styleObject['stroke-color'] = style['stroke-color']
-    styleObject['stroke-width'] = style['stroke-width'] * scaleView
-
-    markup.setStyle(styleObject)
-  }
-
-  const handleChangeCapture = async () => {
-    function simulateDownloadImageClick(uri, filename) {
-      // eslint-disable-next-line no-undef
-      var link = document.createElement('a')
-      if (typeof link.download !== 'string') {
-        // eslint-disable-next-line no-undef
-        window.open(uri)
-      } else {
-        link.href = uri
-        link.download = filename
-        accountForFirefox(clickLink, link)
-      }
-    }
-
-    function clickLink(link) {
-      link.click()
-    }
-
-    function accountForFirefox(click) {
-      let link = arguments[1]
-      // eslint-disable-next-line no-undef
-      document.body.appendChild(link)
-      click(link)
-      // eslint-disable-next-line no-undef
-      document.body.removeChild(link)
-    }
-
-    const dataUrl = await getScreenshotDataUrl(viewRef.current)
-    simulateDownloadImageClick(dataUrl, 'View-Capture.png')
-  }
-
-  const handleCloseMarkup = async () => {
-    viewRef.current.unloadExtension('Autodesk.Viewing.MarkupsCore')
-    // eslint-disable-next-line no-undef
-    document.getElementById('markupSidebar').style.visibility = 'hidden'
-  }
   return (
     <>
-      <div id='viewer' ref={viewDomRef} className='rounded-md'></div>
-      <MarkupSidebar
-        addMaskUp={addMaskUp}
-        handleChangeCapture={handleChangeCapture}
-        handleCloseMarkup={handleCloseMarkup}
-      ></MarkupSidebar>
+      <div className='w-full h-[40px] bg-white fixed z-[11] shadow-md pl-[70px] flex items-center'>
+        <Breadcrumbs aria-label='breadcrumb'>
+          <button onClick={handleBackHome}>Project</button>
+          <button onClick={handleBackHome} className='font-medium '>
+            Structure
+          </button>
+          <button className='font-medium text-primary-900'>Structure 1</button>
+        </Breadcrumbs>
+      </div>
+      <div id='viewer' ref={viewDomRef}></div>
+      {/* <div className=' absolute top-[300px] left-0 z-20 flex gap-3'>
+        <button onClick={handleSnapping} className='p-5 bg-primary-800 text-white'>
+          Save View
+        </button>
+        <button onClick={handleRestore}>handleRestore</button>
+        <button onClick={handleSaveMasksUp2}>Restore</button>
+      </div> */}
+      <Sidebar handleLoadMasksUp={handleLoadMasksUp}></Sidebar>
+      {showMarkup && (
+        <>
+          <MarkupSidebar
+            divRef={divRef}
+            addMaskUp={handleAddMaskUp}
+            handleChangeCapture={handleChangeCapture}
+            handleCloseMarkup={handleCloseMarkup}
+            handleCopy={handleCopy}
+            handleRedo={handleRedo}
+            handleUndo={handleUndo}
+            handleDeleteMarkup={handleDeleteMarkup}
+          ></MarkupSidebar>
+          <MarkupTopSidebar handleSaveMasksUp={handleSaveMarkup}></MarkupTopSidebar>
+          <MarkupStyleSidebar markupObject={markupObject} style={style} setStyle={setStyle}></MarkupStyleSidebar>
+        </>
+      )}
     </>
   )
 }

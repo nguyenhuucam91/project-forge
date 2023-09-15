@@ -10,7 +10,6 @@
 * {
   margin: 0;
   padding: 0;
-  font: inherit;
 }
 img,
 picture,
@@ -37,3 +36,11 @@ body {
   font-size: 16px;
   line-height: 1;
 }
+
+.markupExtensionIcon {
+  background-image: url('./assets/img/markup.png');
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+

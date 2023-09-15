@@ -1,28 +1,5 @@
-<svg
-          id='Layer_1'
-          enableBackground='new 0 0 512 512'
-          height={512}
-          viewBox='0 0 512 512'
-          width={512}
-          xmlns='http://www.w3.org/2000/svg'
-          xmlnsXlink='http://www.w3.org/1999/xlink'
-          className='w-10 h-10'
-        >
-          <linearGradient
-            id='SVGID_1_'
-            gradientTransform='matrix(1 0 0 -1 0 512)'
-            gradientUnits='userSpaceOnUse'
-            x1={256}
-            x2={256}
-            y1='515.55'
-            y2='8.96'
-          >
-            <stop offset={0} stopColor='#43bcff' />
-            <stop offset={1} stopColor='#0149ed' />
-          </linearGradient>
-          <g id='Layer_2_00000114035529717563402730000006754306551885819805_'>
-            <g id='circle'>
-              <circle cx={256} cy={256} fill='url(#SVGID_1_)' r={256} />
-            </g>
-          </g>
-        </svg>
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-dot" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+   <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+</svg>
