@@ -8,17 +8,19 @@ import { IssueType } from 'src/types/issue.type'
 type DatePickerType = {
   name?: string
   value: string
+  disable?: boolean
   setFieldValue: (
     field: string,
     value: any,
     shouldValidate?: boolean | undefined
   ) => Promise<void | FormikErrors<IssueType>>
 }
-export default function DatePickerComponent({ value, name, setFieldValue }: DatePickerType) {
+export default function DatePickerComponent({ value, name, disable = false, setFieldValue }: DatePickerType) {
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
+          disabled={disable}
           defaultValue={dayjs(value)}
           onChange={(date) => setFieldValue(name as string, date?.format('YYYY-MM-DD'))}
           sx={{

@@ -31,7 +31,15 @@ export const documentService = {
     })
     return res.data
   },
-
+  async modifyFile(project_id: string, folderId: string, data: FormData) {
+    const url = format(configs.url.api.document.modifyFolder, project_id, folderId)
+    const res = await axiosService.put<SuccessResponse<object>>(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return res.data
+  },
   async modifyFileName(project_id: string, fileId: string, fileName: string) {
     const url = format(configs.url.api.document.modifyFile, project_id, fileId)
     const res = await axiosService.patch<SuccessResponse<object>>(url, { file_name: fileName })

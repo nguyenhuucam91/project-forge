@@ -1,8 +1,14 @@
 import { IssueType } from 'src/types/issue.type'
 
-export default function IssueComponent({ issue }: { issue: IssueType }) {
+export default function IssueComponent({
+  issue,
+  handleModify
+}: {
+  issue: IssueType
+  handleModify: (issue: IssueType) => void
+}) {
   return (
-    <button className='flex border-b text-sm w-full'>
+    <button className='flex border-b text-sm w-full' onClick={() => handleModify(issue)}>
       <div className='border-b text-sm w-full flex flex-col gap-[6px] p-3 shadow-b'>
         <div className='flex items-center justify-between w-full'>
           <div className='flex items-center gap-1'>

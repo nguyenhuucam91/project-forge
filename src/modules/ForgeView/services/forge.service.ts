@@ -44,6 +44,12 @@ export const forgeAPI = {
     const res = await axiosService.post(url, { ...issue, file_id })
     return res.data.data
   },
+  async updateIssue(project_id: string, file_id: string, issue: IssueType, issue_id: string) {
+    const url = format(configs.url.api.forge.updateIssue, project_id, file_id, issue_id)
+    console.log('🚀 ~ file: forge.service.ts:49 ~ updateIssue ~ url:', url)
+    const res = await axiosService.put(url, { ...issue, file_id })
+    return res.data.data
+  },
   async getIssues(project_id: string, file_id: string) {
     const url = format(configs.url.api.forge.addIssue, project_id, file_id)
     const res = await axiosService.get<SuccessResponse<IssueType[]>>(url)

@@ -11,13 +11,14 @@ import { useParams } from 'react-router'
 interface SelectMarkupType extends SelectProps {
   value: string
   name: string
+  disable?: boolean
   setFieldValue: (
     field: string,
     value: any,
     shouldValidate?: boolean | undefined
   ) => Promise<void | FormikErrors<IssueType>>
 }
-export default function SelectMarkup({ name, value, setFieldValue }: SelectMarkupType) {
+export default function SelectMarkup({ name, value, disable = false, setFieldValue }: SelectMarkupType) {
   const { projectId, docId } = useParams()
   const { data: markups } = useQuery({
     queryKey: [queryKeys.files.markups],
@@ -29,6 +30,7 @@ export default function SelectMarkup({ name, value, setFieldValue }: SelectMarku
         value={value}
         defaultValue=''
         displayEmpty
+        disabled={disable}
         onChange={(e) => {
           setFieldValue(name, e.target.value)
         }}
